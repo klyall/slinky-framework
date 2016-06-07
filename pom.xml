@@ -23,7 +23,6 @@
         <module>slinky-common-logging</module>
         <module>slinky-http-client-parent</module>
         <module>slinky-http-service</module>
-        <module>slinky-http-service-api</module>
         <module>slinky-http-service-parent</module>
         <module>slinky-http-client</module>
         <module>slinky-repository</module>
