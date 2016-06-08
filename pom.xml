@@ -14,6 +14,44 @@
     <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <url>https://github.com/klyall/slinky-framework</url>
+    <developers>
+        <developer>
+            <name>Keith Lyall</name>
+            <email>keith.lyall@slinkyframework.org</email>
+        </developer>
+    </developers>
+    <licenses>
+        <license>
+            <name>GNU GPLv3</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
+        </license>
+    </licenses>
+    <scm>
+        <tag>HEAD</tag>
+        <url>https://github.com/klyall/slinky-framework</url>
+        <connection>scm:git:git@github.com:klyall/slinky-framework.git</connection>
+        <developerConnection>scm:git:git@github.com:klyall/slinky-framework.git</developerConnection>
+    </scm>
+    <issueManagement>
+        <url>https://github.com/klyall/slinky-framework/issues</url>
+        <system>GitHub</system>
+    </issueManagement>
+    <ciManagement>
+        <url>https://travis-ci.org/klyall/slinky-framework</url>
+        <system>Travis-CI</system>
+    </ciManagement>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
     <modules>
         <module>slinky-application</module>
         <module>slinky-application-parent</module>
