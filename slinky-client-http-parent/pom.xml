@@ -11,13 +11,13 @@
         <relativePath>../slinky-client-parent/pom.xml</relativePath>
     </parent>
 
-    <artifactId>slinky-http-client-parent</artifactId>
+    <artifactId>slinky-client-http-parent</artifactId>
     <packaging>pom</packaging>
 
     <dependencies>
         <dependency>
             <groupId>org.slinkyframework</groupId>
-            <artifactId>slinky-http-client</artifactId>
+            <artifactId>slinky-client-http</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

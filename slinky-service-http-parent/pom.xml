@@ -10,13 +10,13 @@
         <version>0.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>slinky-http-service-parent</artifactId>
+    <artifactId>slinky-service-http-parent</artifactId>
     <packaging>pom</packaging>
 
     <dependencies>
         <dependency>
             <groupId>org.slinkyframework</groupId>
-            <artifactId>slinky-http-service</artifactId>
+            <artifactId>slinky-service-http</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
@@ -57,7 +57,7 @@
                     <weaveDependencies>
                         <weaveDependency>
                             <groupId>org.slinkyframework</groupId>
-                            <artifactId>slinky-http-service</artifactId>
+                            <artifactId>slinky-service-http</artifactId>
                         </weaveDependency>
                     </weaveDependencies>
                 </configuration>
