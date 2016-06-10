@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/movies?rating=PG"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "find_movies_pg.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

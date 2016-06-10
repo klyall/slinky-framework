@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/movies?rating=U"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "find_movies_u.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

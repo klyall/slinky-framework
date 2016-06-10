@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "type": "movie",
+      "id": "1",
+      "title": "Toy Story",
+      "rating": "U"
+    },
+    {
+      "type": "movie",
+      "id": "2",
+      "title": "Up!",
+      "rating": "U"
+    }
+  ]
+}
