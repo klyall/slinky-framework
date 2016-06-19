@@ -7,8 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slinkyframework.client.test.example.ExampleRepository;
 import org.slinkyframework.client.test.example.ExampleRepositoryImpl;
+import org.slinkyframework.client.test.example.ExampleRepository;
 import org.slf4j.LoggerFactory;
 
 import static org.mockito.Matchers.argThat;
@@ -34,8 +34,8 @@ public class RepositoryLoggingAspectTest {
 
     @Test
     public void shouldLogBeforeAndAfterRepositoryCalls() {
-        String expectedRequestMessage = "----> ExampleRepository retrieveAccountDetails query sent";
-        String expectedResponseMessage = "<---- ExampleRepository retrieveAccountDetails result received in \\[\\d+\\] ms.";
+        String expectedRequestMessage = "------> ExampleRepository retrieveAccountDetails query sent";
+        String expectedResponseMessage = "<------ ExampleRepository retrieveAccountDetails result received in \\[\\d+\\] ms.";
 
         ExampleRepository testee = new ExampleRepositoryImpl();
         testee.retrieveAccountDetails(TEST_ACCOUNT);
@@ -46,8 +46,8 @@ public class RepositoryLoggingAspectTest {
 
     @Test
     public void shouldLogBeforeAndAfterRepositoryCallsThatThrowExceptions() {
-        String expectedRequestMessage = "----> ExampleRepository deleteAccount query sent";
-        String expectedResponseMessage = "<---- ExampleRepository deleteAccount exception received in \\[\\d+\\] ms., exception message \\[.*\\]";
+        String expectedRequestMessage = "------> ExampleRepository deleteAccount query sent";
+        String expectedResponseMessage = "<------ ExampleRepository deleteAccount exception received in \\[\\d+\\] ms., exception message \\[.*\\]";
 
         try {
             ExampleRepository testee = new ExampleRepositoryImpl();

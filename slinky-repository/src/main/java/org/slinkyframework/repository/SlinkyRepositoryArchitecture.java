@@ -4,9 +4,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
-public class RepositoryArchitecture {
+public class SlinkyRepositoryArchitecture {
 
-    @Pointcut("within(org.slinkyframework.repository.Repository+)")
+    @Pointcut("within(org.slinkyframework.repository.SlinkyRepository+)")
     public void inRepository() {}
 
     @Pointcut("execution(public * *(..))")

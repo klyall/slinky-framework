@@ -10,9 +10,9 @@ import org.slinkyframework.common.logging.AbstractLoggingAspect;
 @Aspect
 public class RepositoryLoggingAspect extends AbstractLoggingAspect {
 
-    public static final String LOG_BEFORE       = "----> {} {} query sent";
-    public static final String LOG_AFTER        = "<---- {} {} result received in [{}] ms.";
-    public static final String LOG_EXCEPTION    = "<---- {} {} exception received in [{}] ms., exception message [{}]";
+    public static final String LOG_BEFORE       = "------> {} {} query sent";
+    public static final String LOG_AFTER        = "<------ {} {} result received in [{}] ms.";
+    public static final String LOG_EXCEPTION    = "<------ {} {} exception received in [{}] ms., exception message [{}]";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryLoggingAspect.class);
 
@@ -31,7 +31,7 @@ public class RepositoryLoggingAspect extends AbstractLoggingAspect {
         return LOG_EXCEPTION;
     }
 
-    @Around("org.slinkyframework.repository.RepositoryArchitecture.repositoryOperations()")
+    @Around("org.slinkyframework.repository.SlinkyRepositoryArchitecture.repositoryOperations()")
     public Object loggingAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         return super.loggingAdvice(proceedingJoinPoint);
     }
