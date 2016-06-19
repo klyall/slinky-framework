@@ -4,9 +4,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
-public class ClientArchitecture {
+public class SlinkyClientArchitecture {
 
-    @Pointcut("within(org.slinkyframework.client.Client+)")
+    @Pointcut("within(org.slinkyframework.client.SlinkyClient+)")
     public void inClient() {}
 
     @Pointcut("execution(public * *(..))")

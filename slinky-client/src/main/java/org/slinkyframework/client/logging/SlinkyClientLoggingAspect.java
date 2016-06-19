@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.slinkyframework.common.logging.AbstractLoggingAspect;
 
 @Aspect
-public class ClientLoggingAspect extends AbstractLoggingAspect {
+public class SlinkyClientLoggingAspect extends AbstractLoggingAspect {
 
-    public static final String LOG_BEFORE       = "----> {} {} request sent";
-    public static final String LOG_AFTER        = "<---- {} {} response received in [{}] ms.";
-    public static final String LOG_EXCEPTION    = "<---- {} {} exception received in [{}] ms., exception message [{}]";
+    public static final String LOG_BEFORE       = "------> {} {} request sent";
+    public static final String LOG_AFTER        = "<------ {} {} response received in [{}] ms.";
+    public static final String LOG_EXCEPTION    = "<------ {} {} exception received in [{}] ms., exception message [{}]";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClientLoggingAspect.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SlinkyClientLoggingAspect.class);
 
     @Override
     protected String getLogBefore() {
@@ -31,7 +31,7 @@ public class ClientLoggingAspect extends AbstractLoggingAspect {
         return LOG_EXCEPTION;
     }
 
-    @Around("org.slinkyframework.client.ClientArchitecture.clientOperations()")
+    @Around("org.slinkyframework.client.SlinkyClientArchitecture.clientOperations()")
     public Object loggingAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         return super.loggingAdvice(proceedingJoinPoint);
     }

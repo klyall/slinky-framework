@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 import static org.slinkyframework.common.logging.test.LoggingMatchers.hasLogMessage;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ClientLoggingAspectTest {
+public class SlinkyClientLoggingAspectTest {
 
     private static final String TEST_ACCOUNT = "12345";
 
@@ -34,8 +34,8 @@ public class ClientLoggingAspectTest {
 
     @Test
     public void shouldLogBeforeAndAfterClientCalls() {
-        String expectedRequestMessage = "----> ExampleClient retrieveAccountDetails request sent";
-        String expectedResponseMessage = "<---- ExampleClient retrieveAccountDetails response received in \\[\\d+\\] ms.";
+        String expectedRequestMessage = "------> ExampleClient retrieveAccountDetails request sent";
+        String expectedResponseMessage = "<------ ExampleClient retrieveAccountDetails response received in \\[\\d+\\] ms.";
 
         ExampleClient testee = new ExampleClientImpl();
         testee.retrieveAccountDetails(TEST_ACCOUNT);
@@ -46,8 +46,8 @@ public class ClientLoggingAspectTest {
 
     @Test
     public void shouldLogBeforeAndAfterClientCallsThatThrowExceptions() {
-        String expectedRequestMessage = "----> ExampleClient deleteAccount request sent";
-        String expectedResponseMessage = "<---- ExampleClient deleteAccount exception received in \\[\\d+\\] ms., exception message \\[.*\\]";
+        String expectedRequestMessage = "------> ExampleClient deleteAccount request sent";
+        String expectedResponseMessage = "<------ ExampleClient deleteAccount exception received in \\[\\d+\\] ms., exception message \\[.*\\]";
 
         try {
             ExampleClient testee = new ExampleClientImpl();
