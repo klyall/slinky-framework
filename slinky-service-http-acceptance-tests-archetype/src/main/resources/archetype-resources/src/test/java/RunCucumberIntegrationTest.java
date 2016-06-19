@@ -15,7 +15,8 @@ import org.junit.runner.RunWith;
         snippets = SnippetType.CAMELCASE,
         format = {"html:target/cucumber-html-report", "json:target/cucumber-json-report.json"},
         features = {"src/test/resources/features"},
-        glue = {"cucumber.api.spring", "${package}.stepdefs"}
+        glue = {"cucumber.api.spring", "${package}.stepdefs"},
+        tags = {"~@ignore"}
 )
 public class RunCucumberIntegrationTest {
 }

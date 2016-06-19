@@ -60,6 +60,7 @@
         <include>create_archetype.sh</include>
         <include>README.md</include>
         <include>service-http-acceptance-tests.iml</include>
+        <include>slinky-service-http-acceptance-tests.iml</include>
       </includes>
     </fileSet>
   </fileSets>
