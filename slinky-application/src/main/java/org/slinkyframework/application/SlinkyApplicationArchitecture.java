@@ -4,9 +4,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
-public class ApplicationArchitecture {
+public class SlinkyApplicationArchitecture {
 
-    @Pointcut("within(org.slinkyframework.application.Application+)")
+    @Pointcut("within(org.slinkyframework.application.SlinkyApplication+)")
     public void inApplication() {}
 
     @Pointcut("execution(public * *(..))")

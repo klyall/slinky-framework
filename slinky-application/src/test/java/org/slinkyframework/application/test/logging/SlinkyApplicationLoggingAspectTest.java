@@ -17,7 +17,7 @@ import static org.slinkyframework.application.test.example.ExampleApplicationImp
 import static org.slinkyframework.common.logging.test.LoggingMatchers.hasLogMessage;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ApplicationLoggingAspectTest {
+public class SlinkyApplicationLoggingAspectTest {
 
     private static final String TEST_ACCOUNT = "12345";
 
@@ -33,8 +33,8 @@ public class ApplicationLoggingAspectTest {
 
     @Test
     public void shouldLogBeforeAndAfterServiceEndpoints() {
-        String expectedRequestMessage = "---> ExampleApplication retrieveAccountDetails request received";
-        String expectedResponseMessage = "<--- ExampleApplication retrieveAccountDetails response returned in \\[\\d+\\] ms.";
+        String expectedRequestMessage = "----> ExampleApplication retrieveAccountDetails request received";
+        String expectedResponseMessage = "<---- ExampleApplication retrieveAccountDetails response returned in \\[\\d+\\] ms.";
 
         ExampleApplication testee = new ExampleApplicationImpl();
         testee.retrieveAccountDetails(TEST_ACCOUNT);
@@ -45,8 +45,8 @@ public class ApplicationLoggingAspectTest {
 
     @Test
     public void shouldLogBeforeAndAfterServiceEndpointsThatThrowExceptions() {
-        String expectedRequestMessage = "---> ExampleApplication deleteAccount request received";
-        String expectedResponseMessage = "<--- ExampleApplication deleteAccount exception returned in \\[\\d+\\] ms., exception message \\[.*\\]";
+        String expectedRequestMessage = "----> ExampleApplication deleteAccount request received";
+        String expectedResponseMessage = "<---- ExampleApplication deleteAccount exception returned in \\[\\d+\\] ms., exception message \\[.*\\]";
 
         try {
             ExampleApplication testee = new ExampleApplicationImpl();
