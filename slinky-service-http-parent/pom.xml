@@ -20,6 +20,16 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-application</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-repository</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.jayway.restassured</groupId>
             <artifactId>rest-assured</artifactId>
             <version>2.5.0</version>
@@ -53,6 +63,14 @@
                         <weaveDependency>
                             <groupId>org.slinkyframework</groupId>
                             <artifactId>slinky-service-http</artifactId>
+                        </weaveDependency>
+                        <weaveDependency>
+                            <groupId>org.slinkyframework</groupId>
+                            <artifactId>slinky-application</artifactId>
+                        </weaveDependency>
+                        <weaveDependency>
+                            <groupId>org.slinkyframework</groupId>
+                            <artifactId>slinky-repository</artifactId>
                         </weaveDependency>
                     </weaveDependencies>
                 </configuration>
