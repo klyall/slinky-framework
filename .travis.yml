@@ -2,6 +2,6 @@ language: java
 jdk:
   - oraclejdk8
 script:
-  - mvn test -P coverage
+  - mvn test -P coverage-including-framework
 after_success:
   - bash <(curl -s https://codecov.io/bash)
