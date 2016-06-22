@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.slinkyframework.common.logging.AbstractLoggingAspect;
 
 @Aspect
-public class RepositoryLoggingAspect extends AbstractLoggingAspect {
+public class SlinkyRepositoryLoggingAspect extends AbstractLoggingAspect {
 
     public static final String LOG_BEFORE       = "------> {} {} query sent";
     public static final String LOG_AFTER        = "<------ {} {} result received in [{}] ms.";
     public static final String LOG_EXCEPTION    = "<------ {} {} exception received in [{}] ms., exception message [{}]";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryLoggingAspect.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SlinkyRepositoryLoggingAspect.class);
 
     @Override
     protected String getLogBefore() {
