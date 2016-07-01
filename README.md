@@ -4,3 +4,8 @@
 
 ## Features
 - [Structured Logging](doc/structured_logging.md)
+
+
+
+
+mvn clean compile -P checker
