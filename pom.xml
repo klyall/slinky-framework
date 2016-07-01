@@ -10,7 +10,7 @@
 
     <groupId>org.slinkyframework</groupId>
     <artifactId>slinky-framework-parent</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
     <packaging>pom</packaging>
 
     <description>Slinky Framework Parent</description>
@@ -32,7 +32,8 @@
         <url>https://github.com/klyall/slinky-framework</url>
         <connection>scm:git:git@github.com:klyall/slinky-framework.git</connection>
         <developerConnection>scm:git:git@github.com:klyall/slinky-framework.git</developerConnection>
-    </scm>
+      <tag>slinky-framework-parent-0.1.0</tag>
+  </scm>
     <issueManagement>
         <url>https://github.com/klyall/slinky-framework/issues</url>
         <system>GitHub</system>
