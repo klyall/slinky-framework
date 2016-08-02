@@ -62,7 +62,11 @@
         <module>slinky-client-parent</module>
         <module>slinky-common-aop</module>
         <module>slinky-common-logging</module>
+        <module>slinky-environment-builder</module>
+        <module>slinky-environment-builder-couchbase</module>
+        <module>slinky-environment-builder-maven-plugin</module>
         <module>slinky-repository</module>
+        <module>slinky-repository-couchbase</module>
         <module>slinky-service-http</module>
         <module>slinky-service-http-acceptance-tests-archetype</module>
         <module>slinky-service-http-acceptance-tests-parent</module>
@@ -77,9 +81,11 @@
         <java.version>1.8</java.version>
         <junit.version>4.12</junit.version>
         <spring-cloud.version>Brixton.RELEASE</spring-cloud.version>
+        <spring-data-couchbase.version>2.0.0.RELEASE</spring-data-couchbase.version>
 
         <docker.expose.port>8080</docker.expose.port>
         <checker.version>2.0.1</checker.version>
+        <jersey.version>2.22.2</jersey.version>
     </properties>
 
     <dependencyManagement>
@@ -90,6 +96,11 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-couchbase</artifactId>
+                <version>${spring-data-couchbase.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.checkerframework</groupId>
@@ -115,6 +126,16 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-client</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.connectors</groupId>
+                <artifactId>jersey-apache-connector</artifactId>
+                <version>${jersey.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -423,7 +444,8 @@
                     </plugin>
                 </plugins>
             </build>
-        </profile>        <profile>
+        </profile>
+        <profile>
             <id>checker</id>
             <dependencies>
                 <dependency>
