@@ -16,11 +16,12 @@ Using the [Hexagonal Design Pattern](http://alistair.cockburn.us/Hexagonal+archi
  
 Insert picture here: 
 
-The Slinky Framework uses the RestController, SlinkyApplication, SlinkyClient and SlinkyRepository interfaces and AspectJ aspects to introduce cross-cutting functionality such as [Structured Logging](doc/structured_logging.md).
+The Slinky Framework uses AspectJ aspects and the RestController, SlinkyApplication, SlinkyClient and SlinkyRepository interfaces to introduce cross-cutting functionality such as [Structured Logging](doc/structured_logging.md).
  
-The Slinky Framework also helps manage a component's dependencies by providing a minimal suite of pre-selected dependencies that have had all of their transitive dependencies resolved to avoid conflicts. These conflicts can sometimes be hidden and not encountered until runtime.
+The Slinky Framework also helps [manage a component's dependencies](./doc/dependency_management.md) by providing a minimal suite of pre-selected dependencies that have had all of their transitive dependencies resolved to avoid conflicts. These conflicts can sometimes be hidden and not encountered until runtime.
  
 The packages selected for use when building a Slinky application are:
+
  - Java 8
  - Maven
  - AspectJ
