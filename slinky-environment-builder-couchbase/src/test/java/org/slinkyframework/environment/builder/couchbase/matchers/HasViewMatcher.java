@@ -4,7 +4,6 @@ import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.Cluster;
 import com.couchbase.client.java.CouchbaseCluster;
 import com.couchbase.client.java.bucket.BucketManager;
-import com.couchbase.client.java.cluster.ClusterManager;
 import com.couchbase.client.java.view.DesignDocument;
 import com.couchbase.client.java.view.View;
 import org.hamcrest.Description;
@@ -25,23 +24,17 @@ public class HasViewMatcher extends TypeSafeMatcher<String> {
 
     @Override
     protected boolean matchesSafely(String host) {
-        Cluster cluster = CouchbaseCluster.create(host);
+        boolean hasView = false;
 
-        ClusterManager clusterManager = cluster.clusterManager(buildDefinition.getAdminUsername(), buildDefinition.getAdminPasssword());
+        Cluster cluster = CouchbaseCluster.create(host);
 
         Bucket bucket = cluster.openBucket(buildDefinition.getBucketName(), buildDefinition.getBucketPassword());
         BucketManager bucketManager = bucket.bucketManager();
 
-        List<DesignDocument> designDocuments = bucketManager.getDesignDocuments();
-        for (DesignDocument document: designDocuments) {
-            for (View view: document.views()) {
-                if (document.name().equals(buildDefinition.getDesignDocumentName()) && view.name().equals(expectedViewName)) {
-                    return true;
-                }
-            }
-        }
+        hasView = hasView(bucketManager);
+        cluster.disconnect();
 
-        return false;
+        return hasView;
     }
 
     @Override
@@ -52,5 +45,17 @@ public class HasViewMatcher extends TypeSafeMatcher<String> {
     @Override
     protected void describeMismatchSafely(String host, Description mismatchDescription) {
         mismatchDescription.appendText("default view does not exist");
+    }
+
+    private boolean hasView(BucketManager bucketManager) {
+        List<DesignDocument> designDocuments = bucketManager.getDesignDocuments();
+        for (DesignDocument document: designDocuments) {
+            for (View view: document.views()) {
+                if (document.name().equals(buildDefinition.getDesignDocumentName()) && view.name().equals(expectedViewName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

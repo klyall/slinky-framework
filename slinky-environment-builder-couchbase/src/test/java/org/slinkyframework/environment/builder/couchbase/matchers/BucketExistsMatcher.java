@@ -20,8 +20,11 @@ public class BucketExistsMatcher extends TypeSafeMatcher<String> {
         Cluster cluster = CouchbaseCluster.create(host);
 
         ClusterManager clusterManager = cluster.clusterManager(buildDefinition.getAdminUsername(), buildDefinition.getAdminPasssword());
+        boolean hasBucket = clusterManager.hasBucket(buildDefinition.getBucketName());
 
-        return clusterManager.hasBucket(buildDefinition.getBucketName());
+        cluster.disconnect();
+
+        return hasBucket;
     }
 
     @Override
