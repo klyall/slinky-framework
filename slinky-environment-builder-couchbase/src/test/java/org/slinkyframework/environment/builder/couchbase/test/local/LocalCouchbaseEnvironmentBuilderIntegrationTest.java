@@ -36,7 +36,7 @@ public class LocalCouchbaseEnvironmentBuilderIntegrationTest {
     public static void setUpOnce() {
         // Need to have an instance of Couchbase available
         DockerCouchbaseEnvironmentBuilder dockerCouchbaseEnvironmentBuilder
-                = new DockerCouchbaseEnvironmentBuilder(new LocalCouchbaseEnvironmentBuilder());
+                = new DockerCouchbaseEnvironmentBuilder(new LocalCouchbaseEnvironmentBuilder(TEST_HOST));
 
         dockerCouchbaseEnvironmentBuilder.setUp(new TreeSet<CouchbaseBuildDefinition>());
     }
@@ -44,17 +44,17 @@ public class LocalCouchbaseEnvironmentBuilderIntegrationTest {
     @AfterClass
     public static void tearDownOnce() {
         DockerCouchbaseEnvironmentBuilder dockerCouchbaseEnvironmentBuilder
-                = new DockerCouchbaseEnvironmentBuilder(new LocalCouchbaseEnvironmentBuilder());
+                = new DockerCouchbaseEnvironmentBuilder(new LocalCouchbaseEnvironmentBuilder(TEST_HOST));
 
         dockerCouchbaseEnvironmentBuilder.tearDown(new TreeSet<CouchbaseBuildDefinition>());
     }
 
     @Before
     public void setUp() {
-        testee = new LocalCouchbaseEnvironmentBuilder();
+        testee = new LocalCouchbaseEnvironmentBuilder(TEST_HOST);
         buildDefinitions = new TreeSet<>();
-        definition1 = new CouchbaseBuildDefinition("Definition1", TEST_HOST, TEST_BUCKET_NAME1, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
-        definition2 = new CouchbaseBuildDefinition("Definition2", TEST_HOST, TEST_BUCKET_NAME2, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
+        definition1 = new CouchbaseBuildDefinition("Definition1", TEST_BUCKET_NAME1, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
+        definition2 = new CouchbaseBuildDefinition("Definition2", TEST_BUCKET_NAME2, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
         testee.tearDown(buildDefinitions);
     }
 
@@ -74,12 +74,12 @@ public class LocalCouchbaseEnvironmentBuilderIntegrationTest {
 
         testee.setUp(buildDefinitions);
 
-        assertThat("Bucket exists", definition1, bucketExists());
-        assertThat("Default view exists", definition1, hasView(CouchbaseBuildDefinition.VIEW_ALL));
+        assertThat("Bucket exists", TEST_HOST, bucketExists(definition1));
+        assertThat("Default view exists", TEST_HOST, hasView(definition1, CouchbaseBuildDefinition.VIEW_ALL));
 
         testee.tearDown(buildDefinitions);
 
-        assertThat("Bucket exists", definition1, not(bucketExists()));
+        assertThat("Bucket exists", TEST_HOST, not(bucketExists(definition1)));
     }
 
     @Test
@@ -89,13 +89,13 @@ public class LocalCouchbaseEnvironmentBuilderIntegrationTest {
 
         testee.setUp(buildDefinitions);
 
-        assertThat("Bucket exists", definition1, bucketExists());
-        assertThat("Bucket exists", definition2, bucketExists());
+        assertThat("Bucket exists", TEST_HOST, bucketExists(definition1));
+        assertThat("Bucket exists", TEST_HOST, bucketExists(definition2));
 
         testee.tearDown(buildDefinitions);
 
-        assertThat("Bucket exists", definition1, not(bucketExists()));
-        assertThat("Bucket exists", definition2, not(bucketExists()));
+        assertThat("Bucket exists", TEST_HOST, not(bucketExists(definition1)));
+        assertThat("Bucket exists", TEST_HOST, not(bucketExists(definition2)));
     }
 
     @Test
@@ -109,18 +109,18 @@ public class LocalCouchbaseEnvironmentBuilderIntegrationTest {
 
         testee.setUp(buildDefinitions);
 
-        assertThat("Bucket exists", definition1, hasView(testViewName));
+        assertThat("Bucket exists", TEST_HOST, hasView(definition1, testViewName));
     }
 
     @Test
     public void shouldBeAbleToTearDownABucketThatDoesNotExist() {
-        assertThat("Bucket exists", definition1, not(bucketExists()));
+        assertThat("Bucket exists", TEST_HOST, not(bucketExists(definition1)));
 
         buildDefinitions.add(definition1);
 
         testee.tearDown(buildDefinitions);
 
-        assertThat("Bucket exists", definition1, not(bucketExists()));
+        assertThat("Bucket exists", TEST_HOST, not(bucketExists(definition1)));
     }
 
 //    @Test

@@ -17,7 +17,7 @@ public class CouchbaseEnvironmentBuilderFactory implements EnvironmentBuilderFac
 
     @Override
     public EnvironmentBuilder getInstance(EnvironmentBuilderContext environmentBuilderContext) {
-        LocalCouchbaseEnvironmentBuilder localCouchbaseEnvironmentBuilder = new LocalCouchbaseEnvironmentBuilder();
+        LocalCouchbaseEnvironmentBuilder localCouchbaseEnvironmentBuilder = new LocalCouchbaseEnvironmentBuilder(environmentBuilderContext.getTargetHost());
 
         if (environmentBuilderContext.isUseDocker()) {
             return new DockerCouchbaseEnvironmentBuilder(localCouchbaseEnvironmentBuilder);

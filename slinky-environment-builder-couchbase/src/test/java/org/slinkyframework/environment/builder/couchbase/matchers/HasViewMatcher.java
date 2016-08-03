@@ -13,17 +13,19 @@ import org.slinkyframework.environment.builder.couchbase.CouchbaseBuildDefinitio
 
 import java.util.List;
 
-public class HasViewMatcher extends TypeSafeMatcher<CouchbaseBuildDefinition> {
+public class HasViewMatcher extends TypeSafeMatcher<String> {
 
+    private CouchbaseBuildDefinition buildDefinition;
     private String expectedViewName;
 
-    public HasViewMatcher(String expectedViewName) {
+    public HasViewMatcher(CouchbaseBuildDefinition buildDefinition, String expectedViewName) {
+        this.buildDefinition = buildDefinition;
         this.expectedViewName = expectedViewName;
     }
 
     @Override
-    protected boolean matchesSafely(CouchbaseBuildDefinition buildDefinition) {
-        Cluster cluster = CouchbaseCluster.create(buildDefinition.getHosts());
+    protected boolean matchesSafely(String host) {
+        Cluster cluster = CouchbaseCluster.create(host);
 
         ClusterManager clusterManager = cluster.clusterManager(buildDefinition.getAdminUsername(), buildDefinition.getAdminPasssword());
 
@@ -48,7 +50,7 @@ public class HasViewMatcher extends TypeSafeMatcher<CouchbaseBuildDefinition> {
     }
 
     @Override
-    protected void describeMismatchSafely(CouchbaseBuildDefinition buildDefinition, Description mismatchDescription) {
+    protected void describeMismatchSafely(String host, Description mismatchDescription) {
         mismatchDescription.appendText("default view does not exist");
     }
 }

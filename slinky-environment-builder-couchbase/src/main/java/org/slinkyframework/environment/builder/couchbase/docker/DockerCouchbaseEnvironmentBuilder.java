@@ -35,16 +35,12 @@ import java.util.Set;
  */
 public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<CouchbaseBuildDefinition> {
 
-    public static final String CONTAINER_NAME = "slinky_couchbase_test";
+    public static final String CONTAINER_NAME = "slinky_couchbase";
     private static final int TEN_SECONDS = 10000;
 
     private static final Logger LOG = LoggerFactory.getLogger(DockerCouchbaseEnvironmentBuilder.class);
 
     private LocalCouchbaseEnvironmentBuilder localCouchbaseEnvironmentBuilder;
-
-    public DockerCouchbaseEnvironmentBuilder() {
-        this(new LocalCouchbaseEnvironmentBuilder());
-    }
 
     public DockerCouchbaseEnvironmentBuilder(LocalCouchbaseEnvironmentBuilder localCouchbaseEnvironmentBuilder) {
         this.localCouchbaseEnvironmentBuilder = localCouchbaseEnvironmentBuilder;

@@ -19,7 +19,7 @@ public class CouchbaseBuildDefinitionTest {
 
     @Before
     public void setUp() {
-        testee = new CouchbaseBuildDefinition("Definition1", TEST_HOST, TEST_BUCKET_NAME, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
+        testee = new CouchbaseBuildDefinition("Definition1", TEST_BUCKET_NAME, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
     }
 
 

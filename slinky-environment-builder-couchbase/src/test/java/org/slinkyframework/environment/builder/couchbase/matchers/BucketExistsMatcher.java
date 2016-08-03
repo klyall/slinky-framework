@@ -7,11 +7,17 @@ import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.slinkyframework.environment.builder.couchbase.CouchbaseBuildDefinition;
 
-public class BucketExistsMatcher extends TypeSafeMatcher<CouchbaseBuildDefinition> {
+public class BucketExistsMatcher extends TypeSafeMatcher<String> {
+
+    private CouchbaseBuildDefinition buildDefinition;
+
+    public BucketExistsMatcher(CouchbaseBuildDefinition buildDefinition) {
+        this.buildDefinition = buildDefinition;
+    }
 
     @Override
-    protected boolean matchesSafely(CouchbaseBuildDefinition buildDefinition) {
-        Cluster cluster = CouchbaseCluster.create(buildDefinition.getHosts());
+    protected boolean matchesSafely(String host) {
+        Cluster cluster = CouchbaseCluster.create(host);
 
         ClusterManager clusterManager = cluster.clusterManager(buildDefinition.getAdminUsername(), buildDefinition.getAdminPasssword());
 
@@ -24,7 +30,7 @@ public class BucketExistsMatcher extends TypeSafeMatcher<CouchbaseBuildDefinitio
     }
 
     @Override
-    protected void describeMismatchSafely(CouchbaseBuildDefinition buildDefinition, Description mismatchDescription) {
+    protected void describeMismatchSafely(String host, Description mismatchDescription) {
         mismatchDescription.appendText("bucket does not exist");
     }
 }

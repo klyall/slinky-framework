@@ -9,19 +9,21 @@ public class LocalCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Couc
 
     private CouchbaseSetUp couchbaseSetUp;
     private CouchbaseTearDown couchbaseTearDown;
+    private String targetHost;
 
-    public LocalCouchbaseEnvironmentBuilder() {
+    public LocalCouchbaseEnvironmentBuilder(String targetHost) {
+        this.targetHost = targetHost;
         couchbaseSetUp = new CouchbaseSetUp();
         couchbaseTearDown = new CouchbaseTearDown();
     }
 
     @Override
     public void setUp(Set<CouchbaseBuildDefinition> buildDefinitions) {
-        buildDefinitions.forEach(definition -> couchbaseSetUp.setUp(definition));
+        buildDefinitions.forEach(definition -> couchbaseSetUp.setUp(targetHost, definition));
     }
 
     @Override
     public void tearDown(Set<CouchbaseBuildDefinition> buildDefinitions) {
-        buildDefinitions.forEach(buildDefinition -> couchbaseTearDown.tearDown(buildDefinition));
+        buildDefinitions.forEach(buildDefinition -> couchbaseTearDown.tearDown(targetHost, buildDefinition));
     }
 }

@@ -19,11 +19,11 @@ public class CouchbaseSetUp {
 
     private static Logger LOG = LoggerFactory.getLogger(CouchbaseSetUp.class);
 
-    public void setUp(CouchbaseBuildDefinition buildDefinition) {
+    public void setUp(String targetHost, CouchbaseBuildDefinition buildDefinition) {
         LOG.info("Creating bucket '{}'", buildDefinition.getBucketName());
 
 
-        Cluster cluster = CouchbaseCluster.create(buildDefinition.getHosts());
+        Cluster cluster = CouchbaseCluster.create(targetHost);
 
         ClusterManager clusterManager = cluster.clusterManager(buildDefinition.getAdminUsername(), buildDefinition.getAdminPasssword());
 

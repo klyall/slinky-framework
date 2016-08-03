@@ -7,8 +7,8 @@ import org.slinkyframework.environment.builder.couchbase.CouchbaseBuildDefinitio
 
 public class CouchbaseTearDown {
 
-    public void tearDown(CouchbaseBuildDefinition buildDefinition) {
-        Cluster cluster = CouchbaseCluster.create(buildDefinition.getHosts());
+    public void tearDown(String targetHost, CouchbaseBuildDefinition buildDefinition) {
+        Cluster cluster = CouchbaseCluster.create(targetHost);
 
         ClusterManager clusterManager = cluster.clusterManager(buildDefinition.getAdminUsername(), buildDefinition.getAdminPasssword());
 

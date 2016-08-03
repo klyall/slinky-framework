@@ -21,7 +21,6 @@ public class CouchbaseBuildDefinition extends AbstractBuildDefinition {
     private final String documentPackage;
     private final String documentClassName;
 
-    private List<String> hosts = new ArrayList<>();
     private String adminUsername    = DEFAULT_ADMIN_USERNAME;
     private String adminPasssword   = DEFAULT_ADMIN_PASSWORD;
     private String bucketName;
@@ -29,27 +28,17 @@ public class CouchbaseBuildDefinition extends AbstractBuildDefinition {
     private int bucketSizeInMB      = DEFAULT_BUCKET_SIZE;
     private List<View> views = new ArrayList<>();
 
-    public CouchbaseBuildDefinition(String name, String host, String bucketName, String documentPackage, String documentClassName) {
-        this(BuildPriority.NORMAL, name, host, bucketName, documentPackage, documentClassName);
+    public CouchbaseBuildDefinition(String name, String bucketName, String documentPackage, String documentClassName) {
+        this(BuildPriority.NORMAL, name, bucketName, documentPackage, documentClassName);
     }
 
-    public CouchbaseBuildDefinition(BuildPriority priority, String name, String host, String bucketName, String documentPackage, String documentClassName) {
+    public CouchbaseBuildDefinition(BuildPriority priority, String name, String bucketName, String documentPackage, String documentClassName) {
         super(priority, name);
         this.bucketName = bucketName;
         this.documentPackage = documentPackage;
         this.documentClassName = documentClassName;
-        this.hosts.add(host);
 
         views.add(DefaultView.create(VIEW_ALL, defineAllView()));
-    }
-
-
-    public List<String> getHosts() {
-        return hosts;
-    }
-
-    public void setHosts(List<String> hosts) {
-        this.hosts = hosts;
     }
 
     public String getAdminUsername() {

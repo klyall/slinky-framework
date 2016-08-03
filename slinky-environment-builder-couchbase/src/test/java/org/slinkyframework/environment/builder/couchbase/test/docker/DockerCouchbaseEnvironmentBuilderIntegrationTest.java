@@ -38,8 +38,8 @@ public class DockerCouchbaseEnvironmentBuilderIntegrationTest {
     public void setUp() {
         testee = new DockerCouchbaseEnvironmentBuilder(mockLocalCouchbaseEnvironmentBuilder);
         buildDefinitions = new TreeSet<>();
-        definition1 = new CouchbaseBuildDefinition("Definition1", TEST_HOST, TEST_BUCKET_NAME1, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
-        definition2 = new CouchbaseBuildDefinition("Definition2", TEST_HOST, TEST_BUCKET_NAME2, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
+        definition1 = new CouchbaseBuildDefinition("Definition1", TEST_BUCKET_NAME1, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
+        definition2 = new CouchbaseBuildDefinition("Definition2", TEST_BUCKET_NAME2, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
 
         // Make sure no Docker containers left lying around
         testee.tearDown(buildDefinitions);
