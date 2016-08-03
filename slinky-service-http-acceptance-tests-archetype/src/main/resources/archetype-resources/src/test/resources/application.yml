@@ -1,4 +1,4 @@
 movie:
   service:
-    host: http://localhost
+    targetHost: http://localhost
     port: 8089
