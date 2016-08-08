@@ -124,7 +124,7 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
         startContainer(docker, containerId);
         waitForContainerToStart(docker, containerId);
 
-        createCouchbaseCluster(docker, containerId);
+        waitForCreateCouchbaseCluster(docker, containerId);
         initialiseCouchbaseCluster(docker, containerId);
     }
 
@@ -133,15 +133,11 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
         sw.start();
 
         while (sw.getTime() < THIRTY_SECONDS) {
-            try {
-                if (portInUse(localCouchbaseEnvironmentBuilder.getTargetHost(), 8091)) {
-                    break;
-                } else {
-                    LOG.debug("{}:{} not yet available after {}, Sleep for {} ms", localCouchbaseEnvironmentBuilder.getTargetHost(), 8091, sw.toString(), POLL_INTERVAL);
-                    Thread.sleep(POLL_INTERVAL);
-                }
-            } catch (InterruptedException e) {
-                throw new EnvironmentBuilderException("Unable to wait for Docker container to start", e);
+            if (portInUse(localCouchbaseEnvironmentBuilder.getTargetHost(), 8091)) {
+                break;
+            } else {
+                LOG.debug("{}:{} not yet available after {}, Sleep for {} ms", localCouchbaseEnvironmentBuilder.getTargetHost(), 8091, sw.toString(), POLL_INTERVAL);
+                sleepFor(POLL_INTERVAL);
             }
         }
         sw.stop();
@@ -270,6 +266,33 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
         } catch (DockerException  | InterruptedException e) {
             LOG.error("Unable to start Couchbase container '{}'. Is there something running on the same ports?", CONTAINER_NAME);
             throw new EnvironmentBuilderException("Unable to start Couchbase container", e);
+        }
+    }
+
+    private void waitForCreateCouchbaseCluster(DockerClient docker, String containerId) {
+        StopWatch sw = new StopWatch();
+        sw.start();
+        boolean success = false;
+
+        while (sw.getTime() < THIRTY_SECONDS) {
+            try {
+                createCouchbaseCluster(docker, containerId);
+                success = true;
+                break;
+            } catch (EnvironmentBuilderException e) {
+                LOG.debug("Couchbase cluster not yet created after {}, Sleep for {} ms", sw.toString(), POLL_INTERVAL);
+                sleepFor(POLL_INTERVAL);
+            }
+        }
+        sw.stop();
+
+    }
+
+    private void sleepFor(long interval) {
+        try {
+            Thread.sleep(POLL_INTERVAL);
+        } catch (InterruptedException e) {
+            throw new EnvironmentBuilderException("Unable to wait for Docker container to start", e);
         }
     }
 

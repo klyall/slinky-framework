@@ -14,7 +14,18 @@
     <properties>
         <maven-plugin-api.version>3.3.9</maven-plugin-api.version>
         <maven-plugin-plugin.version>3.4</maven-plugin-plugin.version>
+        <plexus-utils.version>3.0.22</plexus-utils.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-utils</artifactId>
+                <version>${plexus-utils.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>

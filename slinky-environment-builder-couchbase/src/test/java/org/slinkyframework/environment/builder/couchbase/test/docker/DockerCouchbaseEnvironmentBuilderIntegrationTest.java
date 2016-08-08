@@ -6,6 +6,7 @@ import com.spotify.docker.client.exceptions.DockerCertificateException;
 import com.spotify.docker.client.exceptions.DockerException;
 import com.spotify.docker.client.messages.Image;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -96,6 +97,7 @@ public class DockerCouchbaseEnvironmentBuilderIntegrationTest {
     }
 
     @Test
+    @Ignore("Takes a long time to run. So ignoring for main run.")
     public void shouldPullDownCouchbaseImageIfOneDoesNotExistLocally() throws Exception {
         removeExistingImage();
 

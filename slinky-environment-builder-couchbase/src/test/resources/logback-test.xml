@@ -12,6 +12,7 @@
         <appender-ref ref="STDOUT" />
     </root>
 
+    <logger name="com.couchbase" level="WARN"/>
     <!--<logger name="org.slinkyframework" level="DEBUG"/>-->
 
 </configuration>

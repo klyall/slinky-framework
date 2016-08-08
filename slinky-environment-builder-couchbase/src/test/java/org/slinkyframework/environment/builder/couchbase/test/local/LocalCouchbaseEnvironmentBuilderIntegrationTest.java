@@ -33,12 +33,14 @@ public class LocalCouchbaseEnvironmentBuilderIntegrationTest {
     private CouchbaseBuildDefinition definition2;
 
     @BeforeClass
-    public static void setUpOnce() {
+    public static void setUpOnce() throws InterruptedException {
         // Need to have an instance of Couchbase available
         DockerCouchbaseEnvironmentBuilder dockerCouchbaseEnvironmentBuilder
                 = new DockerCouchbaseEnvironmentBuilder(new LocalCouchbaseEnvironmentBuilder(TEST_HOST));
 
         dockerCouchbaseEnvironmentBuilder.setUp(new TreeSet<CouchbaseBuildDefinition>());
+
+        Thread.sleep(10000);
     }
 
     @AfterClass
