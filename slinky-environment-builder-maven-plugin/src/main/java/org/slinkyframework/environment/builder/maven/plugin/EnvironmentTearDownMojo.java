@@ -1,11 +1,10 @@
 package org.slinkyframework.environment.builder.maven.plugin;
 
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
 import org.slinkyframework.environment.builder.EnvironmentManager;
 
-/**
- * @goal teardown
- * @phase post-integration-test
- */
+@Mojo(name = "tearDown", defaultPhase = LifecyclePhase.POST_INTEGRATION_TEST)
 public class EnvironmentTearDownMojo extends AbstractEnvironmentBuilderMojo {
 
     public EnvironmentTearDownMojo() {
