@@ -1,5 +1,10 @@
 package org.slinkyframework.environment.builder.couchbase.test.docker;
 
+import com.spotify.docker.client.DefaultDockerClient;
+import com.spotify.docker.client.DockerClient;
+import com.spotify.docker.client.exceptions.DockerCertificateException;
+import com.spotify.docker.client.exceptions.DockerException;
+import com.spotify.docker.client.messages.Image;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +14,7 @@ import org.slinkyframework.environment.builder.couchbase.CouchbaseBuildDefinitio
 import org.slinkyframework.environment.builder.couchbase.docker.DockerCouchbaseEnvironmentBuilder;
 import org.slinkyframework.environment.builder.couchbase.local.LocalCouchbaseEnvironmentBuilder;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -16,6 +22,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DockerCouchbaseEnvironmentBuilderIntegrationTest {
@@ -33,9 +40,15 @@ public class DockerCouchbaseEnvironmentBuilderIntegrationTest {
     private Set<CouchbaseBuildDefinition> buildDefinitions;
     private CouchbaseBuildDefinition definition1;
     private CouchbaseBuildDefinition definition2;
+    private DockerClient docker;
 
     @Before
-    public void setUp() {
+    public void setUp() throws DockerCertificateException {
+
+        when(mockLocalCouchbaseEnvironmentBuilder.getTargetHost()).thenReturn(TEST_HOST);
+
+        docker = DefaultDockerClient.fromEnv().build();
+
         testee = new DockerCouchbaseEnvironmentBuilder(mockLocalCouchbaseEnvironmentBuilder);
         buildDefinitions = new TreeSet<>();
         definition1 = new CouchbaseBuildDefinition("Definition1", TEST_BUCKET_NAME1, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
@@ -80,5 +93,26 @@ public class DockerCouchbaseEnvironmentBuilderIntegrationTest {
         testee.tearDown(buildDefinitions);
 
         assertThat("Container found", testee.findRunningContainer(DockerCouchbaseEnvironmentBuilder.CONTAINER_NAME).isPresent(), is(false));
+    }
+
+    @Test
+    public void shouldPullDownCouchbaseImageIfOneDoesNotExistLocally() throws Exception {
+        removeExistingImage();
+
+        testee.setUp(buildDefinitions);
+
+        assertThat("Container found", testee.findRunningContainer(DockerCouchbaseEnvironmentBuilder.CONTAINER_NAME).isPresent(), is(true));
+
+    }
+
+    private void removeExistingImage() throws DockerException, InterruptedException {
+        Optional<Image> image = testee.findImage(DockerCouchbaseEnvironmentBuilder.COUCHBASE_LATEST_IMAGE_NAME);
+
+        if (image.isPresent()) {
+            boolean force = true;
+            boolean noPrune = false;
+
+            docker.removeImage(image.get().id(), force, noPrune);
+        }
     }
 }

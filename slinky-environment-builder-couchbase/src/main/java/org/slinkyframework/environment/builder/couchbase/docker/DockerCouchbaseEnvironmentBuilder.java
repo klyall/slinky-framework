@@ -10,7 +10,10 @@ import com.spotify.docker.client.messages.ContainerConfig;
 import com.spotify.docker.client.messages.ContainerCreation;
 import com.spotify.docker.client.messages.ExecState;
 import com.spotify.docker.client.messages.HostConfig;
+import com.spotify.docker.client.messages.Image;
 import com.spotify.docker.client.messages.PortBinding;
+import org.apache.commons.compress.utils.IOUtils;
+import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slinkyframework.environment.builder.EnvironmentBuilder;
@@ -18,6 +21,8 @@ import org.slinkyframework.environment.builder.EnvironmentBuilderException;
 import org.slinkyframework.environment.builder.couchbase.CouchbaseBuildDefinition;
 import org.slinkyframework.environment.builder.couchbase.local.LocalCouchbaseEnvironmentBuilder;
 
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +41,12 @@ import java.util.Set;
 public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<CouchbaseBuildDefinition> {
 
     public static final String CONTAINER_NAME = "slinky_couchbase";
-    private static final int TEN_SECONDS = 10000;
+    public static final String COUCHBASE_LATEST_IMAGE_NAME = "couchbase:latest";
+
+    private static final int ONE_SECOND = 1000;
+    private static final int THIRTY_SECONDS = 30000;
+    private static final long POLL_INTERVAL = ONE_SECOND;
+
 
     private static final Logger LOG = LoggerFactory.getLogger(DockerCouchbaseEnvironmentBuilder.class);
 
@@ -70,9 +80,19 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
         }
     }
 
+    private void pullContainer(DockerClient docker) {
+        try {
+            if (!findImage(docker, COUCHBASE_LATEST_IMAGE_NAME).isPresent()) {
+                docker.pull(COUCHBASE_LATEST_IMAGE_NAME);
+            }
+        } catch (DockerException | InterruptedException e) {
+            throw new EnvironmentBuilderException("Unable to pull container: " + COUCHBASE_LATEST_IMAGE_NAME, e);
+        }
+    }
+
     private void killAndRemoveContainer(DockerClient docker, Container container) {
         try {
-            if (container.state().equals("running")) {
+            if (container.status().startsWith("Up")) {
                 LOG.debug("Killing Couchbase Docker container");
                 docker.killContainer(container.id());
             }
@@ -88,6 +108,8 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
 
         DockerClient docker = connectToDocker();
 
+        pullContainer(docker);
+
         Optional<Container> existingContainer = findExistingContainer(docker, CONTAINER_NAME);
 
         String containerId;
@@ -100,15 +122,44 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
         containerId = container.id();
 
         startContainer(docker, containerId);
-
-        try {
-            Thread.sleep(TEN_SECONDS);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        waitForContainerToStart(docker, containerId);
 
         createCouchbaseCluster(docker, containerId);
         initialiseCouchbaseCluster(docker, containerId);
+    }
+
+    private void waitForContainerToStart(DockerClient docker, String containerId) {
+        StopWatch sw = new StopWatch();
+        sw.start();
+
+        while (sw.getTime() < THIRTY_SECONDS) {
+            try {
+                if (portInUse(localCouchbaseEnvironmentBuilder.getTargetHost(), 8091)) {
+                    break;
+                } else {
+                    LOG.debug("{}:{} not yet available after {}, Sleep for {} ms", localCouchbaseEnvironmentBuilder.getTargetHost(), 8091, sw.toString(), POLL_INTERVAL);
+                    Thread.sleep(POLL_INTERVAL);
+                }
+            } catch (InterruptedException e) {
+                throw new EnvironmentBuilderException("Unable to wait for Docker container to start", e);
+            }
+        }
+        sw.stop();
+    }
+
+    private boolean portInUse(String host, int port) {
+        LOG.debug("Check whether {}:{} is in use", host, port);
+        Socket s = null;
+        try {
+            s = new Socket(host, port);
+            LOG.debug("{}:{} is in use", host, port);
+            return true;
+        } catch (IOException e) {
+            LOG.debug("{}:{} is not in use", host, port);
+            return false;
+        } finally {
+            IOUtils.closeQuietly(s);
+        }
     }
 
     private DockerClient connectToDocker() {
@@ -124,6 +175,31 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
         } catch (DockerException | DockerCertificateException | InterruptedException e) {
             throw new EnvironmentBuilderException("Unable to connect to Docker", e);
         }
+    }
+
+    public Optional<Image> findImage(String imageName) {
+        DockerClient docker = connectToDocker();
+        Optional<Image> images = findImage(docker, imageName);
+        docker.close();
+        return images;
+    }
+
+    private Optional<Image> findImage(DockerClient docker, String imageName) {
+        try {
+            List<Image> images = docker.listImages(DockerClient.ListImagesParam.allImages());
+
+            for (Image image : images) {
+                for (String tag : image.repoTags()) {
+                    if (tag.equals(imageName)) {
+                        return Optional.of(image);
+                    }
+                }
+            }
+
+        } catch (DockerException | InterruptedException e) {
+            LOG.error("Unable to retrieve a list of Docker images", e);
+        }
+        return Optional.empty();
     }
 
     public Optional<Container> findRunningContainer(String containerName) {
@@ -169,7 +245,7 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
 
         // Create container
         ContainerConfig config = ContainerConfig.builder()
-                .image("couchbase:latest")
+                .image(COUCHBASE_LATEST_IMAGE_NAME)
                 .hostConfig(hostConfig)
                 .build();
 

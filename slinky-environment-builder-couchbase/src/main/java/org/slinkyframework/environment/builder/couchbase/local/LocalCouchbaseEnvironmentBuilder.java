@@ -7,14 +7,18 @@ import java.util.Set;
 
 public class LocalCouchbaseEnvironmentBuilder implements EnvironmentBuilder<CouchbaseBuildDefinition> {
 
+    private String targetHost;
     private CouchbaseSetUp couchbaseSetUp;
     private CouchbaseTearDown couchbaseTearDown;
-    private String targetHost;
 
     public LocalCouchbaseEnvironmentBuilder(String targetHost) {
         this.targetHost = targetHost;
         couchbaseSetUp = new CouchbaseSetUp();
         couchbaseTearDown = new CouchbaseTearDown();
+    }
+
+    public String getTargetHost() {
+        return targetHost;
     }
 
     @Override
