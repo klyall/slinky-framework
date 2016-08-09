@@ -10,9 +10,11 @@ import com.couchbase.client.java.cluster.ClusterManager;
 import com.couchbase.client.java.cluster.DefaultBucketSettings;
 import com.couchbase.client.java.query.Index;
 import com.couchbase.client.java.query.N1qlQuery;
+import com.couchbase.client.java.query.N1qlQueryResult;
 import com.couchbase.client.java.view.DesignDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slinkyframework.environment.builder.EnvironmentBuilderException;
 import org.slinkyframework.environment.builder.couchbase.CouchbaseBuildDefinition;
 
 public class CouchbaseSetUp {
@@ -51,9 +53,14 @@ public class CouchbaseSetUp {
         // Insert design document into the bucket
         bucketManager.upsertDesignDocument(designDoc);
 
-        bucket.query(N1qlQuery.simple(
+        N1qlQueryResult result = bucket.query(N1qlQuery.simple(
                 Index.createPrimaryIndex().on(bucket.name())
         ));
+
+        if (!result.finalSuccess()) {
+            LOG.error("Failed to create primary index: {}", result.status());
+            throw new EnvironmentBuilderException("Failed to create primary index for " + buildDefinition.getBucketName());
+        }
 
         cluster.disconnect();
     }

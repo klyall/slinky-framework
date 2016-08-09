@@ -1,14 +1,16 @@
 package org.slinkyframework.environment.builder.maven.plugin;
 
-import org.apache.maven.plugins.annotations.LifecyclePhase;
-import org.apache.maven.plugins.annotations.Mojo;
-import org.apache.maven.plugins.annotations.Parameter;
 import org.slinkyframework.environment.builder.EnvironmentManager;
 
-@Mojo(name = "setup", defaultPhase = LifecyclePhase.PRE_INTEGRATION_TEST)
+/**
+ * @goal setup
+ * @phase pre-integration-test
+ */
 public class EnvironmentSetUpMojo extends AbstractEnvironmentBuilderMojo {
 
-    @Parameter(property = "env.skipSetup", defaultValue = "false")
+    /**
+     * @parameter expression="${env.skipSetup}" default-value="false"
+     */
     private boolean skipSetUp;
 
     public EnvironmentSetUpMojo() {
