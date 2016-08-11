@@ -129,11 +129,14 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
     }
 
     private void waitForContainerToStart(DockerClient docker, String containerId) {
+        boolean started = false;
+
         StopWatch sw = new StopWatch();
         sw.start();
 
         while (sw.getTime() < THIRTY_SECONDS) {
             if (portInUse(localCouchbaseEnvironmentBuilder.getTargetHost(), 8091)) {
+                started = true;
                 break;
             } else {
                 LOG.debug("{}:{} not yet available after {}, Sleep for {} ms", localCouchbaseEnvironmentBuilder.getTargetHost(), 8091, sw.toString(), POLL_INTERVAL);
@@ -141,6 +144,10 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
             }
         }
         sw.stop();
+
+        if (!started) {
+            throw new EnvironmentBuilderException("Couchbase container has failed to start after " + sw.toString());
+        }
     }
 
     private boolean portInUse(String host, int port) {
@@ -257,7 +264,7 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
 
     private void startContainer(DockerClient docker, String containerId) {
 
-        LOG.debug("Starting Couchbase container '{}", CONTAINER_NAME);
+        LOG.info("Starting Couchbase container '{}", CONTAINER_NAME);
 
         try {
             docker.startContainer(containerId);
@@ -273,6 +280,7 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
         StopWatch sw = new StopWatch();
         sw.start();
         boolean success = false;
+        EnvironmentBuilderException lastException = null;
 
         while (sw.getTime() < THIRTY_SECONDS) {
             try {
@@ -281,11 +289,16 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
                 break;
             } catch (EnvironmentBuilderException e) {
                 LOG.debug("Couchbase cluster not yet created after {}, Sleep for {} ms", sw.toString(), POLL_INTERVAL);
+                lastException = e;
                 sleepFor(POLL_INTERVAL);
             }
         }
         sw.stop();
 
+        if (!success) {
+            LOG.debug("Unable to create Couchbase cluster in " + sw.toString(), lastException);
+            throw lastException;
+        }
     }
 
     private void sleepFor(long interval) {
@@ -297,7 +310,7 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
     }
 
     private void createCouchbaseCluster(DockerClient docker, String containerId) {
-        LOG.debug("Creating Couchbase cluster");
+        LOG.info("Creating Couchbase cluster");
 
         try {
             String execId = docker.execCreate(containerId,
@@ -324,7 +337,7 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
             if (state.exitCode() == 0) {
                 LOG.debug("Couchbase cluster created");
             } else {
-                LOG.error("Unable to create Couchbase cluster:\n{}", log);
+                LOG.debug("Unable to create Couchbase cluster:\n{}", log);
                 throw new EnvironmentBuilderException("Unable to create Couchbase cluster");
             }
         } catch (DockerException | InterruptedException e) {
@@ -334,7 +347,7 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
     }
 
     private void initialiseCouchbaseCluster(DockerClient docker, String containerId) {
-        LOG.debug("Initialising Couchbase cluster");
+        LOG.info("Initialising Couchbase cluster");
 
         try {
             final String execId = docker.execCreate(containerId,
