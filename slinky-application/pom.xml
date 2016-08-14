@@ -6,6 +6,7 @@
         <groupId>org.slinkyframework</groupId>
         <artifactId>slinky-framework-parent</artifactId>
         <version>0.2.3-SNAPSHOT</version>
+        <relativePath>../slinky-framework-parent</relativePath>
     </parent>
 
     <artifactId>slinky-application</artifactId>

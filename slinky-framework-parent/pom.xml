@@ -9,70 +9,131 @@
     </parent>
 
     <groupId>org.slinkyframework</groupId>
-    <artifactId>slinky-framework-build</artifactId>
+    <artifactId>slinky-framework-parent</artifactId>
     <version>0.2.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <description>Slinky Framework Parent</description>
+    <properties>
+        <commons-lang3.version>3.3.2</commons-lang3.version>
+        <commons-codec.version>1.6</commons-codec.version>
+        <jacoco-maven-plugin.version>0.7.5.201505241946</jacoco-maven-plugin.version>
+        <jackson.version>2.7.2</jackson.version>
+        <java.version>1.8</java.version>
+        <junit.version>4.12</junit.version>
+        <spring-cloud.version>Brixton.RELEASE</spring-cloud.version>
+        <spring-data-couchbase.version>2.0.0.RELEASE</spring-data-couchbase.version>
 
-    <url>https://github.com/klyall/slinky-framework</url>
-    <developers>
-        <developer>
-            <name>Keith Lyall</name>
-            <email>keith.lyall@slinkyframework.org</email>
-        </developer>
-    </developers>
-    <licenses>
-        <license>
-            <name>GNU GPLv3</name>
-            <url>https://www.gnu.org/licenses/gpl-3.0.txt</url>
-        </license>
-    </licenses>
-    <scm>
-        <url>https://github.com/klyall/slinky-framework</url>
-        <connection>scm:git:git@github.com:klyall/slinky-framework.git</connection>
-        <developerConnection>scm:git:git@github.com:klyall/slinky-framework.git</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
-    <issueManagement>
-        <url>https://github.com/klyall/slinky-framework/issues</url>
-        <system>GitHub</system>
-    </issueManagement>
-    <ciManagement>
-        <url>https://travis-ci.org/klyall/slinky-framework</url>
-        <system>Travis-CI</system>
-    </ciManagement>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
+        <docker.expose.port>8080</docker.expose.port>
+        <checker.version>2.0.1</checker.version>
+        <jersey.version>2.22.2</jersey.version>
+    </properties>
 
-    <modules>
-        <module>slinky-application</module>
-        <module>slinky-application-parent</module>
-        <module>slinky-client</module>
-        <module>slinky-client-http</module>
-        <module>slinky-client-http-parent</module>
-        <module>slinky-client-parent</module>
-        <module>slinky-common-aop</module>
-        <module>slinky-common-logging</module>
-        <module>slinky-environment-builder</module>
-        <module>slinky-environment-builder-couchbase</module>
-        <module>slinky-environment-builder-maven-plugin</module>
-        <module>slinky-framework-parent</module>
-        <module>slinky-repository</module>
-        <module>slinky-repository-couchbase</module>
-        <module>slinky-service-http</module>
-        <module>slinky-service-http-acceptance-tests-archetype</module>
-        <module>slinky-service-http-acceptance-tests-parent</module>
-        <module>slinky-service-http-parent</module>
-    </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-parent</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-couchbase</artifactId>
+                <version>${spring-data-couchbase.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.checkerframework</groupId>
+                <artifactId>checker</artifactId>
+                <version>${checker.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.checkerframework</groupId>
+                <artifactId>checker-qual</artifactId>
+                <version>${checker.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.checkerframework</groupId>
+                <artifactId>jdk8</artifactId>
+                <version>${checker.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-client</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.connectors</groupId>
+                <artifactId>jersey-apache-connector</artifactId>
+                <version>${jersey.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!--<dependency>-->
+                <!--<artifactId>rxjava</artifactId>-->
+                <!--<groupId>io.reactivex</groupId>-->
+                <!--<version>1.0.6</version>-->
+            <!--</dependency>-->
+            <dependency>
+                <artifactId>servo-core</artifactId>
+                <groupId>com.netflix.servo</groupId>
+                <version>0.7.5</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.checkerframework</groupId>
+            <artifactId>checker-qual</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!--<dependencies>-->
+    <!--<dependency>-->
+    <!--<groupId>org.springframework.boot</groupId>-->
+    <!--<artifactId>spring-boot-starter-web</artifactId>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>org.springframework.boot</groupId>-->
+    <!--<artifactId>spring-boot-starter-actuator</artifactId>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>org.springframework.cloud</groupId>-->
+    <!--<artifactId>spring-cloud-starter-zuul</artifactId>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>org.springframework.cloud</groupId>-->
+    <!--<artifactId>spring-cloud-starter-eureka</artifactId>-->
+    <!--</dependency>-->
+    <!--</dependencies>-->
 
     <build>
         <pluginManagement>
@@ -256,28 +317,6 @@
             <!--<failOnNoGitDirectory>false</failOnNoGitDirectory>-->
             <!--</configuration>-->
             <!--</plugin>-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <useReleaseProfile>false</useReleaseProfile>
-                    <releaseProfiles>release</releaseProfiles>
-                    <goals>deploy</goals>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.3</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
     <profiles>
@@ -364,55 +403,6 @@
                                 <arg>-Xbootclasspath/p:${org.checkerframework:jdk8:jar}</arg>
                             </compilerArgs>
                         </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>2.2.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <configuration>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>
