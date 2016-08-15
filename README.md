@@ -44,6 +44,9 @@ The following features are provided by the Slinky Framework:
 - [Structured Logging](./doc/structured_logging.md)
 - [Environment Builder](./doc/environment_builder.md)
 
+## Releases
+
+Notes on the Slinky Framework releases can be found [here](./doc/releases.md). 
 
 ## Build Profiles
 
