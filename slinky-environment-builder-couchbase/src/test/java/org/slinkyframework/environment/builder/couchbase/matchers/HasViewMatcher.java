@@ -2,7 +2,6 @@ package org.slinkyframework.environment.builder.couchbase.matchers;
 
 import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.Cluster;
-import com.couchbase.client.java.CouchbaseCluster;
 import com.couchbase.client.java.bucket.BucketManager;
 import com.couchbase.client.java.view.DesignDocument;
 import com.couchbase.client.java.view.View;
@@ -11,6 +10,8 @@ import org.hamcrest.TypeSafeMatcher;
 import org.slinkyframework.environment.builder.couchbase.CouchbaseBuildDefinition;
 
 import java.util.List;
+
+import static org.slinkyframework.environment.builder.couchbase.local.ConnectionManager.getCluster;
 
 public class HasViewMatcher extends TypeSafeMatcher<String> {
 
@@ -26,13 +27,14 @@ public class HasViewMatcher extends TypeSafeMatcher<String> {
     protected boolean matchesSafely(String host) {
         boolean hasView = false;
 
-        Cluster cluster = CouchbaseCluster.create(host);
+        Cluster cluster = getCluster(host);
 
         Bucket bucket = cluster.openBucket(buildDefinition.getBucketName(), buildDefinition.getBucketPassword());
         BucketManager bucketManager = bucket.bucketManager();
 
         hasView = hasView(bucketManager);
-        cluster.disconnect();
+
+        bucket.close();
 
         return hasView;
     }

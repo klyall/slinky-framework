@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.slinkyframework.environment.builder.EnvironmentBuilder;
 import org.slinkyframework.environment.builder.couchbase.CouchbaseBuildDefinition;
 import org.slinkyframework.environment.builder.couchbase.docker.DockerCouchbaseEnvironmentBuilder;
+import org.slinkyframework.environment.builder.couchbase.local.ConnectionManager;
 import org.slinkyframework.environment.builder.couchbase.local.LocalCouchbaseEnvironmentBuilder;
 
 import java.util.Set;
@@ -17,13 +18,16 @@ import java.util.TreeSet;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.slinkyframework.environment.builder.couchbase.matchers.CouchbaseMatchers.bucketExists;
+import static org.slinkyframework.environment.builder.couchbase.matchers.CouchbaseMatchers.bucketIsAccessible;
 import static org.slinkyframework.environment.builder.couchbase.matchers.CouchbaseMatchers.hasView;
 
 public class LocalCouchbaseEnvironmentBuilderIntegrationTest {
 
     private static final String TEST_HOST = "dev";
-    private static final String TEST_BUCKET_NAME1 = "testBucket1";
-    private static final String TEST_BUCKET_NAME2 = "testBucket2";
+    private static final String TEST_BUCKET_1_NAME = "testBucket1";
+    private static final String TEST_BUCKET_1_PASSWORD = "password1";
+    private static final String TEST_BUCKET_2_NAME = "testBucket2";
+    private static final String TEST_BUCKET_2_PASSWORD = "password2";
     private static final String TEST_DOCUMENT_PACKAGE = "org.example";
     private static final String TEST_DOCUMENT_CLASS_NAME = "ExampleDocument";
 
@@ -49,14 +53,20 @@ public class LocalCouchbaseEnvironmentBuilderIntegrationTest {
                 = new DockerCouchbaseEnvironmentBuilder(new LocalCouchbaseEnvironmentBuilder(TEST_HOST));
 
         dockerCouchbaseEnvironmentBuilder.tearDown(new TreeSet<CouchbaseBuildDefinition>());
+
+        ConnectionManager.disconnect();
     }
 
     @Before
     public void setUp() {
         testee = new LocalCouchbaseEnvironmentBuilder(TEST_HOST);
         buildDefinitions = new TreeSet<>();
-        definition1 = new CouchbaseBuildDefinition("Definition1", TEST_BUCKET_NAME1, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
-        definition2 = new CouchbaseBuildDefinition("Definition2", TEST_BUCKET_NAME2, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
+        definition1 = new CouchbaseBuildDefinition("Definition1", TEST_BUCKET_1_NAME, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
+        definition1.setBucketPassword(TEST_BUCKET_1_PASSWORD);
+
+        definition2 = new CouchbaseBuildDefinition("Definition2", TEST_BUCKET_2_NAME, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
+        definition2.setBucketPassword(TEST_BUCKET_2_PASSWORD);
+
         testee.tearDown(buildDefinitions);
     }
 
@@ -77,6 +87,7 @@ public class LocalCouchbaseEnvironmentBuilderIntegrationTest {
         testee.setUp(buildDefinitions);
 
         assertThat("Bucket exists", TEST_HOST, bucketExists(definition1));
+        assertThat("Bucket is accessible", TEST_HOST, bucketIsAccessible(definition1));
         assertThat("Default view exists", TEST_HOST, hasView(definition1, CouchbaseBuildDefinition.VIEW_ALL));
 
         testee.tearDown(buildDefinitions);
@@ -92,7 +103,9 @@ public class LocalCouchbaseEnvironmentBuilderIntegrationTest {
         testee.setUp(buildDefinitions);
 
         assertThat("Bucket exists", TEST_HOST, bucketExists(definition1));
+        assertThat("Bucket is accessible", TEST_HOST, bucketIsAccessible(definition1));
         assertThat("Bucket exists", TEST_HOST, bucketExists(definition2));
+        assertThat("Bucket is accessible", TEST_HOST, bucketIsAccessible(definition2));
 
         testee.tearDown(buildDefinitions);
 
@@ -124,17 +137,4 @@ public class LocalCouchbaseEnvironmentBuilderIntegrationTest {
 
         assertThat("Bucket exists", TEST_HOST, not(bucketExists(definition1)));
     }
-
-//    @Test
-//    public void shouldUpdateAnExsitingCouchbaseBucketUsingDefaultSettings() {
-//        buildDefinitions.add(definition1);
-//
-//        testee.setUp(buildDefinitions);
-//
-//        definition1.setBucketSizeInMB(200);
-//
-//        testee.setUp(buildDefinitions);
-//
-//        assertThat("Bucket exists", definition1, bucketExists());
-//    }
 }

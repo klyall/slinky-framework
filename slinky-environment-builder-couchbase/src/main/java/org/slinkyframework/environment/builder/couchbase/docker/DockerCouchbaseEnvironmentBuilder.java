@@ -80,6 +80,11 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
         }
     }
 
+    @Override
+    public void cleanUp() {
+        localCouchbaseEnvironmentBuilder.cleanUp();
+    }
+
     private void pullContainer(DockerClient docker) {
         try {
             if (!findImage(docker, COUCHBASE_LATEST_IMAGE_NAME).isPresent()) {
@@ -130,16 +135,17 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
 
     private void waitForContainerToStart(DockerClient docker, String containerId) {
         boolean started = false;
+        String targetHost = localCouchbaseEnvironmentBuilder.getHosts()[0];
 
         StopWatch sw = new StopWatch();
         sw.start();
 
         while (sw.getTime() < THIRTY_SECONDS) {
-            if (portInUse(localCouchbaseEnvironmentBuilder.getTargetHost(), 8091)) {
+            if (portInUse(targetHost, 8091)) {
                 started = true;
                 break;
             } else {
-                LOG.debug("{}:{} not yet available after {}, Sleep for {} ms", localCouchbaseEnvironmentBuilder.getTargetHost(), 8091, sw.toString(), POLL_INTERVAL);
+                LOG.debug("{}:{} not yet available after {}, Sleep for {} ms", targetHost, 8091, sw.toString(), POLL_INTERVAL);
                 sleepFor(POLL_INTERVAL);
             }
         }

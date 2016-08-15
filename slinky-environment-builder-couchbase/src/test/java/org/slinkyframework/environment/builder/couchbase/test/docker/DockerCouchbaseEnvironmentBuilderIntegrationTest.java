@@ -29,8 +29,10 @@ import static org.mockito.Mockito.when;
 public class DockerCouchbaseEnvironmentBuilderIntegrationTest {
 
     private static final String TEST_HOST = "dev";
-    private static final String TEST_BUCKET_NAME1 = "testBucket1";
-    private static final String TEST_BUCKET_NAME2 = "testBucker2";
+    private static final String TEST_BUCKET_1_NAME = "testBucket1";
+    private static final String TEST_BUCKET_1_PASSWORD = "password1";
+    private static final String TEST_BUCKET_2_NAME = "testBucker2";
+    private static final String TEST_BUCKET_2_PASSWORD = "password2";
     private static final String TEST_DOCUMENT_PACKAGE = "org.example";
     private static final String TEST_DOCUMENT_CLASS_NAME = "ExampleDocument";
 
@@ -46,14 +48,18 @@ public class DockerCouchbaseEnvironmentBuilderIntegrationTest {
     @Before
     public void setUp() throws DockerCertificateException {
 
-        when(mockLocalCouchbaseEnvironmentBuilder.getTargetHost()).thenReturn(TEST_HOST);
+        String[] hosts = {TEST_HOST};
+        when(mockLocalCouchbaseEnvironmentBuilder.getHosts()).thenReturn(hosts);
 
         docker = DefaultDockerClient.fromEnv().build();
 
         testee = new DockerCouchbaseEnvironmentBuilder(mockLocalCouchbaseEnvironmentBuilder);
         buildDefinitions = new TreeSet<>();
-        definition1 = new CouchbaseBuildDefinition("Definition1", TEST_BUCKET_NAME1, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
-        definition2 = new CouchbaseBuildDefinition("Definition2", TEST_BUCKET_NAME2, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
+        definition1 = new CouchbaseBuildDefinition("Definition1", TEST_BUCKET_1_NAME, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
+        definition1.setBucketPassword(TEST_BUCKET_1_PASSWORD);
+
+        definition2 = new CouchbaseBuildDefinition("Definition2", TEST_BUCKET_2_NAME, TEST_DOCUMENT_PACKAGE, TEST_DOCUMENT_CLASS_NAME);
+        definition2.setBucketPassword(TEST_BUCKET_2_PASSWORD);
 
         // Make sure no Docker containers left lying around
         testee.tearDown(buildDefinitions);

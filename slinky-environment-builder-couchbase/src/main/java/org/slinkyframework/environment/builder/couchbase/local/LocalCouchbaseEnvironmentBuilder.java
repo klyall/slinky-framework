@@ -7,27 +7,32 @@ import java.util.Set;
 
 public class LocalCouchbaseEnvironmentBuilder implements EnvironmentBuilder<CouchbaseBuildDefinition> {
 
-    private String targetHost;
-    private CouchbaseSetUp couchbaseSetUp;
-    private CouchbaseTearDown couchbaseTearDown;
+    private final CouchbaseSetUp couchbaseSetUp;
+    private final CouchbaseTearDown couchbaseTearDown;
+    private String[] hosts;
 
-    public LocalCouchbaseEnvironmentBuilder(String targetHost) {
-        this.targetHost = targetHost;
-        couchbaseSetUp = new CouchbaseSetUp();
-        couchbaseTearDown = new CouchbaseTearDown();
-    }
-
-    public String getTargetHost() {
-        return targetHost;
+    public LocalCouchbaseEnvironmentBuilder(String... hosts) {
+        this.hosts = hosts;
+        couchbaseSetUp = new CouchbaseSetUp(hosts);
+        couchbaseTearDown = new CouchbaseTearDown(hosts);
     }
 
     @Override
     public void setUp(Set<CouchbaseBuildDefinition> buildDefinitions) {
-        buildDefinitions.forEach(definition -> couchbaseSetUp.setUp(targetHost, definition));
+        buildDefinitions.forEach(definition -> couchbaseSetUp.setUp(definition));
     }
 
     @Override
     public void tearDown(Set<CouchbaseBuildDefinition> buildDefinitions) {
-        buildDefinitions.forEach(buildDefinition -> couchbaseTearDown.tearDown(targetHost, buildDefinition));
+        buildDefinitions.forEach(buildDefinition -> couchbaseTearDown.tearDown(buildDefinition));
+    }
+
+    @Override
+    public void cleanUp() {
+        ConnectionManager.disconnect();
+    }
+
+    public String[] getHosts() {
+        return hosts;
     }
 }

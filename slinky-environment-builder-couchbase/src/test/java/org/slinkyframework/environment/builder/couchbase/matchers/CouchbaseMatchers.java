@@ -8,6 +8,10 @@ public class CouchbaseMatchers {
         return new BucketExistsMatcher(buildDefinition);
     }
 
+    public static BucketIsAccessibleMatcher bucketIsAccessible(CouchbaseBuildDefinition buildDefinition) {
+        return new BucketIsAccessibleMatcher(buildDefinition);
+    }
+
     public static HasViewMatcher hasView(CouchbaseBuildDefinition buildDefinition, String viewName) {
         return new HasViewMatcher(buildDefinition, viewName);
     }
