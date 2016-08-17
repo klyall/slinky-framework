@@ -6,7 +6,7 @@
         <artifactId>slinky-framework-parent</artifactId>
         <groupId>org.slinkyframework</groupId>
         <version>0.2.3-SNAPSHOT</version>
-        <relativePath>../slinky-framework-parent</relativePath>
+        <relativePath>../slinky-framework-parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>slinky-service-http-parent</artifactId>
@@ -16,17 +16,14 @@
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-service-http</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-application</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-repository</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -49,7 +46,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.8</version>
+                <version>${aspectj-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -89,6 +86,23 @@
                         <version>${aspectj.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>pl.project13.maven</groupId>
+                <artifactId>git-commit-id-plugin</artifactId>
+                <version>2.2.1</version>
+                <configuration>
+                    <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>git-properties</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

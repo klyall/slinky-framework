@@ -6,7 +6,7 @@
         <groupId>org.slinkyframework</groupId>
         <artifactId>slinky-framework-parent</artifactId>
         <version>0.2.3-SNAPSHOT</version>
-        <relativePath>../slinky-framework-parent</relativePath>
+        <relativePath>../slinky-framework-parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>slinky-environment-builder-maven-plugin</artifactId>
@@ -23,7 +23,7 @@
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-environment-builder</artifactId>
             <scope>compile</scope>
-            <version>${project.version}</version>
+            <version>0.2.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>

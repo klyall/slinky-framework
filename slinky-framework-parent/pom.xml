@@ -13,23 +13,60 @@
     <version>0.2.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>../slinky-application</module>
+        <module>../slinky-application-parent</module>
+        <module>../slinky-client</module>
+        <module>../slinky-client-http</module>
+        <module>../slinky-client-http-parent</module>
+        <module>../slinky-client-parent</module>
+        <module>../slinky-common-aop</module>
+        <module>../slinky-common-logging</module>
+        <module>../slinky-environment-builder</module>
+        <module>../slinky-environment-builder-couchbase</module>
+        <module>../slinky-environment-builder-maven-plugin</module>
+        <module>../slinky-framework-bom</module>
+        <module>../slinky-repository</module>
+        <module>../slinky-performance-tests-parent</module>
+        <module>../slinky-repository-couchbase</module>
+        <module>../slinky-service-http</module>
+        <module>../slinky-service-http-acceptance-tests-archetype</module>
+        <module>../slinky-service-http-acceptance-tests-parent</module>
+        <module>../slinky-service-http-parent</module>
+        <module>../slinky-service-json-api</module>
+    </modules>
+
     <properties>
+        <checker.version>2.0.1</checker.version>
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <commons-codec.version>1.6</commons-codec.version>
-        <jacoco-maven-plugin.version>0.7.5.201505241946</jacoco-maven-plugin.version>
         <jackson.version>2.7.2</jackson.version>
         <java.version>1.8</java.version>
+        <jersey.version>2.22.2</jersey.version>
         <junit.version>4.12</junit.version>
         <spring-cloud.version>Brixton.RELEASE</spring-cloud.version>
         <spring-data-couchbase.version>2.0.0.RELEASE</spring-data-couchbase.version>
 
+        <aspectj-maven-plugin.version>1.8</aspectj-maven-plugin.version>
+        <docker-maven-plugin.version>0.3.3</docker-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.7.5.201505241946</jacoco-maven-plugin.version>
+        <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
+        <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
+        <maven-enforcer-plugin.version>1.4.1</maven-enforcer-plugin.version>
+
         <docker.expose.port>8080</docker.expose.port>
-        <checker.version>2.0.1</checker.version>
-        <jersey.version>2.22.2</jersey.version>
+        <docker.registry>localhost</docker.registry>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.slinkyframework</groupId>
+                <artifactId>slinky-framework-bom</artifactId>
+                <version>0.2.3-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-parent</artifactId>
@@ -83,11 +120,6 @@
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
-            <!--<dependency>-->
-                <!--<artifactId>rxjava</artifactId>-->
-                <!--<groupId>io.reactivex</groupId>-->
-                <!--<version>1.0.6</version>-->
-            <!--</dependency>-->
             <dependency>
                 <artifactId>servo-core</artifactId>
                 <groupId>com.netflix.servo</groupId>
@@ -116,39 +148,13 @@
         </dependency>
     </dependencies>
 
-    <!--<dependencies>-->
-    <!--<dependency>-->
-    <!--<groupId>org.springframework.boot</groupId>-->
-    <!--<artifactId>spring-boot-starter-web</artifactId>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.springframework.boot</groupId>-->
-    <!--<artifactId>spring-boot-starter-actuator</artifactId>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.springframework.cloud</groupId>-->
-    <!--<artifactId>spring-cloud-starter-zuul</artifactId>-->
-    <!--</dependency>-->
-    <!--<dependency>-->
-    <!--<groupId>org.springframework.cloud</groupId>-->
-    <!--<artifactId>spring-cloud-starter-eureka</artifactId>-->
-    <!--</dependency>-->
-    <!--</dependencies>-->
-
     <build>
         <pluginManagement>
             <plugins>
-                <!--<plugin>-->
-                <!--<groupId>org.springframework.cloud</groupId>-->
-                <!--<artifactId>spring-cloud-starter-parent</artifactId>-->
-                <!--<version>${spring-cloud.version}</version>-->
-                <!--&lt;!&ndash;<type>pom</type>&ndash;&gt;-->
-                <!--&lt;!&ndash;<scope>import</scope>&ndash;&gt;-->
-                <!--</plugin>-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.5.1</version>
+                    <version>${maven-compiler-plugin.version}</version>
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
@@ -157,7 +163,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>aspectj-maven-plugin</artifactId>
-                    <version>1.8</version>
+                    <version>${aspectj-maven-plugin.version}</version>
                     <executions>
                         <execution>
                             <goals>
@@ -187,7 +193,7 @@
                 <plugin>
                     <groupId>com.spotify</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
-                    <version>0.3.3</version>
+                    <version>${docker-maven-plugin.version}</version>
                     <configuration>
                         <imageName>${project.artifactId}</imageName>
                         <baseImage>java:8</baseImage>
@@ -251,7 +257,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.4.1</version>
+                <version>${maven-enforcer-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>enforce-java</id>
@@ -380,7 +386,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.10</version>
+                        <version>${maven-dependency-plugin.version}</version>
                         <executions>
                             <execution>
                                 <goals>

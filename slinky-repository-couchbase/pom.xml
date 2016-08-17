@@ -6,7 +6,7 @@
         <groupId>org.slinkyframework</groupId>
         <artifactId>slinky-framework-parent</artifactId>
         <version>0.2.3-SNAPSHOT</version>
-        <relativePath>../slinky-framework-parent</relativePath>
+        <relativePath>../slinky-framework-parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>slinky-repository-couchbase</artifactId>
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-repository</artifactId>
-            <version>${project.version}</version>
+            <version>0.2.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>

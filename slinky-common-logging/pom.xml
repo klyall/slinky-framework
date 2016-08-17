@@ -4,7 +4,7 @@
         <artifactId>slinky-framework-parent</artifactId>
         <groupId>org.slinkyframework</groupId>
         <version>0.2.3-SNAPSHOT</version>
-        <relativePath>../slinky-framework-parent</relativePath>
+        <relativePath>../slinky-framework-parent/pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -19,7 +19,6 @@
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-common-aop</artifactId>
-            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.portingle</groupId>

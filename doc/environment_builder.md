@@ -101,7 +101,6 @@ The Maven configuration to add is:
             <plugin>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-environment-builder-maven-plugin</artifactId>
-                <version>${slinky-framework.version}</version>
                 <executions>
                     <execution>
                         <id>env.setup</id>

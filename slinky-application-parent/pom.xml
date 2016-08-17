@@ -6,7 +6,7 @@
         <artifactId>slinky-framework-parent</artifactId>
         <groupId>org.slinkyframework</groupId>
         <version>0.2.3-SNAPSHOT</version>
-        <relativePath>../slinky-framework-parent</relativePath>
+        <relativePath>../slinky-framework-parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>slinky-application-parent</artifactId>
@@ -16,7 +16,6 @@
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-application</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 
@@ -25,7 +24,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.8</version>
+                <version>${aspectj-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>
