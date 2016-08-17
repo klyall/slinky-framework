@@ -4,7 +4,7 @@
 
   <groupId>org.slinkyframework.archetypes</groupId>
   <artifactId>slinky-service-http-acceptance-tests-archetype</artifactId>
-  <version>0.2.4-SNAPSHOT</version>
+  <version>0.2.3-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
 
   <name>slinky-service-http-acceptance-tests-archetype</name>
