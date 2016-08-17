@@ -10,7 +10,7 @@
 
     <groupId>org.slinkyframework</groupId>
     <artifactId>slinky-framework-parent</artifactId>
-    <version>0.2.3</version>
+    <version>0.2.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <distributionManagement>
@@ -74,7 +74,7 @@
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-framework-bom</artifactId>
-                <version>0.2.3</version>
+                <version>0.2.4-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -425,9 +425,4 @@
             </build>
         </profile>
     </profiles>
-
-
-  <scm>
-    <tag>slinky-framework-build-0.2.3</tag>
-  </scm>
 </project>

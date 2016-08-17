@@ -4,7 +4,7 @@
     <parent>
         <artifactId>slinky-framework-build</artifactId>
         <groupId>org.slinkyframework</groupId>
-        <version>0.2.3</version>
+        <version>0.2.4-SNAPSHOT</version>
     </parent>
     
     <artifactId>slinky-framework-bom</artifactId>
@@ -15,57 +15,57 @@
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-application</artifactId>
-                <version>0.2.3</version>
+                <version>0.2.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-client</artifactId>
-                <version>0.2.3</version>
+                <version>0.2.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-client-http</artifactId>
-                <version>0.2.3</version>
+                <version>0.2.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-common-aop</artifactId>
-                <version>0.2.3</version>
+                <version>0.2.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-common-logging</artifactId>
-                <version>0.2.3</version>
+                <version>0.2.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-environment-builder</artifactId>
-                <version>0.2.3</version>
+                <version>0.2.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-environment-builder-couchbase</artifactId>
-                <version>0.2.3</version>
+                <version>0.2.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-repository</artifactId>
-                <version>0.2.3</version>
+                <version>0.2.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-repository-couchbase</artifactId>
-                <version>0.2.3</version>
+                <version>0.2.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-service-http</artifactId>
-                <version>0.2.3</version>
+                <version>0.2.4-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-service-json-api</artifactId>
-                <version>0.2.3</version>
+                <version>0.2.4-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
