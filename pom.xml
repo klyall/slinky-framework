@@ -4,7 +4,7 @@
 
     <groupId>org.slinkyframework</groupId>
     <artifactId>slinky-framework-build</artifactId>
-    <version>0.2.7-SNAPSHOT</version>
+    <version>0.2.6-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <description>Slinky Framework Build</description>

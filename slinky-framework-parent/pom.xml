@@ -10,7 +10,7 @@
 
     <groupId>org.slinkyframework</groupId>
     <artifactId>slinky-framework-parent</artifactId>
-    <version>0.2.7-SNAPSHOT</version>
+    <version>0.2.6-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <distributionManagement>
@@ -51,7 +51,7 @@
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-framework-bom</artifactId>
-                <version>0.2.7-SNAPSHOT</version>
+                <version>0.2.6-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
