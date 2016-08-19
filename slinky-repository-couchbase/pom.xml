@@ -6,7 +6,6 @@
         <groupId>org.slinkyframework</groupId>
         <artifactId>slinky-framework-parent</artifactId>
         <version>0.2.7-SNAPSHOT</version>
-        <relativePath>../slinky-framework-parent/pom.xml</relativePath>
     </parent>
 
     <artifactId>slinky-repository-couchbase</artifactId>
