@@ -3,7 +3,7 @@
     <parent>
         <artifactId>slinky-framework-parent</artifactId>
         <groupId>org.slinkyframework</groupId>
-        <version>0.2.6</version>
+        <version>0.2.7-SNAPSHOT</version>
         <relativePath>../slinky-framework-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
