@@ -7,9 +7,10 @@
     <version>0.2.6-SNAPSHOT</version>
     <packaging>pom</packaging>
 
+    <name>slinky-framework</name>
     <description>Slinky Framework Build</description>
-
     <url>https://github.com/klyall/slinky-framework</url>
+
     <developers>
         <developer>
             <name>Keith Lyall</name>
