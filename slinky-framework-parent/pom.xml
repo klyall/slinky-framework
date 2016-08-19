@@ -24,29 +24,6 @@
         </repository>
     </distributionManagement>
 
-    <modules>
-        <module>../slinky-application</module>
-        <module>../slinky-application-parent</module>
-        <module>../slinky-client</module>
-        <module>../slinky-client-http</module>
-        <module>../slinky-client-http-parent</module>
-        <module>../slinky-client-parent</module>
-        <module>../slinky-common-aop</module>
-        <module>../slinky-common-logging</module>
-        <module>../slinky-environment-builder</module>
-        <module>../slinky-environment-builder-couchbase</module>
-        <module>../slinky-environment-builder-maven-plugin</module>
-        <module>../slinky-framework-bom</module>
-        <module>../slinky-repository</module>
-        <module>../slinky-performance-tests-parent</module>
-        <module>../slinky-repository-couchbase</module>
-        <module>../slinky-service-http</module>
-        <module>../slinky-service-http-acceptance-tests-archetype</module>
-        <module>../slinky-service-http-acceptance-tests-parent</module>
-        <module>../slinky-service-http-parent</module>
-        <module>../slinky-service-json-api</module>
-    </modules>
-
     <properties>
         <checker.version>2.0.1</checker.version>
         <commons-lang3.version>3.3.2</commons-lang3.version>
