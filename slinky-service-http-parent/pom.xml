@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>slinky-framework-parent</artifactId>
         <groupId>org.slinkyframework</groupId>
+        <artifactId>slinky-framework-parent</artifactId>
         <version>0.2.8-SNAPSHOT</version>
     </parent>
 
@@ -87,10 +87,6 @@
                 </dependencies>
             </plugin>
             <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
                 <version>2.2.1</version>
@@ -109,5 +105,19 @@
             </plugin>
         </plugins>
     </build>
+
+    <!--<profiles>-->
+        <!--<profile>-->
+            <!--<id>docker</id>-->
+            <!--<build>-->
+                <!--<plugins>-->
+                    <!--<plugin>-->
+                        <!--<groupId>com.spotify</groupId>-->
+                        <!--<artifactId>docker-maven-plugin</artifactId>-->
+                    <!--</plugin>-->
+                <!--</plugins>-->
+            <!--</build>-->
+        <!--</profile>-->
+    <!--</profiles>-->
 
 </project>
