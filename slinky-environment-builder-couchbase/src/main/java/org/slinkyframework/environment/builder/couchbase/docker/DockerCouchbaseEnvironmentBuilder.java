@@ -365,7 +365,7 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
                             , "-c", "127.0.0.1:8091"
                             , "-u", "admin"
                             , "-p", "password"
-                            , "--services=data,index,query"
+                            , "--services=data,index,query,fts"
                             , "--index-storage-setting=default"
                             , "--cluster-ramsize=500"
                             , "--cluster-index-ramsize=500"
