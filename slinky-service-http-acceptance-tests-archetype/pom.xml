@@ -4,7 +4,7 @@
 
   <groupId>org.slinkyframework.archetypes</groupId>
   <artifactId>slinky-service-http-acceptance-tests-archetype</artifactId>
-  <version>0.2.8-SNAPSHOT</version>
+  <version>0.2.8</version>
   <packaging>maven-archetype</packaging>
 
   <name>slinky-service-http-acceptance-tests-archetype</name>
@@ -50,7 +50,7 @@
     <connection>scm:git:git@github.com:klyall/slinky-framework.git/slinky-service-http-acceptance-tests-parent/slinky-service-http-acceptance-tests</connection>
     <developerConnection>scm:git:git@github.com:klyall/slinky-framework.git/slinky-service-http-acceptance-tests-parent/slinky-service-http-acceptance-tests</developerConnection>
     <url>https://github.com/klyall/slinky-framework/slinky-service-http-acceptance-tests-parent/slinky-service-http-acceptance-tests</url>
-    <tag>HEAD</tag>
+    <tag>slinky-framework-parent-0.2.8</tag>
   </scm>
 
   <distributionManagement>
