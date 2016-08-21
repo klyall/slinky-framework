@@ -198,9 +198,11 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
             List<Image> images = docker.listImages(DockerClient.ListImagesParam.allImages());
 
             for (Image image : images) {
-                for (String tag : image.repoTags()) {
-                    if (tag.equals(imageName)) {
-                        return Optional.of(image);
+                if (image.repoTags() != null) {
+                    for (String tag : image.repoTags()) {
+                        if (tag.equals(imageName)) {
+                            return Optional.of(image);
+                        }
                     }
                 }
             }
