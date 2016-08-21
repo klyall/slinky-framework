@@ -18,7 +18,9 @@
 
 - Improvements to Couchbase Environment Builder
 
-### v0.2.3
+### v0.2.8
+- Resolve build and release issues
+- Add Docker tagging and deploying to local or remote registry
 
-- Improvements to Couchbase Environment Builder
-- Split slinky-framework-parent pom.xml from Slinky Framework build pom.xml
+### v0.2.9
+- Add Full Text Search service to Couchbase setup
