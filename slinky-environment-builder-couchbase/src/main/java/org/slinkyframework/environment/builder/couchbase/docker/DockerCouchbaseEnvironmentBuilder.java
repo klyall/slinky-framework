@@ -13,13 +13,15 @@ import com.spotify.docker.client.messages.HostConfig;
 import com.spotify.docker.client.messages.Image;
 import com.spotify.docker.client.messages.PortBinding;
 import org.apache.commons.compress.utils.IOUtils;
-import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slinkyframework.environment.builder.EnvironmentBuilder;
 import org.slinkyframework.environment.builder.EnvironmentBuilderException;
 import org.slinkyframework.environment.builder.couchbase.CouchbaseBuildDefinition;
 import org.slinkyframework.environment.builder.couchbase.local.LocalCouchbaseEnvironmentBuilder;
+import org.springframework.retry.backoff.FixedBackOffPolicy;
+import org.springframework.retry.policy.TimeoutRetryPolicy;
+import org.springframework.retry.support.RetryTemplate;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -29,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 /**
  * Creates and starts a Couchbase Docker container and the defined buckets within.
@@ -44,8 +47,7 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
     public static final String COUCHBASE_LATEST_IMAGE_NAME = "couchbase:latest";
 
     private static final int ONE_SECOND = 1000;
-    private static final int THIRTY_SECONDS = 30000;
-    private static final long POLL_INTERVAL = ONE_SECOND;
+    private static final long THIRTY_SECONDS = 30000;
 
 
     private static final Logger LOG = LoggerFactory.getLogger(DockerCouchbaseEnvironmentBuilder.class);
@@ -126,34 +128,43 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
         ContainerCreation container = createContainer(docker);
         containerId = container.id();
 
-        startContainer(docker, containerId);
-        waitForContainerToStart(docker, containerId);
+        waitFor(this::startContainer, docker, containerId);
+        waitForContainerToStart();
 
-        waitForCreateCouchbaseCluster(docker, containerId);
-        initialiseCouchbaseCluster(docker, containerId);
+        waitFor(this::createCouchbaseCluster, docker, containerId);
+        waitFor(this::initialiseCouchbaseCluster, docker, containerId);
     }
 
-    private void waitForContainerToStart(DockerClient docker, String containerId) {
-        boolean started = false;
+    private void waitFor(BiConsumer<DockerClient, String> function, DockerClient docker, String containerId) {
+        TimeoutRetryPolicy retryPolicy = new TimeoutRetryPolicy();
+        retryPolicy.setTimeout(THIRTY_SECONDS);
+
+        FixedBackOffPolicy backOffPolicy = new FixedBackOffPolicy();
+        backOffPolicy.setBackOffPeriod(ONE_SECOND);
+
+        RetryTemplate retryTemplate = new RetryTemplate();
+        retryTemplate.setRetryPolicy(retryPolicy);
+        retryTemplate.setThrowLastExceptionOnExhausted(true);
+        retryTemplate.setBackOffPolicy(backOffPolicy);
+
+        retryTemplate.execute(rc -> { function.accept(docker, containerId); return null; });
+    }
+
+    private void waitForContainerToStart() {
+        TimeoutRetryPolicy retryPolicy = new TimeoutRetryPolicy();
+        retryPolicy.setTimeout(THIRTY_SECONDS);
+
+        FixedBackOffPolicy backOffPolicy = new FixedBackOffPolicy();
+        backOffPolicy.setBackOffPeriod(ONE_SECOND);
+
+        RetryTemplate retryTemplate = new RetryTemplate();
+        retryTemplate.setRetryPolicy(retryPolicy);
+        retryTemplate.setThrowLastExceptionOnExhausted(true);
+        retryTemplate.setBackOffPolicy(backOffPolicy);
+
         String targetHost = localCouchbaseEnvironmentBuilder.getHosts()[0];
 
-        StopWatch sw = new StopWatch();
-        sw.start();
-
-        while (sw.getTime() < THIRTY_SECONDS) {
-            if (portInUse(targetHost, 8091)) {
-                started = true;
-                break;
-            } else {
-                LOG.debug("{}:{} not yet available after {}, Sleep for {} ms", targetHost, 8091, sw.toString(), POLL_INTERVAL);
-                sleepFor(POLL_INTERVAL);
-            }
-        }
-        sw.stop();
-
-        if (!started) {
-            throw new EnvironmentBuilderException("Couchbase container has failed to start after " + sw.toString());
-        }
+        retryTemplate.execute(rc -> portInUse(targetHost, 8091));
     }
 
     private boolean portInUse(String host, int port) {
@@ -165,7 +176,7 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
             return true;
         } catch (IOException e) {
             LOG.debug("{}:{} is not in use", host, port);
-            return false;
+            throw new EnvironmentBuilderException("Couchbase container has failed to start", e);
         } finally {
             IOUtils.closeQuietly(s);
         }
@@ -284,39 +295,6 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
         }
     }
 
-    private void waitForCreateCouchbaseCluster(DockerClient docker, String containerId) {
-        StopWatch sw = new StopWatch();
-        sw.start();
-        boolean success = false;
-        EnvironmentBuilderException lastException = null;
-
-        while (sw.getTime() < THIRTY_SECONDS) {
-            try {
-                createCouchbaseCluster(docker, containerId);
-                success = true;
-                break;
-            } catch (EnvironmentBuilderException e) {
-                LOG.debug("Couchbase cluster not yet created after {}, Sleep for {} ms", sw.toString(), POLL_INTERVAL);
-                lastException = e;
-                sleepFor(POLL_INTERVAL);
-            }
-        }
-        sw.stop();
-
-        if (!success) {
-            LOG.debug("Unable to create Couchbase cluster in " + sw.toString(), lastException);
-            throw lastException;
-        }
-    }
-
-    private void sleepFor(long interval) {
-        try {
-            Thread.sleep(POLL_INTERVAL);
-        } catch (InterruptedException e) {
-            throw new EnvironmentBuilderException("Unable to wait for Docker container to start", e);
-        }
-    }
-
     private void createCouchbaseCluster(DockerClient docker, String containerId) {
         LOG.info("Creating Couchbase cluster");
 
@@ -351,7 +329,6 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
         } catch (DockerException | InterruptedException e) {
             throw new EnvironmentBuilderException("Unable to create Couchbase cluster", e);
         }
-
     }
 
     private void initialiseCouchbaseCluster(DockerClient docker, String containerId) {

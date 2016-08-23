@@ -82,6 +82,7 @@
         <checker.version>2.0.1</checker.version>
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <commons-codec.version>1.6</commons-codec.version>
+        <docker-client.version>5.0.2</docker-client.version>
         <jackson.version>2.7.2</jackson.version>
         <java.version>1.8</java.version>
         <jersey.version>2.22.2</jersey.version>
@@ -90,8 +91,8 @@
         <spring-data-couchbase.version>2.0.0.RELEASE</spring-data-couchbase.version>
 
         <aspectj-maven-plugin.version>1.8</aspectj-maven-plugin.version>
-        <docker-maven-plugin.version>0.3.3</docker-maven-plugin.version>
-        <jacoco-maven-plugin.version>0.7.5.201505241946</jacoco-maven-plugin.version>
+        <docker-maven-plugin.version>0.4.11</docker-maven-plugin.version>
+        <jacoco-maven-plugin.version>0.7.7.201606060606</jacoco-maven-plugin.version>
         <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
         <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
         <maven-enforcer-plugin.version>1.4.1</maven-enforcer-plugin.version>
@@ -99,6 +100,11 @@
         <docker.expose.port>8080</docker.expose.port>
         <docker.registry.protocol>https</docker.registry.protocol>
         <docker.registry.host>localhost</docker.registry.host>
+        <docker.registry.serverId></docker.registry.serverId>
+        <docker.registry.useConfigFile>false</docker.registry.useConfigFile>
+
+        <jacoco.unit.file>${basedir}/target/jacoco-unit.exec</jacoco.unit.file>
+        <jacoco.it.file>${basedir}/target/jacoco-it.exec</jacoco.it.file>
     </properties>
 
     <dependencyManagement>
@@ -194,6 +200,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-client</artifactId>
+                <version>${docker-client.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
@@ -295,8 +306,7 @@
                         <baseImage>java:8</baseImage>
                         <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
                         <!-- copy the service's jar file from target into the root directory of the image -->
-                        <serverId>docker.registry</serverId>
-                        <!--<dockerHost>dev</dockerHost>-->
+                        <serverId>${docker.registry.serverId}</serverId>
                         <exposes>
                             <expose>${docker.expose.port}</expose>
                         </exposes>
@@ -341,6 +351,7 @@
                             <configuration>
                                 <imageName>${docker.registry.host}/${project.artifactId}:${project.version}</imageName>
                                 <registryUrl>${docker.registry.protocol}://${docker.registry.host}</registryUrl>
+                                <useConfigFile>${docker.registry.useConfigFile}</useConfigFile>
                             </configuration>
                         </execution>
                     </executions>
@@ -351,17 +362,48 @@
                     <version>${jacoco-maven-plugin.version}</version>
                     <executions>
                         <execution>
-                            <id>prepare-jacoco-agent</id>
+                            <id>jacoco-prepare-agent-unit-tests</id>
+                            <phase>initialize</phase>
                             <goals>
                                 <goal>prepare-agent</goal>
                             </goals>
+                            <configuration>
+                                <propertyName>jacoco.agent.argLine</propertyName>
+                                <destFile>${jacoco.unit.file}</destFile>
+                            </configuration>
                         </execution>
                         <execution>
-                            <id>prepare-jacoco-report</id>
-                            <phase>integration-test</phase>
+                            <id>jacoco-prepare-agent-integration-tests</id>
+                            <phase>pre-integration-test</phase>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                            <configuration>
+                                <propertyName>jacoco.agent.argLine</propertyName>
+                                <destFile>${jacoco.it.file}</destFile>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>jacoco-report-unit-tests</id>
+                            <phase>test</phase>
                             <goals>
                                 <goal>report</goal>
                             </goals>
+                            <configuration>
+                                <dataFile>${jacoco.unit.file}</dataFile>
+                                <outputDirectory>${project.build.directory}/coverage/unit-tests</outputDirectory>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>jacoco-report-integration-tests</id>
+                            <phase>post-integration-test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                            <configuration>
+                                <dataFile>${jacoco.it.file}</dataFile>
+                                <outputDirectory>${project.build.directory}/coverage/integration-tests</outputDirectory>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>
@@ -413,10 +455,13 @@
                 <configuration>
                     <excludes>
                         <exclude>**/*IntegrationTest.java</exclude>
+                        <exclude>**/*IT.java</exclude>
                         <exclude>**/TestCollector.java</exclude>
                     </excludes>
                     <parallel>methods</parallel>
                     <threadCount>10</threadCount>
+                    <argLine>${jacoco.agent.argLine}
+                    </argLine>
                 </configuration>
                 <executions>
                     <execution>
@@ -431,9 +476,12 @@
                             </excludes>
                             <includes>
                                 <include>**/*IntegrationTest.java</include>
+                                <include>**/*IT.java</include>
                             </includes>
                             <parallel>methods</parallel>
                             <threadCount>10</threadCount>
+                            <argLine>${jacoco.agent.argLine}
+                            </argLine>
                         </configuration>
                     </execution>
                 </executions>

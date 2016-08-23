@@ -14,5 +14,6 @@
 
     <logger name="com.couchbase" level="WARN"/>
     <!--<logger name="org.slinkyframework" level="DEBUG"/>-->
+    <!--<logger name="org.springframework.retry" level="DEBUG"/>-->
 
 </configuration>
