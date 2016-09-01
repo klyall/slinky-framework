@@ -5,7 +5,7 @@
     <parent>
         <artifactId>slinky-framework-parent</artifactId>
         <groupId>org.slinkyframework</groupId>
-        <version>0.3.0</version>
+        <version>0.3.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>slinky-common-aop</artifactId>
