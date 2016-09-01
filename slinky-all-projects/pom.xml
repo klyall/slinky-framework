@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.slinkyframework</groupId>
+        <artifactId>slinky-framework-parent</artifactId>
+        <version>0.2.11-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>slinky-all-projects</artifactId>
+    <packaging>pom</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-application</artifactId>
+            <version>0.2.11-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-client</artifactId>
+            <version>0.2.11-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-client-http</artifactId>
+            <version>0.2.11-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-common-aop</artifactId>
+            <version>0.2.11-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-common-logging</artifactId>
+            <version>0.2.11-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-environment-builder</artifactId>
+            <version>0.2.11-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-environment-builder-couchbase</artifactId>
+            <version>0.2.11-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-repository</artifactId>
+            <version>0.2.11-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-repository-couchbase</artifactId>
+            <version>0.2.11-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-service-http</artifactId>
+            <version>0.2.11-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-service-json-api</artifactId>
+            <version>0.2.11-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-hystrix</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+</project>

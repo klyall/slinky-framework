@@ -1,0 +1,17 @@
+spring:
+  couchbase:
+    bootstrap-hosts: dev
+    consistency: strongly-consistent
+    bucket:
+      name: exampleBucket
+      password: password
+
+
+logging:
+  level:
+    ROOT: INFO
+#    com.couchbase: DEBUG
+    org.springframework: INFO
+    org.springframework.test: INFO
+#    org.springframework.data: INFO
+    org.springframework.data: DEBUG

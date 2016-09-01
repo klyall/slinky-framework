@@ -21,9 +21,10 @@ import java.util.TreeSet;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.slinkyframework.environment.builder.couchbase.matchers.CouchbaseMatchers.hasPortAvailable;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DockerCouchbaseEnvironmentBuilderIntegrationTest {
@@ -48,9 +49,6 @@ public class DockerCouchbaseEnvironmentBuilderIntegrationTest {
     @Before
     public void setUp() throws DockerCertificateException {
 
-        String[] hosts = {TEST_HOST};
-        when(mockLocalCouchbaseEnvironmentBuilder.getHosts()).thenReturn(hosts);
-
         docker = DefaultDockerClient.fromEnv().build();
 
         testee = new DockerCouchbaseEnvironmentBuilder(mockLocalCouchbaseEnvironmentBuilder);
@@ -63,6 +61,11 @@ public class DockerCouchbaseEnvironmentBuilderIntegrationTest {
 
         // Make sure no Docker containers left lying around
         testee.tearDown(buildDefinitions);
+
+        reset(mockLocalCouchbaseEnvironmentBuilder);
+
+        String[] hosts = {TEST_HOST};
+        when(mockLocalCouchbaseEnvironmentBuilder.getHosts()).thenReturn(hosts);
     }
 
     @Test
@@ -73,10 +76,10 @@ public class DockerCouchbaseEnvironmentBuilderIntegrationTest {
     }
 
     @Test
-    public void shouldNotDelegateToLocalCouchbaseEnvironmentBuilderTearDown() {
+    public void shouldCallToLocalCouchbaseEnvironmentBuilderTearDown() {
         testee.tearDown(buildDefinitions);
 
-        verify(mockLocalCouchbaseEnvironmentBuilder, never()).tearDown(buildDefinitions);
+        verify(mockLocalCouchbaseEnvironmentBuilder).tearDown(buildDefinitions);
     }
 
     @Test
@@ -84,6 +87,10 @@ public class DockerCouchbaseEnvironmentBuilderIntegrationTest {
         testee.setUp(buildDefinitions);
 
         assertThat("Container found", testee.findRunningContainer(DockerCouchbaseEnvironmentBuilder.CONTAINER_NAME).isPresent(), is(true));
+        assertThat("Port 8091 available", TEST_HOST, hasPortAvailable(8091));
+        assertThat("Port 8092 available", TEST_HOST, hasPortAvailable(8092));
+        assertThat("Port 8093 available", TEST_HOST, hasPortAvailable(8093));
+        assertThat("Port 8094 available", TEST_HOST, hasPortAvailable(8094));
     }
 
     @Test
@@ -110,7 +117,6 @@ public class DockerCouchbaseEnvironmentBuilderIntegrationTest {
         testee.setUp(buildDefinitions);
 
         assertThat("Container found", testee.findRunningContainer(DockerCouchbaseEnvironmentBuilder.CONTAINER_NAME).isPresent(), is(true));
-
     }
 
     private void removeExistingImage() throws DockerException, InterruptedException {

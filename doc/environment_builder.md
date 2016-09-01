@@ -73,10 +73,7 @@ public class ExampleEnvironmentBuilderConfiguration {
         CouchbaseBuildDefinition buildDefinition = new CouchbaseBuildDefinition(DESCRIPTION, BUCKET_NAME, DOCUMENT_PACKAGE, DOCUMENT_CLASS_NAME);
         buildDefinition.setBucketPassword(BUCKET_PASSWORD);
 
-        buildDefinition.addView(SpatialView.create(
-                "by_location"
-                , "function (doc, meta) { if (doc.type == 'org.example.movie.repository.domain.MovieDocument') { emit([doc.geo.longitude, doc.geo.latitude], null); } }")
-        );
+        buildDefinition.addSpatialView("spatial", "views/spatial.js");
 
         return buildDefinition;
     }

@@ -68,6 +68,8 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
     public void tearDown(Set<CouchbaseBuildDefinition> buildDefinitions) {
         LOG.info("Tearing down Couchbase Docker container '{}'", CONTAINER_NAME);
 
+        localCouchbaseEnvironmentBuilder.tearDown(buildDefinitions);
+
         DockerClient docker = connectToDocker();
 
         Optional<Container> existingContainer = findExistingContainer(docker, CONTAINER_NAME);
@@ -168,14 +170,14 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
     }
 
     private boolean portInUse(String host, int port) {
-        LOG.debug("Check whether {}:{} is in use", host, port);
+        LOG.debug("Check whether {}:{} is ready", host, port);
         Socket s = null;
         try {
             s = new Socket(host, port);
-            LOG.debug("{}:{} is in use", host, port);
+            LOG.debug("{}:{} is ready", host, port);
             return true;
         } catch (IOException e) {
-            LOG.debug("{}:{} is not in use", host, port);
+            LOG.debug("{}:{} is not ready", host, port);
             throw new EnvironmentBuilderException("Couchbase container has failed to start", e);
         } finally {
             IOUtils.closeQuietly(s);
@@ -323,10 +325,11 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
             if (state.exitCode() == 0) {
                 LOG.debug("Couchbase cluster created");
             } else {
-                LOG.debug("Unable to create Couchbase cluster:\n{}", log);
+                LOG.warn("Unable to create Couchbase cluster:\n{}", log);
                 throw new EnvironmentBuilderException("Unable to create Couchbase cluster");
             }
         } catch (DockerException | InterruptedException e) {
+            LOG.warn("Unable to create Couchbase cluster: {}", e.getMessage());
             throw new EnvironmentBuilderException("Unable to create Couchbase cluster", e);
         }
     }
@@ -361,11 +364,12 @@ public class DockerCouchbaseEnvironmentBuilder implements EnvironmentBuilder<Cou
             if (state.exitCode() == 0) {
                 LOG.debug("Couchbase cluster initialised");
             } else {
-                LOG.error("Unable to initialise Couchbase cluster:\n{}", log);
+                LOG.warn("Unable to initialise Couchbase cluster:\n{}", log);
                 throw new EnvironmentBuilderException("Unable to initialise Couchbase cluster");
             }
 
         } catch (DockerException | InterruptedException e) {
+            LOG.warn("Unable to initialise Couchbase cluster: {}", e.getMessage());
             throw new EnvironmentBuilderException("Unable to initialise Couchbase cluster", e);
         }
     }

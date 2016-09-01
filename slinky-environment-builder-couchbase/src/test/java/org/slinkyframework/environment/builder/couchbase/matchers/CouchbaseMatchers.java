@@ -12,7 +12,11 @@ public class CouchbaseMatchers {
         return new BucketIsAccessibleMatcher(buildDefinition);
     }
 
-    public static HasViewMatcher hasView(CouchbaseBuildDefinition buildDefinition, String viewName) {
-        return new HasViewMatcher(buildDefinition, viewName);
+    public static HasViewMatcher hasView(CouchbaseBuildDefinition buildDefinition, String designDocumentName, String viewName) {
+        return new HasViewMatcher(buildDefinition, designDocumentName, viewName);
+    }
+
+    public static HasPortAvailableMatcher hasPortAvailable(int port) {
+        return new HasPortAvailableMatcher(port);
     }
 }
