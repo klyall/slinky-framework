@@ -36,6 +36,10 @@
             <plugin>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-environment-builder-maven-plugin</artifactId>
+                <configuration>
+                    <skipSetUp>${skipTests}</skipSetUp>
+                    <skipTearDown>${skipTests}</skipTearDown>
+                </configuration>
                 <executions>
                     <execution>
                         <id>env.setup</id>
