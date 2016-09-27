@@ -111,6 +111,7 @@
 
         <jacoco.unit.file>${basedir}/target/jacoco-unit.exec</jacoco.unit.file>
         <jacoco.it.file>${basedir}/target/jacoco-it.exec</jacoco.it.file>
+        <jgitflow-maven-plugin.version>1.0-m5.1</jgitflow-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -480,6 +481,24 @@
                         </execution>
                     </executions>
                 </plugin>
+                <plugin>
+                    <groupId>external.atlassian.jgitflow</groupId>
+                    <artifactId>jgitflow-maven-plugin</artifactId>
+                    <version>${jgitflow-maven-plugin.version}</version>
+                    <configuration>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                        <enableSshAgent>true</enableSshAgent>
+                        <noDeploy>true</noDeploy>
+                        <pullDevelop>true</pullDevelop>
+                        <pullMaster>true</pullMaster>
+                        <pushFeatures>true</pushFeatures>
+                        <pushHotfixes>true</pushHotfixes>
+                        <pushReleases>true</pushReleases>
+                        <flowInitContext>
+                            <versionTagPrefix>${project.artifactId}-</versionTagPrefix>
+                        </flowInitContext>
+                    </configuration>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -569,6 +588,10 @@
                     <releaseProfiles>oss-release</releaseProfiles>
                     <goals>deploy</goals>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>external.atlassian.jgitflow</groupId>
+                <artifactId>jgitflow-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
