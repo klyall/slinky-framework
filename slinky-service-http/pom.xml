@@ -10,6 +10,10 @@
 
     <artifactId>slinky-service-http</artifactId>
 
+    <properties>
+        <logstash-logback-encoder.version>4.7</logstash-logback-encoder.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.slinkyframework</groupId>
@@ -36,6 +40,11 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jdk8</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>${logstash-logback-encoder.version}</version>
         </dependency>
         <!--<dependency>-->
             <!--<groupId>com.jayway.restassured</groupId>-->
