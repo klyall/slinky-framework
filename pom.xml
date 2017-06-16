@@ -68,6 +68,7 @@
         <module>slinky-environment-builder</module>
         <module>slinky-environment-builder-couchbase</module>
         <module>slinky-environment-builder-maven-plugin</module>
+        <module>slinky-environment-config-maven-plugin</module>
         <module>slinky-repository</module>
         <module>slinky-performance-tests-parent</module>
         <module>slinky-repository-couchbase</module>
