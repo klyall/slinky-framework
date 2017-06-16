@@ -111,7 +111,7 @@ public class TemplateApplicationConfigFactoryTest {
 
     @Test
     public void shouldOverrideEnvironmentFileWithApplicationEnvironmentFile() throws IOException {
-        assertThat(new File(TARGET_DIR + "/env1/app1/application-environment-template-override.conf"), hasProperty("source", equalTo("application-environment")));
+        assertThat(new File(TARGET_DIR + "/env1/app1/application-environment-template-override.conf"), hasProperty("source", equalTo("app-env")));
         assertThat(new File(TARGET_DIR + "/env1/app2/application-environment-template-override.conf"), hasProperty("source", equalTo("environment")));
         assertThat(new File(TARGET_DIR + "/env2/app1/application-environment-template-override.conf"), hasProperty("source", equalTo("global")));
         assertThat(new File(TARGET_DIR + "/env2/app2/application-environment-template-override.conf"), hasProperty("source", equalTo("global")));

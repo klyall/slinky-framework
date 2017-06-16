@@ -3,30 +3,31 @@ package org.slinkyframework.environment.config.maven.plugin.templates;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
+import com.typesafe.config.Config;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slinkyframework.environment.config.maven.plugin.EnvironmentConfigException;
+import org.slinkyframework.environment.config.maven.plugin.ImmutableConfigMap;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Map;
 
 public class PebbleFileGenerator implements FileGenerator {
 
     private static Logger LOG = LoggerFactory.getLogger(PebbleFileGenerator.class);
 
     private final File targetDir;
-    private Map<String, Object> propertyMap;
+    private Config config;
     private final PebbleEngine pebbleEngine;
 
-    public PebbleFileGenerator(File targetDir, Map<String, Object> propertyMap) {
+    public PebbleFileGenerator(File targetDir, Config config) {
         this.targetDir = targetDir;
-        this.propertyMap = propertyMap;
+        this.config = config;
 
         pebbleEngine = new PebbleEngine.Builder()
                 .strictVariables(true)
@@ -49,7 +50,7 @@ public class PebbleFileGenerator implements FileGenerator {
             File targetFile = new File(targetSubDir, targteFilename);
 
             writer = new FileWriter(targetFile);
-            compiledTemplate.evaluate(writer, propertyMap);
+            compiledTemplate.evaluate(writer, new ImmutableConfigMap(config.root()));
 
         } catch (IOException | PebbleException e) {
             throw new EnvironmentConfigException(String.format("Error processing template %s", templateFile), e);

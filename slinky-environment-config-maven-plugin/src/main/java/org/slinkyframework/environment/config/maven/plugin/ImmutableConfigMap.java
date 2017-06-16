@@ -1,6 +1,7 @@
 package org.slinkyframework.environment.config.maven.plugin;
 
-import com.typesafe.config.Config;
+import com.typesafe.config.ConfigObject;
+import com.typesafe.config.ConfigValue;
 
 import java.util.Collection;
 import java.util.Map;
@@ -8,15 +9,15 @@ import java.util.Set;
 
 public class ImmutableConfigMap implements Map {
 
-    private Config config;
+    private ConfigObject config;
 
-    public ImmutableConfigMap(Config config){
+    public ImmutableConfigMap(ConfigObject config){
         this.config = config;
     }
 
     @Override
     public int size() {
-        return 0;
+        return config.size();
     }
 
     @Override
@@ -26,17 +27,25 @@ public class ImmutableConfigMap implements Map {
 
     @Override
     public boolean containsKey(Object key) {
-        return config.hasPath(key.toString());
+        return config.containsKey(key);
     }
 
     @Override
     public boolean containsValue(Object value) {
-        return false;
+        throw new EnvironmentConfigException("Not supported method");
     }
 
     @Override
     public Object get(Object key) {
-        return config.getObject(key.toString());
+        ConfigValue obj = config.get(key);
+
+        if (obj == null) {
+            return null;
+        } else if (obj instanceof ConfigObject) {
+            return new ImmutableConfigMap((ConfigObject) obj);
+        } else {
+            return obj.unwrapped();
+        }
     }
 
     @Override
@@ -61,16 +70,16 @@ public class ImmutableConfigMap implements Map {
 
     @Override
     public Set keySet() {
-        return null;
+        return config.keySet();
     }
 
     @Override
     public Collection values() {
-        return null;
+        return config.values();
     }
 
     @Override
     public Set<Entry> entrySet() {
-        return null;
+        throw new EnvironmentConfigException("Not supported method");
     }
 }

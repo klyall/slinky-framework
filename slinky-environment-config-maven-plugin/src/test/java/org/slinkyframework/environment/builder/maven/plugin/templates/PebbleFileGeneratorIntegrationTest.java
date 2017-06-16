@@ -1,12 +1,13 @@
 package org.slinkyframework.environment.builder.maven.plugin.templates;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import com.typesafe.config.ConfigValueFactory;
 import org.junit.Test;
 import org.slinkyframework.environment.config.maven.plugin.EnvironmentConfigException;
 import org.slinkyframework.environment.config.maven.plugin.templates.PebbleFileGenerator;
 
 import java.io.File;
-import java.util.Map;
-import java.util.TreeMap;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -20,10 +21,9 @@ public class PebbleFileGeneratorIntegrationTest {
         File targetDir = new File("target");
         File templateFile = new File("src/test/resources/file1.txt.tmpl");
 
-        Map<String, Object> model = new TreeMap<>();
-        model.put("message", "success");
+        Config config = ConfigFactory.load().withValue("message", ConfigValueFactory.fromAnyRef("success"));
 
-        PebbleFileGenerator generator = new PebbleFileGenerator(targetDir, model);
+        PebbleFileGenerator generator = new PebbleFileGenerator(targetDir, config);
 
         generator.generateFile(templateFile);
 
@@ -40,10 +40,9 @@ public class PebbleFileGeneratorIntegrationTest {
 
         String message = "still successful";
 
-        Map<String, Object> model = new TreeMap<>();
-        model.put("another.message", message);
+        Config config = ConfigFactory.load().withValue("another.message", ConfigValueFactory.fromAnyRef(message));
 
-        PebbleFileGenerator generator = new PebbleFileGenerator(targetDir, model);
+        PebbleFileGenerator generator = new PebbleFileGenerator(targetDir, config);
 
         generator.generateFile(templateFile);
 
@@ -58,12 +57,9 @@ public class PebbleFileGeneratorIntegrationTest {
         File targetDir = new File("target");
         File templateFile = new File("src/test/resources/file1.txt.tmpl");
 
-        String message = "still successful";
+        Config config = ConfigFactory.load();
 
-        Map<String, Object> model = new TreeMap<>();
-        model.put("missing", message);
-
-        PebbleFileGenerator generator = new PebbleFileGenerator(targetDir, model);
+        PebbleFileGenerator generator = new PebbleFileGenerator(targetDir, config);
 
         generator.generateFile(templateFile);
     }

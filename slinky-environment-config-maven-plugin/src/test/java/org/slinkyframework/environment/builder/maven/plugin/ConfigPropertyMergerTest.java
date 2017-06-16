@@ -1,10 +1,9 @@
 package org.slinkyframework.environment.builder.maven.plugin;
 
+import com.typesafe.config.Config;
 import org.junit.Before;
 import org.junit.Test;
 import org.slinkyframework.environment.config.maven.plugin.ConfigPropertyMerger;
-
-import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -12,8 +11,8 @@ import static org.junit.Assert.assertThat;
 
 public class ConfigPropertyMergerTest {
 
-    private Map<String, Object> app1Env1Config;
-    private Map<String, Object> app2Env1Config;
+    private Config app1Env1Config;
+    private Config app2Env1Config;
 
     @Before
     public void setUp() {
@@ -30,42 +29,42 @@ public class ConfigPropertyMergerTest {
 
     @Test
     public void shouldGetGlobalDefinedProperty() {
-        assertThat("Property", app1Env1Config.get("global.property"), is(equalTo("global")));
+        assertThat("Property", app1Env1Config.getString("global.property"), is(equalTo("global")));
     }
 
     @Test
     public void shouldGetApplicationOnlyProperty() {
-        assertThat("Property", app1Env1Config.get("application.only"), is(equalTo("application")));
+        assertThat("Property", app1Env1Config.getString("application.only"), is(equalTo("application")));
     }
 
     @Test
     public void shouldGetApplicationOverridenProperty() {
-        assertThat("Property", app1Env1Config.get("application.override"), is(equalTo("application")));
+        assertThat("Property", app1Env1Config.getString("application.override"), is(equalTo("application")));
     }
 
     @Test
     public void shouldGetEnvironmentOnlyProperty() {
-        assertThat("Property", app1Env1Config.get("environment.only"), is(equalTo("environment")));
+        assertThat("Property", app1Env1Config.getString("environment.only"), is(equalTo("environment")));
     }
 
     @Test
     public void shouldGetEnvironmentOverridenProperty() {
-        assertThat("Property", app1Env1Config.get("environment.override"), is(equalTo("environment")));
+        assertThat("Property", app1Env1Config.getString("environment.override"), is(equalTo("environment")));
     }
 
     @Test
     public void shouldGetApplicationEnvironmentOnlyProperty() {
-        assertThat("Property", app1Env1Config.get("application.environment.only"), is(equalTo("app-env")));
+        assertThat("Property", app1Env1Config.getString("application.environment.only"), is(equalTo("app-env")));
     }
 
     @Test
     public void shouldGetApplicationEnvironmentOverridenProperty() {
-        assertThat("Property", app1Env1Config.get("application.environment.override"), is(equalTo("app-env")));
+        assertThat("Property", app1Env1Config.getString("application.environment.override"), is(equalTo("app-env")));
     }
 
     @Test
     public void shouldGetPropertyEvenWhenNotAllFilesExists() {
-        assertThat("Property", app2Env1Config.get("application.environment.override"), is(equalTo("global")));
+        assertThat("Property", app2Env1Config.getString("application.environment.override"), is(equalTo("global")));
     }
 }
 

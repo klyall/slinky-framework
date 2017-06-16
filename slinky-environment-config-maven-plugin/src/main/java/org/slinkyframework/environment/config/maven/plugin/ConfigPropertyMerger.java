@@ -2,11 +2,6 @@ package org.slinkyframework.environment.config.maven.plugin;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import com.typesafe.config.ConfigValue;
-
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
 
 public class ConfigPropertyMerger {
 
@@ -24,17 +19,7 @@ public class ConfigPropertyMerger {
                 .withFallback(globalConfig);
     }
 
-    public Map<String, Object> merge() {
-
-        return map(config.entrySet());
-    }
-
-    private Map<String, Object> map(Set<Map.Entry<String, ConfigValue>> entries) {
-        Map<String, Object> props = new TreeMap<>();
-
-        entries.stream()
-                .forEach(s -> props.put(s.getKey(), s.getValue().unwrapped()));
-
-        return props;
+    public Config merge() {
+        return config;
     }
 }

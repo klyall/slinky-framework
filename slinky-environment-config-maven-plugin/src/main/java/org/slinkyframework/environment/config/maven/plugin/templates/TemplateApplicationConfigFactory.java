@@ -1,11 +1,10 @@
 package org.slinkyframework.environment.config.maven.plugin.templates;
 
+import com.typesafe.config.Config;
 import org.slinkyframework.environment.config.maven.plugin.AbstractApplicationConfigFactory;
 import org.slinkyframework.environment.config.maven.plugin.ConfigPropertyMerger;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Map;
 
 public class TemplateApplicationConfigFactory extends AbstractApplicationConfigFactory {
 
@@ -21,9 +20,9 @@ public class TemplateApplicationConfigFactory extends AbstractApplicationConfigF
 
         if (templatesDir.exists()) {
             ConfigPropertyMerger app1Env1factory = new ConfigPropertyMerger(application, environment);
-            Map<String, Object> propertyMap = app1Env1factory.merge();
+            Config config = app1Env1factory.merge();
 
-            FileGenerator fileGenerator = new JtwigFileGenerator(targetDir, propertyMap);
+            FileGenerator fileGenerator = new PebbleFileGenerator(targetDir, config);
 
             TemplateDirectoryWalker directoryWalker = new TemplateDirectoryWalker(fileGenerator);
             directoryWalker.generate(templatesDir);
