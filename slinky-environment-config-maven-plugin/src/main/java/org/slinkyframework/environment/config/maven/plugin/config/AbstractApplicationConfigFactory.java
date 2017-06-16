@@ -1,4 +1,4 @@
-package org.slinkyframework.environment.config.maven.plugin;
+package org.slinkyframework.environment.config.maven.plugin.config;
 
 import java.io.File;
 

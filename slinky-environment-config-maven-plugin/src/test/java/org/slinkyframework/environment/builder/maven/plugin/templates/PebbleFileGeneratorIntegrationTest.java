@@ -4,8 +4,8 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigValueFactory;
 import org.junit.Test;
-import org.slinkyframework.environment.config.maven.plugin.EnvironmentConfigException;
-import org.slinkyframework.environment.config.maven.plugin.templates.PebbleFileGenerator;
+import org.slinkyframework.environment.config.maven.plugin.config.EnvironmentConfigException;
+import org.slinkyframework.environment.config.maven.plugin.config.templates.PebbleFileGenerator;
 
 import java.io.File;
 

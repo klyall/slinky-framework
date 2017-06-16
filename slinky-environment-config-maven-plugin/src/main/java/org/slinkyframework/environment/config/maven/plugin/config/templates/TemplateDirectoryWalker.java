@@ -1,9 +1,9 @@
-package org.slinkyframework.environment.config.maven.plugin.templates;
+package org.slinkyframework.environment.config.maven.plugin.config.templates;
 
 import org.apache.commons.io.DirectoryWalker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slinkyframework.environment.config.maven.plugin.EnvironmentConfigException;
+import org.slinkyframework.environment.config.maven.plugin.config.EnvironmentConfigException;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,7 +1,7 @@
-package org.slinkyframework.environment.config.maven.plugin.files;
+package org.slinkyframework.environment.config.maven.plugin.config.files;
 
-import org.slinkyframework.environment.config.maven.plugin.AbstractApplicationConfigFactory;
-import org.slinkyframework.environment.config.maven.plugin.EnvironmentConfigException;
+import org.slinkyframework.environment.config.maven.plugin.config.AbstractApplicationConfigFactory;
+import org.slinkyframework.environment.config.maven.plugin.config.EnvironmentConfigException;
 
 import java.io.File;
 import java.io.IOException;

@@ -3,8 +3,8 @@ package org.slinkyframework.environment.builder.maven.plugin;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.slinkyframework.environment.config.maven.plugin.ConfigFileFactory;
-import org.slinkyframework.environment.config.maven.plugin.templates.TemplateApplicationConfigFactory;
+import org.slinkyframework.environment.config.maven.plugin.config.ConfigFileFactory;
+import org.slinkyframework.environment.config.maven.plugin.config.templates.TemplateApplicationConfigFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +23,9 @@ public class TemplateApplicationConfigFactoryTest {
 
     @Before
     public void setUp() throws IOException {
-        FileUtils.deleteDirectory(new File(TARGET_DIR));
+        File file = new File(".");
+
+        FileUtils.deleteQuietly(new File(TARGET_DIR));
 
         ConfigFileFactory configFileFactory = new TemplateApplicationConfigFactory(new File(SOURCE_DIR), new File(TARGET_DIR));
         configFileFactory.generateFiles();

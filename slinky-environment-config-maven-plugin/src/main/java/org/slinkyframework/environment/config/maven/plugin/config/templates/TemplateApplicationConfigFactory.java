@@ -1,8 +1,8 @@
-package org.slinkyframework.environment.config.maven.plugin.templates;
+package org.slinkyframework.environment.config.maven.plugin.config.templates;
 
 import com.typesafe.config.Config;
-import org.slinkyframework.environment.config.maven.plugin.AbstractApplicationConfigFactory;
-import org.slinkyframework.environment.config.maven.plugin.ConfigPropertyMerger;
+import org.slinkyframework.environment.config.maven.plugin.config.AbstractApplicationConfigFactory;
+import org.slinkyframework.environment.config.maven.plugin.config.ConfigPropertyMerger;
 
 import java.io.File;
 

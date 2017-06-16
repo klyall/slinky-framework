@@ -3,7 +3,7 @@ package org.slinkyframework.environment.builder.maven.plugin;
 import com.typesafe.config.Config;
 import org.junit.Before;
 import org.junit.Test;
-import org.slinkyframework.environment.config.maven.plugin.ConfigPropertyMerger;
+import org.slinkyframework.environment.config.maven.plugin.config.ConfigPropertyMerger;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
