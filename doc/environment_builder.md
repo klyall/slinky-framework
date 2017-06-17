@@ -140,7 +140,7 @@ The build plugin can be configured by passing in the following parameters:
 For example:
 
 ```
-mvn clean verify -env.docker=true -Denv.host=dev
+mvn clean verify -Denv.docker=true -Denv.host=dev
 ```
 
 > Where Docker is being used, it is assumed that the following environment variables have been defined:
