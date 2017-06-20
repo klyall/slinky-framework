@@ -3,26 +3,20 @@ package org.slinkyframework.environment.builder.maven.plugin;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.slinkyframework.environment.builder.EnvironmentBuilderContext;
 import org.slinkyframework.environment.builder.EnvironmentManager;
 import org.slinkyframework.environment.builder.EnvironmentManagerImpl;
 
 public abstract class AbstractEnvironmentBuilderMojo extends AbstractMojo {
 
-    /**
-     * @parameter expression="${env.host}" default-value="localhost"
-     */
+    @Parameter(property = "env.host", defaultValue = "localhost", readonly = true)
     private String host;
 
-    /**
-     * @parameter expression="${env.docker}" default-value="false"
-     */
+    @Parameter(property = "env.docker", defaultValue = "false", readonly = true)
     private boolean useDocker;
 
-
-    /**
-     * @parameter expression="${env.skipTearDown}" default-value="false"
-     */
+    @Parameter(property = "env.skipTearDown", defaultValue = "false", readonly = true)
     private boolean skipTearDown;
 
     private EnvironmentManager environmentManager;
