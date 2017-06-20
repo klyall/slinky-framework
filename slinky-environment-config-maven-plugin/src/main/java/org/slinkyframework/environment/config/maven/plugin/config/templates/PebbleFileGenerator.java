@@ -41,6 +41,7 @@ public class PebbleFileGenerator implements FileGenerator {
         Writer writer = null;
 
         try {
+
             File targetSubDir = new File(targetDir, subDir);
             FileUtils.forceMkdir(targetSubDir);
 
@@ -48,6 +49,8 @@ public class PebbleFileGenerator implements FileGenerator {
 
             String targteFilename = StringUtils.removeEndIgnoreCase(templateFile.getName(), ".tmpl");
             File targetFile = new File(targetSubDir, targteFilename);
+
+            LOG.debug("Generating config file {}", targetFile);
 
             writer = new FileWriter(targetFile);
             compiledTemplate.evaluate(writer, new ImmutableConfigMap(config.root()));

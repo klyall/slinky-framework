@@ -3,6 +3,10 @@ package org.slinkyframework.environment.config.maven.plugin;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Execute;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.slinkyframework.environment.config.maven.plugin.config.CompositeConfigFileFactory;
 import org.slinkyframework.environment.config.maven.plugin.config.ConfigFileFactory;
 import org.slinkyframework.environment.config.maven.plugin.config.files.FileApplicationConfigFactory;
@@ -10,20 +14,14 @@ import org.slinkyframework.environment.config.maven.plugin.config.templates.Temp
 
 import java.io.File;
 
-/**
- * @goal merge
- * @phase generate-resources
- */
+@Mojo(name = "merge", defaultPhase = LifecyclePhase.GENERATE_RESOURCES)
+@Execute(goal = "merge", phase = LifecyclePhase.GENERATE_RESOURCES)
 public class EnvironmentConfigMergeMojo extends AbstractMojo {
 
-    /**
-     * @parameter expression="${config.sourceDir}" default-value="src/main/resources"
-     */
+    @Parameter(property = "config.sourceDir", defaultValue = "src/main/resources", readonly = true)
     private String sourceDir;
 
-    /**
-     * @parameter expression="${config.targetDir}" default-value="target/generated-config"
-     */
+    @Parameter(property = "config.targetDir", defaultValue = "target/generated-config", readonly = true)
     private String targetDir;
 
     public EnvironmentConfigMergeMojo() {

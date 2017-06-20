@@ -1,4 +1,4 @@
-package org.slinkyframework.environment.builder.maven.plugin;
+package org.slinkyframework.environment.config.maven.plugin.test.config;
 
 import com.typesafe.config.Config;
 import org.junit.Before;

@@ -1,8 +1,14 @@
 package org.slinkyframework.environment.config.maven.plugin.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 
 public abstract class AbstractApplicationConfigFactory implements ConfigFileFactory {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractApplicationConfigFactory.class);
+    private static final File[] NO_FILES = {};
 
     public static final String APPLICATIONS_DIR = "applications";
     public static final String ENVIRONMENTS_DIR = "environments";
@@ -23,6 +29,8 @@ public abstract class AbstractApplicationConfigFactory implements ConfigFileFact
         File[] applications = findApplications(sourceDir);
         File[] environments = findEnvironments(sourceDir);
 
+        LOG.debug("Creating config for applications {} in environments {}", applications, environments);
+
         processGlobalFilesToAll(applications, environments);
         processApplicationFiles(applications, environments);
         processEnvironmentFiles(applications, environments);
@@ -30,6 +38,8 @@ public abstract class AbstractApplicationConfigFactory implements ConfigFileFact
     }
 
     private void processApplicationFiles(File[] applications, File[] environments) {
+        LOG.debug("Processing application config files");
+
         for (File application : applications) {
             for (File environment : environments) {
                 File targetEnvironmentDir = new File(targetDir, environment.getName());
@@ -41,6 +51,8 @@ public abstract class AbstractApplicationConfigFactory implements ConfigFileFact
     }
 
     private void processApplicationEnvironmentFiles(File[] applications, File[] environments) {
+        LOG.debug("Processing application/environment config files");
+
         for (File environment : environments) {
             for (File application : applications) {
 
@@ -55,6 +67,8 @@ public abstract class AbstractApplicationConfigFactory implements ConfigFileFact
     }
 
     private void processEnvironmentFiles(File[] applications, File[] environments) {
+        LOG.debug("Processing environment config files");
+
         for (File environment : environments) {
             for (File application : applications) {
                 File targetEnvironmentDir = new File(targetDir, environment.getName());
@@ -66,6 +80,8 @@ public abstract class AbstractApplicationConfigFactory implements ConfigFileFact
     }
 
     private void processGlobalFilesToAll(File[] applications, File[] environments) {
+        LOG.debug("Processing global config files");
+
         File globalDir = new File(sourceDir, GLOBAL_DIR);
 
         for (File application : applications) {
@@ -88,6 +104,12 @@ public abstract class AbstractApplicationConfigFactory implements ConfigFileFact
 
     private File[] listDirectories(String dir) {
         File directory = new File(sourceDir, dir);
-        return directory.listFiles(File::isDirectory);
+        File[] directories = directory.listFiles(File::isDirectory);
+
+        if (directories == null) {
+            return NO_FILES;
+        } else {
+            return directories;
+        }
     }
 }

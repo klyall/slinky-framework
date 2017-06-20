@@ -1,4 +1,4 @@
-package org.slinkyframework.environment.builder.maven.plugin.matchers;
+package org.slinkyframework.environment.config.maven.plugin.test.matchers;
 
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.Description;

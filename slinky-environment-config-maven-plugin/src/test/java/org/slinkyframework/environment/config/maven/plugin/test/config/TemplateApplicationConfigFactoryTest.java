@@ -1,4 +1,4 @@
-package org.slinkyframework.environment.builder.maven.plugin;
+package org.slinkyframework.environment.config.maven.plugin.test.config;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
@@ -11,9 +11,9 @@ import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.slinkyframework.environment.builder.maven.plugin.matchers.FileDoesNotExistMatcher.fileDoesNotExist;
-import static org.slinkyframework.environment.builder.maven.plugin.matchers.FileExistsMatcher.fileExists;
-import static org.slinkyframework.environment.builder.maven.plugin.matchers.FileHasPropertyMatcher.hasProperty;
+import static org.slinkyframework.environment.config.maven.plugin.test.matchers.FileDoesNotExistMatcher.fileDoesNotExist;
+import static org.slinkyframework.environment.config.maven.plugin.test.matchers.FileExistsMatcher.fileExists;
+import static org.slinkyframework.environment.config.maven.plugin.test.matchers.FileHasPropertyMatcher.hasProperty;
 
 
 public class TemplateApplicationConfigFactoryTest {

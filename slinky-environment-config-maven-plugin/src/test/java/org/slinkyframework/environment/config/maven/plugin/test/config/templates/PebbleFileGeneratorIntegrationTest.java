@@ -1,4 +1,4 @@
-package org.slinkyframework.environment.builder.maven.plugin.templates;
+package org.slinkyframework.environment.config.maven.plugin.test.config.templates;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -11,8 +11,8 @@ import java.io.File;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.slinkyframework.environment.builder.maven.plugin.matchers.FileExistsMatcher.fileExists;
-import static org.slinkyframework.environment.builder.maven.plugin.matchers.FileHasContentMatcher.hasContent;
+import static org.slinkyframework.environment.config.maven.plugin.test.matchers.FileExistsMatcher.fileExists;
+import static org.slinkyframework.environment.config.maven.plugin.test.matchers.FileHasContentMatcher.hasContent;
 
 public class PebbleFileGeneratorIntegrationTest {
 
