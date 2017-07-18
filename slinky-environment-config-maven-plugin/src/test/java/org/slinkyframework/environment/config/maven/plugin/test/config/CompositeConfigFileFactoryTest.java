@@ -14,21 +14,21 @@ import static org.slinkyframework.environment.config.maven.plugin.test.matchers.
 
 public class CompositeConfigFileFactoryTest {
 
-    public static final String TARGET_DIR = "target/generated-config/";
-    public static final String SOURCE_DIR = "src/test/resources";
+    public static final File TARGET_DIR = new File("target/generated-config/");
+    public static final File SOURCE_DIR = new File("src/test/resources");
 
     @Test
     public void shouldOverwriteCopiedFileWithAGeneratedTemplate() {
 
-        ConfigFileFactory fileConfigFileFactory = new FileApplicationConfigFactory(new File(SOURCE_DIR), new File(TARGET_DIR));
-        ConfigFileFactory templateConfigFileFactory = new TemplateApplicationConfigFactory(new File(SOURCE_DIR), new File(TARGET_DIR));
+        ConfigFileFactory fileConfigFileFactory = new FileApplicationConfigFactory(SOURCE_DIR, TARGET_DIR);
+        ConfigFileFactory templateConfigFileFactory = new TemplateApplicationConfigFactory(SOURCE_DIR, TARGET_DIR);
         ConfigFileFactory configFileFactory = new CompositeConfigFileFactory(fileConfigFileFactory, templateConfigFileFactory);
 
         configFileFactory.generateFiles();
 
-        assertThat(new File(TARGET_DIR + "/env1/app1/global-template-override.conf"), hasProperty("type", equalTo("generated")));
-        assertThat(new File(TARGET_DIR + "/env1/app2/global-template-override.conf"), hasProperty("type", equalTo("generated")));
-        assertThat(new File(TARGET_DIR + "/env2/app1/global-template-override.conf"), hasProperty("type", equalTo("generated")));
-        assertThat(new File(TARGET_DIR + "/env2/app2/global-template-override.conf"), hasProperty("type", equalTo("generated")));
+        assertThat(new File(TARGET_DIR, "env1/app1/global-template-override.conf"), hasProperty("type", equalTo("generated")));
+        assertThat(new File(TARGET_DIR, "env1/app2/global-template-override.conf"), hasProperty("type", equalTo("generated")));
+        assertThat(new File(TARGET_DIR, "env2/app1/global-template-override.conf"), hasProperty("type", equalTo("generated")));
+        assertThat(new File(TARGET_DIR, "env2/app2/global-template-override.conf"), hasProperty("type", equalTo("generated")));
     }
 }

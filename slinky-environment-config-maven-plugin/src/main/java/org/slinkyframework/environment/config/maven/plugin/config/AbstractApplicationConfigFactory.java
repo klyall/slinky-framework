@@ -14,20 +14,24 @@ public abstract class AbstractApplicationConfigFactory implements ConfigFileFact
     public static final String ENVIRONMENTS_DIR = "environments";
     public static final String GLOBAL_DIR = "global";
 
-    protected File sourceDir;
+    protected File baseDir;
     protected File targetDir;
 
-    public AbstractApplicationConfigFactory(File sourceDir, File targetDir) {
-        this.sourceDir = sourceDir;
+    public AbstractApplicationConfigFactory(File baseDir, File targetDir) {
+        this.baseDir = baseDir;
         this.targetDir = targetDir;
+    }
+
+    public File getBaseDir() {
+        return baseDir;
     }
 
     protected abstract void processDirectory(String application, String environment, File sourceDir, File targetDir);
 
     @Override
     public void generateFiles() {
-        File[] applications = findApplications(sourceDir);
-        File[] environments = findEnvironments(sourceDir);
+        File[] applications = findApplications(baseDir);
+        File[] environments = findEnvironments(baseDir);
 
         LOG.debug("Creating config for applications {} in environments {}", applications, environments);
 
@@ -82,7 +86,7 @@ public abstract class AbstractApplicationConfigFactory implements ConfigFileFact
     private void processGlobalFilesToAll(File[] applications, File[] environments) {
         LOG.debug("Processing global config files");
 
-        File globalDir = new File(sourceDir, GLOBAL_DIR);
+        File globalDir = new File(baseDir, GLOBAL_DIR);
 
         for (File application : applications) {
             for (File environment : environments) {
@@ -103,7 +107,7 @@ public abstract class AbstractApplicationConfigFactory implements ConfigFileFact
     }
 
     private File[] listDirectories(String dir) {
-        File directory = new File(sourceDir, dir);
+        File directory = new File(baseDir, dir);
         File[] directories = directory.listFiles(File::isDirectory);
 
         if (directories == null) {

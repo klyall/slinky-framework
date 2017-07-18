@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slinkyframework.environment.config.maven.plugin.config.ConfigPropertyMerger;
 
+import java.io.File;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -20,8 +22,9 @@ public class ConfigPropertyMergerTest {
         String app2 = "app2";
         String environment = "env1";
 
-        ConfigPropertyMerger app1Env1factory = new ConfigPropertyMerger(app1, environment);
-        ConfigPropertyMerger app2Env1factory = new ConfigPropertyMerger(app2, environment);
+        File baseDir = new File("src/test/resources");
+        ConfigPropertyMerger app1Env1factory = new ConfigPropertyMerger(baseDir, app1, environment);
+        ConfigPropertyMerger app2Env1factory = new ConfigPropertyMerger(baseDir, app2, environment);
 
         app1Env1Config = app1Env1factory.merge();
         app2Env1Config = app2Env1factory.merge();

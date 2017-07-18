@@ -19,7 +19,7 @@ public class TemplateApplicationConfigFactory extends AbstractApplicationConfigF
         File templatesDir = new File(sourceDir, TEMPLATES_DIR);
 
         if (templatesDir.exists()) {
-            ConfigPropertyMerger app1Env1factory = new ConfigPropertyMerger(application, environment);
+            ConfigPropertyMerger app1Env1factory = new ConfigPropertyMerger(getBaseDir(), application, environment);
             Config config = app1Env1factory.merge();
 
             FileGenerator fileGenerator = new PebbleFileGenerator(targetDir, config);
