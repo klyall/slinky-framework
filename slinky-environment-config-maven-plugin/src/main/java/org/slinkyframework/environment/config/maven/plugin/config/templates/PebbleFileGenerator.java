@@ -1,8 +1,8 @@
 package org.slinkyframework.environment.config.maven.plugin.config.templates;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
+import com.mitchellbosecke.pebble.error.AttributeNotFoundException;
 import com.mitchellbosecke.pebble.error.PebbleException;
-import com.mitchellbosecke.pebble.error.RootAttributeNotFoundException;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import com.typesafe.config.Config;
 import org.apache.commons.io.FileUtils;
@@ -21,8 +21,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 import static java.lang.String.format;
-import static org.apache.commons.lang3.StringUtils.stripEnd;
-import static org.apache.commons.lang3.StringUtils.stripStart;
+import static org.apache.commons.lang3.StringUtils.substringBetween;
 
 public class PebbleFileGenerator implements FileGenerator {
 
@@ -61,13 +60,13 @@ public class PebbleFileGenerator implements FileGenerator {
             writer = new FileWriter(targetFile);
             compiledTemplate.evaluate(writer, new ImmutableConfigMap(config.root()));
 
-        } catch (RootAttributeNotFoundException e) {
+        } catch (AttributeNotFoundException e) {
             try {
                 List<String> lines = FileUtils.readLines(templateFile, Charset.defaultCharset());
                 String lineInError = lines.get(e.getLineNumber() - 1);
-                String missingVariable = stripStart(stripEnd(lineInError, "}}"), "{{").trim();
+                String missingVariable = substringBetween(lineInError, "{{", "}}").trim();
 
-                throw new EnvironmentConfigException(format("The property '%s' is missing from the configuration files", missingVariable));
+                throw new EnvironmentConfigException(format("The property '%s' in template %s is missing from the configuration files", missingVariable, templateFile));
             } catch (IOException e1) {
                 throw new EnvironmentConfigException("Error reading template line", e1);
             }
