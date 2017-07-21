@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
-public class ConfigDirectoryWalkerIntegrationTest {
+public class ConfigDirectoryWalkerIntegrationIntegrationTest {
 
     @Test
     public void shouldFindPropertyFiles() {

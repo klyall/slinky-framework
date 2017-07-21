@@ -15,7 +15,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.slinkyframework.environment.config.maven.plugin.test.matchers.FileHasPropertyMatcher.hasProperty;
 
-public class CompositeConfigFileFactoryTest {
+public class CompositeConfigFileFactoryIntegrationTest {
 
     public static final File TARGET_DIR = new File("target/generated-config/");
     public static final File SOURCE_DIR = new File("src/test/resources");

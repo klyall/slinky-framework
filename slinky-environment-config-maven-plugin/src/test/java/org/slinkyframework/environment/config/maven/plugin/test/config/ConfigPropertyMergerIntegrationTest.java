@@ -11,7 +11,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ConfigPropertyMergerTest {
+public class ConfigPropertyMergerIntegrationTest {
 
     private Properties app1Env1Properties;
     private Properties app2Env1Properties;

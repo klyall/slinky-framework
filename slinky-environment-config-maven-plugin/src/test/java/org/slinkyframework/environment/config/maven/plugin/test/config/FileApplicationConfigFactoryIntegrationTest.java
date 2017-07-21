@@ -16,7 +16,7 @@ import static org.slinkyframework.environment.config.maven.plugin.test.matchers.
 import static org.slinkyframework.environment.config.maven.plugin.test.matchers.FileHasPropertyMatcher.hasProperty;
 
 
-public class FileApplicationConfigFactoryTest {
+public class FileApplicationConfigFactoryIntegrationTest {
 
     public static final String TARGET_DIR = "target/generated-config/";
     public static final String SOURCE_DIR = "src/test/resources";
