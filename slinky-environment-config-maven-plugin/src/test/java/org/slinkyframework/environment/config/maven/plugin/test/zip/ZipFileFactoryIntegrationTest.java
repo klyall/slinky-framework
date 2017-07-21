@@ -24,4 +24,14 @@ public class ZipFileFactoryIntegrationTest {
         assertThat(new File(TARGET_DIR + "/env2/app1-1.0.0.zip"), fileExists());
         assertThat(new File(TARGET_DIR + "/env2/app2-1.0.0.zip"), fileExists());
     }
+
+    @Test
+    public void shouldNotThrowExceptionWhenNothingToZip() {
+
+        File targetDir = new File("does/not/exist");
+
+        ZipFileFactory zipFileFactory = new ZipFileFactory(targetDir, VERSION);
+        zipFileFactory.createZipFiles();
+
+    }
 }

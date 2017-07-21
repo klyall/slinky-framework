@@ -21,8 +21,10 @@ public class ZipFileFactory {
     public void createZipFiles() {
         File[] environmentDirs = targetDir.listFiles(File::isDirectory);
 
-        for (File environmentDir: environmentDirs) {
-            processEnvironment(environmentDir);
+        if (environmentDirs != null) {
+            for (File environmentDir: environmentDirs) {
+                processEnvironment(environmentDir);
+            }
         }
     }
 
