@@ -1,7 +1,5 @@
 package org.slinkyframework.environment.config.maven.plugin.config;
 
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,11 +27,6 @@ public class ConfigPropertyMerger {
         if (LOG.isDebugEnabled()) {
             logLoadingOfConfigFiles(globalFile, applicationFile, environmentFile, appEnvFile);
         }
-
-        Config globalConfig         = ConfigFactory.parseFile(globalFile);
-        Config applicationConfig    = ConfigFactory.parseFile(applicationFile);
-        Config environmentConfig    = ConfigFactory.parseFile(environmentFile);
-        Config appEnvConfig         = ConfigFactory.parseFile(appEnvFile);
 
         loadProperties(properties, globalFile);
         loadProperties(properties, applicationFile);
