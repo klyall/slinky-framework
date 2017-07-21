@@ -1,5 +1,6 @@
 package org.slinkyframework.environment.config.maven.plugin.test.config;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.slinkyframework.environment.config.maven.plugin.config.CompositeConfigFileFactory;
 import org.slinkyframework.environment.config.maven.plugin.config.ConfigFileFactory;
@@ -7,6 +8,8 @@ import org.slinkyframework.environment.config.maven.plugin.config.files.FileAppl
 import org.slinkyframework.environment.config.maven.plugin.config.templates.TemplateApplicationConfigFactory;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.LinkedHashSet;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -17,11 +20,18 @@ public class CompositeConfigFileFactoryTest {
     public static final File TARGET_DIR = new File("target/generated-config/");
     public static final File SOURCE_DIR = new File("src/test/resources");
 
+    private LinkedHashSet<String> delimiters = new LinkedHashSet<>();
+
+    @Before
+    public void setUp() throws IOException {
+        delimiters.add("{{*}}");
+    }
+
     @Test
     public void shouldOverwriteCopiedFileWithAGeneratedTemplate() {
 
         ConfigFileFactory fileConfigFileFactory = new FileApplicationConfigFactory(SOURCE_DIR, TARGET_DIR);
-        ConfigFileFactory templateConfigFileFactory = new TemplateApplicationConfigFactory(SOURCE_DIR, TARGET_DIR);
+        ConfigFileFactory templateConfigFileFactory = new TemplateApplicationConfigFactory(SOURCE_DIR, TARGET_DIR, delimiters);
         ConfigFileFactory configFileFactory = new CompositeConfigFileFactory(fileConfigFileFactory, templateConfigFileFactory);
 
         configFileFactory.generateFiles();

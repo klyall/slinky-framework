@@ -1,17 +1,26 @@
 package org.slinkyframework.environment.config.maven.plugin.config.templates;
 
-import com.typesafe.config.Config;
 import org.slinkyframework.environment.config.maven.plugin.config.AbstractApplicationConfigFactory;
 import org.slinkyframework.environment.config.maven.plugin.config.ConfigPropertyMerger;
 
 import java.io.File;
+import java.util.LinkedHashSet;
+import java.util.Properties;
 
 public class TemplateApplicationConfigFactory extends AbstractApplicationConfigFactory {
 
     public static final String TEMPLATES_DIR = "templates";
+    private LinkedHashSet<String> delimiters;
 
-    public TemplateApplicationConfigFactory(File sourceDir, File targetDir) {
+    private boolean failOnMissingProperty = false;
+
+    public TemplateApplicationConfigFactory(File sourceDir, File targetDir, LinkedHashSet<String> delimiters) {
         super(sourceDir, targetDir);
+        this.delimiters = delimiters;
+    }
+
+    public void setFailOnMissingProperty(boolean failOnMissingProperty) {
+        this.failOnMissingProperty = failOnMissingProperty;
     }
 
     @Override
@@ -20,9 +29,10 @@ public class TemplateApplicationConfigFactory extends AbstractApplicationConfigF
 
         if (templatesDir.exists()) {
             ConfigPropertyMerger app1Env1factory = new ConfigPropertyMerger(getBaseDir(), application, environment);
-            Config config = app1Env1factory.merge();
+            Properties properties = app1Env1factory.getProperties();
 
-            FileGenerator fileGenerator = new PebbleFileGenerator(targetDir, config);
+            FilterFileGenerator fileGenerator = new FilterFileGenerator(targetDir, properties, delimiters);
+            fileGenerator.setFailOnMissingProperty(failOnMissingProperty);
 
             TemplateDirectoryWalker directoryWalker = new TemplateDirectoryWalker(fileGenerator);
             directoryWalker.generate(templatesDir);

@@ -1,4 +1,4 @@
-package org.slinkyframework.environment.config.maven.plugin.test.config;
+package org.slinkyframework.environment.config.maven.plugin.test.install;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
@@ -8,6 +8,7 @@ import org.slinkyframework.environment.config.maven.plugin.config.templates.Temp
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedHashSet;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -21,13 +22,17 @@ public class TemplateApplicationConfigFactoryTest {
     public static final String TARGET_DIR = "target/generated-config/";
     public static final String SOURCE_DIR = "src/test/resources";
 
+    private LinkedHashSet<String> delimiters = new LinkedHashSet<>();
+
     @Before
     public void setUp() throws IOException {
+        delimiters.add("{{*}}");
+
         File file = new File(".");
 
         FileUtils.deleteQuietly(new File(TARGET_DIR));
 
-        ConfigFileFactory configFileFactory = new TemplateApplicationConfigFactory(new File(SOURCE_DIR), new File(TARGET_DIR));
+        ConfigFileFactory configFileFactory = new TemplateApplicationConfigFactory(new File(SOURCE_DIR), new File(TARGET_DIR), delimiters);
         configFileFactory.generateFiles();
     }
 

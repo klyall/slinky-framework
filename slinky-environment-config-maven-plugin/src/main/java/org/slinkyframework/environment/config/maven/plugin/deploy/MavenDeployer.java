@@ -1,7 +1,5 @@
 package org.slinkyframework.environment.config.maven.plugin.deploy;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slinkyframework.environment.config.maven.plugin.AbstractMavenGoal;
 
 import java.io.File;
@@ -9,7 +7,6 @@ import java.util.Properties;
 
 public class MavenDeployer extends AbstractMavenGoal {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MavenDeployer.class);
     private static final String MAVEN_GOAL = "deploy:deploy-file";
     private static final String PROPERTY_URL = "url";
 

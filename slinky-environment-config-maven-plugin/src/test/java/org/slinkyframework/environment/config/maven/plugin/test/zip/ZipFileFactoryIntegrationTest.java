@@ -8,7 +8,7 @@ import java.io.File;
 import static org.junit.Assert.assertThat;
 import static org.slinkyframework.environment.config.maven.plugin.test.matchers.FileExistsMatcher.fileExists;
 
-public class ZipFileFactoryTest {
+public class ZipFileFactoryIntegrationTest {
 
     public static final File TARGET_DIR = new File("target/generated-config");
     private static final String VERSION = "1.0.0";

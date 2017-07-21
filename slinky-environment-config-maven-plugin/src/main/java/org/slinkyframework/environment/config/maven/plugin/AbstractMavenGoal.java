@@ -6,8 +6,6 @@ import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.InvocationResult;
 import org.apache.maven.shared.invoker.Invoker;
 import org.apache.maven.shared.invoker.MavenInvocationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slinkyframework.environment.config.maven.plugin.config.EnvironmentConfigException;
 
 import java.io.File;
@@ -15,8 +13,6 @@ import java.util.Collections;
 import java.util.Properties;
 
 public abstract class AbstractMavenGoal {
-
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractMavenGoal.class);
 
     private File projectDir;
     private String version;
@@ -40,8 +36,10 @@ public abstract class AbstractMavenGoal {
     public void processEnvironments() {
         File[] environmentDirs = targetDir.listFiles(File::isDirectory);
 
-        for (File environmentDir: environmentDirs) {
-            processEnvironment(environmentDir);
+        if (environmentDirs != null) {
+            for (File environmentDir: environmentDirs) {
+                processEnvironment(environmentDir);
+            }
         }
     }
 

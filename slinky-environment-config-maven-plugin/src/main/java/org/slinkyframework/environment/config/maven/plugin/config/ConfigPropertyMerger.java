@@ -6,14 +6,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
 
 import static java.lang.String.format;
+import static org.apache.commons.io.IOUtils.closeQuietly;
 
 public class ConfigPropertyMerger {
 
     private static final Logger LOG = LoggerFactory.getLogger(ConfigPropertyMerger.class);
 
-    private Config config;
+    Properties properties = new Properties();
 
     public ConfigPropertyMerger(File sourceDir, String application, String environment) {
 
@@ -31,14 +35,31 @@ public class ConfigPropertyMerger {
         Config environmentConfig    = ConfigFactory.parseFile(environmentFile);
         Config appEnvConfig         = ConfigFactory.parseFile(appEnvFile);
 
-        config = appEnvConfig
-                .withFallback(environmentConfig)
-                .withFallback(applicationConfig)
-                .withFallback(globalConfig);
+        loadProperties(properties, globalFile);
+        loadProperties(properties, applicationFile);
+        loadProperties(properties, environmentFile);
+        loadProperties(properties, appEnvFile);
     }
 
-    public Config merge() {
-        return config;
+    private void loadProperties(Properties properties, File file) {
+        FileReader fr = null;
+        try {
+            if (file.exists()) {
+                fr = new FileReader(file);
+                properties.load(fr);
+            } else {
+                LOG.debug("WARNING: Properties file '{}' does not exist and will not be loaded", file.getAbsolutePath());
+            }
+        } catch (IOException e) {
+            throw new EnvironmentConfigException(format("Unable to load properties file %s", file), e);
+        } finally {
+            closeQuietly(fr);
+        }
+
+    }
+
+    public Properties getProperties() {
+        return properties;
     }
 
     private void logLoadingOfConfigFiles(File globalFile, File applicationFile, File environmentFile, File appEnvFile) {
@@ -50,10 +71,5 @@ public class ConfigPropertyMerger {
 
     private void logFile(String configType, File file) {
         LOG.debug("Loading {} config file '{}'", configType, file);
-
-        if (!file.exists()) {
-            LOG.warn("Config file '{}' does not exist and will not be loaded", file.getAbsolutePath());
-        }
-
     }
 }

@@ -13,20 +13,24 @@
     <packaging>maven-plugin</packaging>
 
     <properties>
-        <pebble.version>2.1.0</pebble.version>
+        <plexus-interpolation.version>1.22</plexus-interpolation.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.mitchellbosecke</groupId>
-                <artifactId>pebble</artifactId>
-                <version>${pebble.version}</version>
+                <groupId>org.codehaus.plexus</groupId>
+                <artifactId>plexus-interpolation</artifactId>
+                <version>${plexus-interpolation.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -56,8 +60,8 @@
             <artifactId>maven-project</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.mitchellbosecke</groupId>
-            <artifactId>pebble</artifactId>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-interpolation</artifactId>
         </dependency>
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
