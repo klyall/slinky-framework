@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.slinkyframework</groupId>
         <artifactId>slinky-framework-parent</artifactId>
-        <version>0.3.2</version>
+        <version>0.3.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>slinky-repository-couchbase</artifactId>
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-repository</artifactId>
-            <version>0.3.2</version>
+            <version>0.3.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -58,7 +58,7 @@
                     <dependency>
                         <groupId>org.slinkyframework.examples</groupId>
                         <artifactId>slinky-repository-couchbase-example-setup</artifactId>
-                        <version>0.3.2</version>
+                        <version>0.3.3-SNAPSHOT</version>
                     </dependency>
                 </dependencies>
             </plugin>
