@@ -32,7 +32,7 @@ public class ZipFileFactory {
         File[] applictionDirs = environmentDir.listFiles(File::isDirectory);
 
         for (File applictionDir: applictionDirs) {
-            File zipFile = new File(environmentDir, String.format("%s-%s.zip", applictionDir.getName(), version));
+            File zipFile = new File(environmentDir, String.format("%s-config-%s.zip", applictionDir.getName(), version));
 
             zipDirectory(applictionDir, zipFile);
         }

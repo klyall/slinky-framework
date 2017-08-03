@@ -19,10 +19,10 @@ public class ZipFileFactoryIntegrationTest {
         ZipFileFactory zipFileFactory = new ZipFileFactory(TARGET_DIR, VERSION);
         zipFileFactory.createZipFiles();
 
-        assertThat(new File(TARGET_DIR + "/env1/app1-1.0.0.zip"), fileExists());
-        assertThat(new File(TARGET_DIR + "/env1/app2-1.0.0.zip"), fileExists());
-        assertThat(new File(TARGET_DIR + "/env2/app1-1.0.0.zip"), fileExists());
-        assertThat(new File(TARGET_DIR + "/env2/app2-1.0.0.zip"), fileExists());
+        assertThat(new File(TARGET_DIR + "/env1/app1-config-1.0.0.zip"), fileExists());
+        assertThat(new File(TARGET_DIR + "/env1/app2-config-1.0.0.zip"), fileExists());
+        assertThat(new File(TARGET_DIR + "/env2/app1-config-1.0.0.zip"), fileExists());
+        assertThat(new File(TARGET_DIR + "/env2/app2-config-1.0.0.zip"), fileExists());
     }
 
     @Test
