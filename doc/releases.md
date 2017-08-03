@@ -32,3 +32,6 @@
 
 ### v0.3.1
 - Add Spring profile for JSON formatted logging
+
+### v0.3.2
+- Add Environment Config Maven Plugin
