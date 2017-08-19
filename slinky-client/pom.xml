@@ -6,6 +6,7 @@
         <groupId>org.slinkyframework</groupId>
         <artifactId>slinky-minimal-parent</artifactId>
         <version>0.3.3-SNAPSHOT</version>
+        <relativePath>../slinky-minimal-parent</relativePath>
     </parent>
 
     <artifactId>slinky-client</artifactId>
