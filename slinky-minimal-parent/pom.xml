@@ -4,7 +4,7 @@
 
     <groupId>org.slinkyframework</groupId>
     <artifactId>slinky-minimal-parent</artifactId>
-    <version>0.3.3</version>
+    <version>0.3.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
