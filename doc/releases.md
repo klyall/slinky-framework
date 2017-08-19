@@ -35,3 +35,6 @@
 
 ### v0.3.2
 - Add Environment Config Maven Plugin
+
+### v0.3.3
+- Add @Loggable annotation for logging of method parameters and return values
