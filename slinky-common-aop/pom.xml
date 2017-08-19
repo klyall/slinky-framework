@@ -5,7 +5,7 @@
     <parent>
         <artifactId>slinky-minimal-parent</artifactId>
         <groupId>org.slinkyframework</groupId>
-        <version>0.3.4-SNAPSHOT</version>
+        <version>0.3.3-SNAPSHOT</version>
         <relativePath>../slinky-minimal-parent</relativePath>
     </parent>
 
