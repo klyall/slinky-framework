@@ -7,28 +7,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slinkyframework.common.logging.AbstractLoggingAspect;
 
+import static java.lang.String.format;
+
 @Aspect
 public class SlinkyClientLoggingAspect extends AbstractLoggingAspect {
 
-    public static final String LOG_BEFORE       = "------> {} {} request sent";
-    public static final String LOG_AFTER        = "<------ {} {} response received in [{}] ms.";
-    public static final String LOG_EXCEPTION    = "<------ {} {} exception received in [{}] ms., exception message [{}]";
+    public static final String LOG_BEFORE       = "------> %s %s request sent %s";
+    public static final String LOG_AFTER        = "<------ %s %s response received in [%d] ms. %s";
+    public static final String LOG_EXCEPTION    = "<------ %s %s exception received in [%d] ms., exception message [%s]";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SlinkyClientLoggingAspect.class);
 
     @Override
-    protected String getLogBefore() {
-        return LOG_BEFORE;
+    protected String createLogBeforeMessage() {
+        return format(LOG_BEFORE,  getClassName(), getMethodName(), getLoggableParameters());
     }
 
     @Override
-    protected String getLogAfter() {
-        return LOG_AFTER;
+    protected String createLogAfterMessage() {
+        return format(LOG_AFTER, getClassName(), getMethodName(), getDurationInMs(), getLoggableReturn());
     }
 
     @Override
-    protected String getLogException() {
-        return LOG_EXCEPTION;
+    protected String createLogExceptionMessage() {
+        return format(LOG_EXCEPTION, getClassName(), getMethodName(), getDurationInMs(), getException().getMessage());
     }
 
     @Around("org.slinkyframework.client.SlinkyClientArchitecture.clientOperations()")

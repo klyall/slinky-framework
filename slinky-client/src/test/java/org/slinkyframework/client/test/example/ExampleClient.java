@@ -7,5 +7,7 @@ public interface ExampleClient extends SlinkyClient {
 
     Account retrieveAccountDetails(String accountNumber);
 
+    void updateAccountDetails(Account account);
+
     void deleteAccount(String accountNumber);
 }

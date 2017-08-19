@@ -1,145 +1,47 @@
 package org.slinkyframework.common.aop.test;
 
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.slinkyframework.common.aop.MethodProceedingJoinPoint;
+import org.slinkyframework.common.aop.test.example.ExampleAspect;
+import org.slinkyframework.common.aop.test.example.ExampleClass;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
 public class MethodProceedingJoinPointTest {
 
-    @Mock private ProceedingJoinPoint mockProceedingJoinPoint;
-    private MethodProceedingJoinPoint testee;
+    private ExampleClass exampleClass = new ExampleClass();
 
     @Before
     public void setUp() {
-        testee = new MethodProceedingJoinPoint(mockProceedingJoinPoint);
+        ExampleAspect.cleanState();
     }
 
     @Test
-    public void proceedShouldDelegateToProceedingJoinPoint() throws Throwable {
-        testee.proceed();
+    public void testGetClassName() throws Throwable {
+        exampleClass.doClassName();
 
-        verify(mockProceedingJoinPoint).proceed();
+        assertThat("ClassName", ExampleAspect.getClassName(), is("ExampleClass"));
     }
 
     @Test
-    public void proceedWithArgsShouldDelegateToProceedingJoinPoint() throws Throwable {
-        Object[] arg = new Object[1];
+    public void testGetMethodName() throws Throwable {
+        exampleClass.doMethodName();
 
-        testee.proceed(arg);
-
-        verify(mockProceedingJoinPoint).proceed(arg);
+        assertThat("MethodName", ExampleAspect.getMethodName(), is("doMethodName"));
     }
 
     @Test
-    public void toShortStringShouldDelegateToProceedingJoinPoint() throws Exception {
-        testee.toShortString();
+    public void testGetArgsWithAnnotation() throws Throwable {
+        exampleClass.doMethodWithAnnotatedParameters("Bob", "Smith");
 
-        verify(mockProceedingJoinPoint).toShortString();
+        assertThat("Number of arguments", ExampleAspect.getArguments().size(), is(1));
     }
 
     @Test
-    public void toLongStringShouldDelegateToProceedingJoinPoint() throws Exception {
-        testee.toLongString();
+    public void testGetReturnWithAnnotation() throws Throwable {
+        exampleClass.doMethodWithAnnotatedReturn();
 
-        verify(mockProceedingJoinPoint).toLongString();
-    }
-
-    @Test
-    public void getThisShouldDelegateToProceedingJoinPoint() throws Exception {
-        testee.getThis();
-
-        verify(mockProceedingJoinPoint).getThis();
-    }
-
-    @Test
-    public void getTargetShouldDelegateToProceedingJoinPoint() throws Exception {
-        testee.getTarget();
-
-        verify(mockProceedingJoinPoint).getTarget();
-    }
-
-    @Test
-    public void getArgsShouldDelegateToProceedingJoinPoint() throws Exception {
-        testee.getArgs();
-
-        verify(mockProceedingJoinPoint).getArgs();
-    }
-
-    @Test
-    public void getSignatureShouldDelegateToProceedingJoinPoint() throws Exception {
-        testee.getSignature();
-
-        verify(mockProceedingJoinPoint).getSignature();
-    }
-
-    @Test
-    public void getSourceLocationShouldDelegateToProceedingJoinPoint() throws Exception {
-        testee.getSourceLocation();
-
-        verify(mockProceedingJoinPoint).getSourceLocation();
-    }
-
-    @Test
-    public void getKindShouldDelegateToProceedingJoinPoint() throws Exception {
-        testee.getKind();
-
-        verify(mockProceedingJoinPoint).getKind();
-    }
-
-    @Test
-    public void getStaticPartShouldDelegateToProceedingJoinPoint() throws Exception {
-        testee.getStaticPart();
-
-        verify(mockProceedingJoinPoint).getStaticPart();
-    }
-
-// TODO Struggling to test this as can't mock Class returned by getWithinType
-//    @Test
-//    public void getClassNameShould() throws Exception {
-//        String expectedClassName = "exampleClass";
-//
-////        SourceLocation mockSourceLocation = mock(SourceLocation.class);
-////        Class mockClass = mock(Class.class);
-////
-////        when(mockProceedingJoinPoint.getSourceLocation()).thenReturn(mockSourceLocation);
-////        when(mockSourceLocation.getWithinType()).thenReturn(mockClass);
-////        when(mockClass.getSimpleName()).thenReturn(expectedClassName);
-//
-//        ProceedingJoinPoint deepMockProceedingJoinPoint = mock(ProceedingJoinPoint.class, RETURNS_DEEP_STUBS);
-//        MethodProceedingJoinPoint localTestee = new MethodProceedingJoinPoint(deepMockProceedingJoinPoint);
-//
-//        when(deepMockProceedingJoinPoint.getSourceLocation().getWithinType().getSimpleName()).thenReturn(expectedClassName);
-//
-//        String className = localTestee.getClassName();
-//
-//        assertThat("className", className, is(equalTo(expectedClassName)));
-//    }
-
-    @Test
-    public void getMethodNameShould() throws Exception {
-
-        String expectedMethodName = "doStuff";
-
-        ProceedingJoinPoint deepMockProceedingJoinPoint = mock(ProceedingJoinPoint.class, RETURNS_DEEP_STUBS);
-        MethodProceedingJoinPoint localTestee = new MethodProceedingJoinPoint(deepMockProceedingJoinPoint);
-
-        when(deepMockProceedingJoinPoint.getSignature().getName()).thenReturn(expectedMethodName);
-
-        String actualMethodName = localTestee.getMethodName();
-
-        assertThat("methodName", actualMethodName, is(equalTo(expectedMethodName)));
+        assertThat("Number of arguments", ExampleAspect.getReturnValue().isPresent(), is(true));
     }
 }
