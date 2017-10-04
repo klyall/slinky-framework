@@ -19,7 +19,8 @@ import java.util.Date;
 import java.util.List;
 
 import static java.lang.String.format;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.hamcrest.MockitoHamcrest.argThat;
@@ -36,6 +37,17 @@ public class AbstractLoggingAspectLoggableParametersTest {
     public void setUp() {
         Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
         root.addAppender(mockAppender);
+    }
+
+    @Test
+    public void shouldReturnTheWrpappedClassesReturnValue() {
+        String expectedBeforeMessage = "Before - ClassName: ExampleClass - MethodName: hasAnonymousLoggableParameter - Arguments: ['string', null]";
+        String expectedAfterMessage = "After - ClassName: ExampleClass - MethodName: hasAnonymousLoggableParameter - Response time: \\[\\d+\\] ms \\[\\]";
+
+        ExampleClass exampleClass = new ExampleClass();
+        String returnValue = exampleClass.hasAnonymousLoggableParameter("string", null);
+
+        assertThat("Return value", returnValue, is(equalTo("string")));
     }
 
     @Test

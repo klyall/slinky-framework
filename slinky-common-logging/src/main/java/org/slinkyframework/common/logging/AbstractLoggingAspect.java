@@ -29,13 +29,16 @@ public abstract class AbstractLoggingAspect {
     public Object loggingAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         methodProceedingJoinPoint= new MethodProceedingJoinPoint(proceedingJoinPoint);
 
-        returnValue = null;
+        Object localReturnValue = null;
         long startTime = System.currentTimeMillis();
 
         try {
             LOGGER.info(createLogBeforeMessage());
 
             returnValue = methodProceedingJoinPoint.proceed();
+
+            // Used to prevent losing the value during resetState()
+            localReturnValue = returnValue;
 
             duration = calculateDuration(startTime);
 
@@ -49,7 +52,7 @@ public abstract class AbstractLoggingAspect {
             resetState();
         }
 
-        return returnValue;
+        return localReturnValue;
     }
 
     protected long getDurationInMs() {
