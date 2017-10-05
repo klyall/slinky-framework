@@ -5,6 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slinkyframework.common.aop.MethodProceedingJoinPoint;
 import org.slinkyframework.common.aop.domain.AnnotatedObject;
+import org.slinkyframework.common.logging.domain.LogAfterContext;
+import org.slinkyframework.common.logging.domain.LogBeforeContext;
+import org.slinkyframework.common.logging.domain.LogExceptionContext;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
@@ -17,66 +20,63 @@ public abstract class AbstractLoggingAspect {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractLoggingAspect.class);
 
-    private MethodProceedingJoinPoint methodProceedingJoinPoint;
-    private long duration;
-    private Object returnValue;
-    private Throwable exception;
-
-    protected abstract String createLogBeforeMessage();
-    protected abstract String createLogAfterMessage();
-    protected abstract String createLogExceptionMessage();
+    protected abstract String createLogBeforeMessage(LogBeforeContext context);
+    protected abstract String createLogAfterMessage(LogAfterContext context);
+    protected abstract String createLogExceptionMessage(LogExceptionContext context);
 
     public Object loggingAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        methodProceedingJoinPoint= new MethodProceedingJoinPoint(proceedingJoinPoint);
+        MethodProceedingJoinPoint methodProceedingJoinPoint= new MethodProceedingJoinPoint(proceedingJoinPoint);
 
-        Object localReturnValue = null;
+        Object returnValue = null;
         long startTime = System.currentTimeMillis();
 
         try {
-            LOGGER.info(createLogBeforeMessage());
+            LOGGER.info(createLogBeforeMessage(
+                    createLogBeforeContext(methodProceedingJoinPoint)));
 
             returnValue = methodProceedingJoinPoint.proceed();
 
-            // Used to prevent losing the value during resetState()
-            localReturnValue = returnValue;
+            LOGGER.info(createLogAfterMessage(
+                    createLogAfterContext(
+                            methodProceedingJoinPoint,
+                            calculateDuration(startTime),
+                            returnValue)));
 
-            duration = calculateDuration(startTime);
-
-            LOGGER.info(createLogAfterMessage());
         } catch (Throwable throwable) {
-            duration = calculateDuration(startTime);
-            exception = throwable;
-            LOGGER.info(createLogExceptionMessage(), throwable.getMessage());
+            LOGGER.info(createLogExceptionMessage(
+                    createLogExceptionContext(
+                            methodProceedingJoinPoint,
+                            calculateDuration(startTime),
+                            throwable)));
+
             throw throwable;
-        } finally {
-            resetState();
         }
 
-        return localReturnValue;
+        return returnValue;
     }
 
-    protected long getDurationInMs() {
-        return duration;
+
+    private LogBeforeContext createLogBeforeContext(MethodProceedingJoinPoint methodProceedingJoinPoint) {
+        return new LogBeforeContext(
+                methodProceedingJoinPoint.getClassName(),
+                methodProceedingJoinPoint.getMethodName(),
+                getLoggableParameters(methodProceedingJoinPoint));
     }
 
-    protected Throwable getException() {
-        return exception;
-    }
-
-    protected String getClassName() {
-        return methodProceedingJoinPoint.getClassName();
-    }
-
-    protected String getMethodName() {
-        return methodProceedingJoinPoint.getMethodName();
-    }
-
-    protected String getLoggableParameters() {
-        List<AnnotatedObject> args = retrieveLoggableParameters();
+    private String getLoggableParameters(MethodProceedingJoinPoint methodProceedingJoinPoint) {
+        List<AnnotatedObject> args = methodProceedingJoinPoint.getArgsWithAnnotation(Loggable.class);
         return convertLoggableParametersToString(args);
     }
 
-    protected String getLoggableReturn() {
+    private LogAfterContext createLogAfterContext(MethodProceedingJoinPoint methodProceedingJoinPoint, long duration, Object returnValue) {
+        return new LogAfterContext(
+                methodProceedingJoinPoint.getClassName(),
+                methodProceedingJoinPoint.getMethodName(),
+                duration,
+                getLoggableReturn(methodProceedingJoinPoint, returnValue));
+    }
+
+    private  String getLoggableReturn(MethodProceedingJoinPoint methodProceedingJoinPoint, Object returnValue) {
         Optional<Annotation> annotation = methodProceedingJoinPoint.getReturnAnnotationIfType(Loggable.class);
 
         if (annotation.isPresent()) {
@@ -86,20 +86,18 @@ public abstract class AbstractLoggingAspect {
         }
     }
 
-    private List<AnnotatedObject> retrieveLoggableParameters() {
-        return methodProceedingJoinPoint.getArgsWithAnnotation(Loggable.class);
+    private LogExceptionContext createLogExceptionContext(MethodProceedingJoinPoint methodProceedingJoinPoint, long duration, Throwable throwable) {
+        return new LogExceptionContext(
+            methodProceedingJoinPoint.getClassName(),
+                methodProceedingJoinPoint.getMethodName(),
+                duration,
+                throwable
+        );
     }
 
     private long calculateDuration(long startTime) {
         long endTime = System.currentTimeMillis();
         return endTime - startTime;
-    }
-
-    private void resetState() {
-        duration = 0;
-        exception = null;
-        methodProceedingJoinPoint = null;
-        returnValue = null;
     }
 }
 

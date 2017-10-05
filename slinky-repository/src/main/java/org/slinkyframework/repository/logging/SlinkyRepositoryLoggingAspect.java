@@ -6,6 +6,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slinkyframework.common.logging.AbstractLoggingAspect;
+import org.slinkyframework.common.logging.domain.LogAfterContext;
+import org.slinkyframework.common.logging.domain.LogBeforeContext;
+import org.slinkyframework.common.logging.domain.LogExceptionContext;
 
 import static java.lang.String.format;
 
@@ -19,18 +22,18 @@ public class SlinkyRepositoryLoggingAspect extends AbstractLoggingAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(SlinkyRepositoryLoggingAspect.class);
 
     @Override
-    protected String createLogBeforeMessage() {
-        return format(LOG_BEFORE,  getClassName(), getMethodName(), getLoggableParameters());
+    protected String createLogBeforeMessage(LogBeforeContext context) {
+        return format(LOG_BEFORE, context.getClassName(), context.getMethodName(), context.getLoggableParameters());
     }
 
     @Override
-    protected String createLogAfterMessage() {
-        return format(LOG_AFTER, getClassName(), getMethodName(), getDurationInMs(), getLoggableReturn());
+    protected String createLogAfterMessage(LogAfterContext context) {
+        return format(LOG_AFTER, context.getClassName(), context.getMethodName(), context.getDurationInMs(), context.getLoggableReturn());
     }
 
     @Override
-    protected String createLogExceptionMessage() {
-        return format(LOG_EXCEPTION, getClassName(), getMethodName(), getDurationInMs(), getException().getMessage());
+    protected String createLogExceptionMessage(LogExceptionContext context) {
+        return format(LOG_EXCEPTION, context.getClassName(), context.getMethodName(), context.getDurationInMs(), context.getException().getMessage());
     }
 
     @Around("org.slinkyframework.repository.SlinkyRepositoryArchitecture.repositoryOperations()")

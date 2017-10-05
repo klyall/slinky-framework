@@ -5,6 +5,9 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slinkyframework.common.logging.AbstractLoggingAspect;
+import org.slinkyframework.common.logging.domain.LogAfterContext;
+import org.slinkyframework.common.logging.domain.LogBeforeContext;
+import org.slinkyframework.common.logging.domain.LogExceptionContext;
 
 import static java.lang.String.format;
 
@@ -12,17 +15,17 @@ import static java.lang.String.format;
 public class ExampleLoggingAspect extends AbstractLoggingAspect {
 
     @Override
-    protected String createLogBeforeMessage() {
-        return format("Before - ClassName: %s - MethodName: %s - Arguments: %s", getClassName(), getMethodName(), getLoggableParameters());
+    protected String createLogBeforeMessage(LogBeforeContext context) {
+        return format("Before - ClassName: %s - MethodName: %s - Arguments: %s", context.getClassName(), context.getMethodName(), context.getLoggableParameters());
     }
 
     @Override
-    protected String createLogAfterMessage() {
-        return format("After - ClassName: %s - MethodName: %s - Response time: [%d] ms %s", getClassName(), getMethodName(), getDurationInMs(), getLoggableReturn());
+    protected String createLogAfterMessage(LogAfterContext context) {
+        return format("After - ClassName: %s - MethodName: %s - Response time: [%d] ms %s", context.getClassName(), context.getMethodName(), context.getDurationInMs(), context.getLoggableReturn());
     }
 
     @Override
-    protected String createLogExceptionMessage() {
+    protected String createLogExceptionMessage(LogExceptionContext context) {
         return "Exception";
     }
 
