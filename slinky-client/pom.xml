@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.slinkyframework</groupId>
         <artifactId>slinky-minimal-parent</artifactId>
-        <version>0.3.7</version>
+        <version>0.3.7-SNAPSHOT</version>
         <relativePath>../slinky-minimal-parent</relativePath>
     </parent>
 
@@ -15,12 +15,12 @@
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-common-logging</artifactId>
-            <version>0.3.7</version>
+            <version>0.3.7-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-common-logging</artifactId>
-            <version>0.3.7</version>
+            <version>0.3.7-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
