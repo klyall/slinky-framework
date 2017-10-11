@@ -38,3 +38,12 @@
 
 ### v0.3.3
 - Add @Loggable annotation for logging of method parameters and return values
+
+### v0.3.4
+- Fix: Losing return values from methods wrapped by aspects
+
+### v0.3.5
+- Fix: Multi-threading issue in common logging framework
+
+### v0.3.6
+- No changes. Just trying to get release into Maven Central.
