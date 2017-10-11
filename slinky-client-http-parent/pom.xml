@@ -5,7 +5,7 @@
     <parent>
         <artifactId>slinky-client-parent</artifactId>
         <groupId>org.slinkyframework</groupId>
-        <version>0.3.6-SNAPSHOT</version>
+        <version>0.3.6</version>
         <relativePath>../slinky-client-parent/pom.xml</relativePath>
     </parent>
 
