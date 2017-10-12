@@ -4,11 +4,12 @@
 
     <parent>
         <groupId>org.slinkyframework</groupId>
-        <artifactId>slinky-framework-parent</artifactId>
+        <artifactId>slinky-build-parent</artifactId>
         <version>0.3.8-SNAPSHOT</version>
     </parent>
 
     <artifactId>slinky-all-projects</artifactId>
+
     <packaging>pom</packaging>
 
     <dependencies>
@@ -42,21 +43,21 @@
             <artifactId>slinky-environment-builder</artifactId>
             <version>0.3.8-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>org.slinkyframework</groupId>
-            <artifactId>slinky-environment-builder-couchbase</artifactId>
-            <version>0.3.8-SNAPSHOT</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.slinkyframework</groupId>-->
+            <!--<artifactId>slinky-environment-builder-couchbase</artifactId>-->
+            <!--<version>0.3.8-SNAPSHOT</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-repository</artifactId>
             <version>0.3.8-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>org.slinkyframework</groupId>
-            <artifactId>slinky-repository-couchbase</artifactId>
-            <version>0.3.8-SNAPSHOT</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.slinkyframework</groupId>-->
+            <!--<artifactId>slinky-repository-couchbase</artifactId>-->
+            <!--<version>0.3.8-SNAPSHOT</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-service-http</artifactId>

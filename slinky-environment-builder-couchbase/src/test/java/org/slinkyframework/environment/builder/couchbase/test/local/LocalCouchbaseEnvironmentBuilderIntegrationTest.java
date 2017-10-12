@@ -4,18 +4,13 @@ import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.document.JsonDocument;
 import com.couchbase.client.java.document.json.JsonArray;
 import com.couchbase.client.java.document.json.JsonObject;
-import com.couchbase.client.java.search.SearchQueryResult;
-import com.couchbase.client.java.search.query.MatchQuery;
-import com.couchbase.client.java.search.query.SearchQuery;
+import com.couchbase.client.java.search.SearchQuery;
+import com.couchbase.client.java.search.queries.MatchQuery;
+import com.couchbase.client.java.search.result.SearchQueryResult;
 import com.couchbase.client.java.view.DefaultView;
 import com.couchbase.client.java.view.SpatialViewQuery;
 import com.couchbase.client.java.view.SpatialViewResult;
 import com.couchbase.client.java.view.Stale;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.slinkyframework.environment.builder.EnvironmentBuilder;
 import org.slinkyframework.environment.builder.couchbase.CouchbaseBuildDefinition;
 import org.slinkyframework.environment.builder.couchbase.DocumentDefinition;
@@ -25,14 +20,10 @@ import org.slinkyframework.environment.builder.couchbase.local.LocalCouchbaseEnv
 
 import java.util.TreeSet;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import static org.slinkyframework.environment.builder.couchbase.local.ConnectionManager.openBucket;
-import static org.slinkyframework.environment.builder.couchbase.matchers.CouchbaseMatchers.bucketExists;
-import static org.slinkyframework.environment.builder.couchbase.matchers.CouchbaseMatchers.bucketIsAccessible;
-import static org.slinkyframework.environment.builder.couchbase.matchers.CouchbaseMatchers.hasView;
+import static org.slinkyframework.environment.builder.couchbase.matchers.CouchbaseMatchers.*;
 
 public class LocalCouchbaseEnvironmentBuilderIntegrationTest {
 
@@ -193,7 +184,7 @@ public class LocalCouchbaseEnvironmentBuilderIntegrationTest {
         createLocation(bucket, 2, "House Of Commons", 51.5005008, -0.1247279);
         createLocation(bucket, 3, "London Zoo", 51.5352875, -0.155619);
 
-        SearchQuery ftq = MatchQuery.on(buildDefinition.getFullTextIndexName())
+        SearchQuery ftq = MatchQuery.Builder.on(buildDefinition.getFullTextIndexName())
                 .match("Zoo")
                 .limit(3)
                 .build();

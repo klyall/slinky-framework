@@ -6,16 +6,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.LoggerFactory;
 import org.slinkyframework.client.test.example.ExampleClient;
 import org.slinkyframework.client.test.example.ExampleClientImpl;
 import org.slinkyframework.client.test.example.domain.Account;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 import static org.slinkyframework.common.logging.matchers.LoggingMatchers.hasLogMessage;
 import static org.slinkyframework.common.logging.matchers.LoggingMatchers.matchesPattern;
 

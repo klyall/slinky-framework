@@ -4,7 +4,7 @@
 
     <parent>
         <groupId>org.slinkyframework</groupId>
-        <artifactId>slinky-framework-parent</artifactId>
+        <artifactId>slinky-build-parent</artifactId>
         <version>0.3.8-SNAPSHOT</version>
     </parent>
 
@@ -33,67 +33,67 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.slinkyframework</groupId>
-                <artifactId>slinky-environment-builder-maven-plugin</artifactId>
-                <configuration>
-                    <skipSetUp>${skipTests}</skipSetUp>
-                    <skipTearDown>${skipTests}</skipTearDown>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>env.setup</id>
-                        <goals>
-                            <goal>setup</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>env.teardown</id>
-                        <goals>
-                            <goal>teardown</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.slinkyframework.examples</groupId>
-                        <artifactId>slinky-repository-couchbase-example-setup</artifactId>
-                        <version>0.3.8-SNAPSHOT</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>**/*IntegrationTest.java</exclude>
-                        <exclude>**/TestCollector.java</exclude>
-                    </excludes>
-                    <!--<parallel>methods</parallel>-->
-                    <!--<threadCount>10</threadCount>-->
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>integration-test</id>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <phase>integration-test</phase>
-                        <configuration>
-                            <excludes>
-                                <exclude>none</exclude>
-                            </excludes>
-                            <includes>
-                                <include>**/*IntegrationTest.java</include>
-                            </includes>
-                            <!-- Force the integration tests to be single threaded to avoid a problem with the auto-wiring -->
-                            <!-- of the BranchRepository. It is null when run in parallel when there is more than one test. -->
-                            <parallel>none</parallel>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.slinkyframework</groupId>-->
+                <!--<artifactId>slinky-environment-builder-maven-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<skipSetUp>${skipTests}</skipSetUp>-->
+                    <!--<skipTearDown>${skipTests}</skipTearDown>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>env.setup</id>-->
+                        <!--<goals>-->
+                            <!--<goal>setup</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                    <!--<execution>-->
+                        <!--<id>env.teardown</id>-->
+                        <!--<goals>-->
+                            <!--<goal>teardown</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+                <!--<dependencies>-->
+                    <!--<dependency>-->
+                        <!--<groupId>org.slinkyframework.examples</groupId>-->
+                        <!--<artifactId>slinky-repository-couchbase-example-setup</artifactId>-->
+                        <!--<version>0.3.8-SNAPSHOT</version>-->
+                    <!--</dependency>-->
+                <!--</dependencies>-->
+            <!--</plugin>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-surefire-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<excludes>-->
+                        <!--<exclude>**/*IntegrationTest.java</exclude>-->
+                        <!--<exclude>**/TestCollector.java</exclude>-->
+                    <!--</excludes>-->
+                    <!--&lt;!&ndash;<parallel>methods</parallel>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<threadCount>10</threadCount>&ndash;&gt;-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>integration-test</id>-->
+                        <!--<goals>-->
+                            <!--<goal>test</goal>-->
+                        <!--</goals>-->
+                        <!--<phase>integration-test</phase>-->
+                        <!--<configuration>-->
+                            <!--<excludes>-->
+                                <!--<exclude>none</exclude>-->
+                            <!--</excludes>-->
+                            <!--<includes>-->
+                                <!--<include>**/*IntegrationTest.java</include>-->
+                            <!--</includes>-->
+                            <!--&lt;!&ndash; Force the integration tests to be single threaded to avoid a problem with the auto-wiring &ndash;&gt;-->
+                            <!--&lt;!&ndash; of the BranchRepository. It is null when run in parallel when there is more than one test. &ndash;&gt;-->
+                            <!--<parallel>none</parallel>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 

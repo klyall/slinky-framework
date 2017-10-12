@@ -2,14 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.4.0.RELEASE</version>
+    </parent>
+
     <groupId>org.slinkyframework</groupId>
-    <artifactId>slinky-build-parent</artifactId>
+    <artifactId>slinky-framework-parent</artifactId>
     <version>0.3.8-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
-    <name>slinky-framework</name>
-    <description>Slinky Framework</description>
+    <name>slinky-framework-parent</name>
+    <description>Slinky Framework Parent</description>
     <url>https://github.com/klyall/slinky-framework</url>
 
     <developers>
@@ -50,44 +56,14 @@
         </repository>
     </distributionManagement>
 
-    <modules>
-        <module>slinky-all-projects</module>
-        <module>slinky-application</module>
-        <module>slinky-application-parent</module>
-        <module>slinky-client</module>
-        <module>slinky-client-http</module>
-        <module>slinky-client-http-parent</module>
-        <module>slinky-client-parent</module>
-        <module>slinky-common-aop</module>
-        <module>slinky-common-logging</module>
-        <!--<module>slinky-environment-builder</module>-->
-        <!--<module>slinky-environment-builder-couchbase</module>-->
-        <!--<module>slinky-environment-builder-maven-plugin</module>-->
-        <!--<module>slinky-environment-config-maven-plugin</module>-->
-        <module>slinky-framework-parent</module>
-        <module>slinky-repository</module>
-        <module>slinky-performance-tests-parent</module>
-        <!--<module>slinky-repository-couchbase</module>-->
-        <!--<module>slinky-repository-couchbase-example-setup</module>-->
-        <!--<module>slinky-repository-couchbase-parent</module>-->
-        <module>slinky-service-http</module>
-        <module>slinky-service-http-acceptance-tests-archetype</module>
-        <module>slinky-service-http-acceptance-tests-parent</module>
-        <module>slinky-service-http-parent</module>
-        <module>slinky-service-json-api</module>
-    </modules>
-
     <properties>
         <asm.version>5.0.4</asm.version>
-        <aspectj.version>1.8.10</aspectj.version>
-        <assertj.version>2.6.0</assertj.version>
         <bcpkix-jdk15on.version>1.52</bcpkix-jdk15on.version>
         <checker.version>2.0.1</checker.version>
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <commons-codec.version>1.6</commons-codec.version>
         <commons-io.version>2.5</commons-io.version>
         <docker-client.version>5.0.2</docker-client.version>
-        <hk2.version>2.5.0-b32</hk2.version>
         <jackson.version>2.7.2</jackson.version>
         <java.version>1.8</java.version>
         <jersey.version>2.22.2</jersey.version>
@@ -98,8 +74,6 @@
         <maven-plugin-plugin.version>3.5</maven-plugin-plugin.version>
         <maven-project.version>2.2.1</maven-project.version>
         <plexus-utils.version>2.0.5</plexus-utils.version>
-        <spring.version>4.3.11.RELEASE</spring.version>
-        <spring-boot.version>1.5.7.RELEASE</spring-boot.version>
         <spring-cloud.version>Brixton.RELEASE</spring-cloud.version>
         <spring-data-commons.version>1.12.2.RELEASE</spring-data-commons.version>
         <spring-data-couchbase.version>2.1.2.RELEASE</spring-data-couchbase.version>
@@ -129,13 +103,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-application</artifactId>
@@ -221,17 +188,6 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
                 <artifactId>spring-expression</artifactId>
                 <version>${spring.version}</version>
             </dependency>
@@ -285,21 +241,6 @@
                 <groupId>org.checkerframework</groupId>
                 <artifactId>checker-qual</artifactId>
                 <version>${checker.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.hk2</groupId>
-                <artifactId>hk2-api</artifactId>
-                <version>${hk2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.hk2</groupId>
-                <artifactId>hk2-locator</artifactId>
-                <version>${hk2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.glassfish.hk2.external</groupId>
-                <artifactId>javax.inject</artifactId>
-                <version>${hk2.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.checkerframework</groupId>
@@ -390,7 +331,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
         <dependency>
             <groupId>org.aspectj</groupId>
@@ -635,16 +575,9 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${maven-jar-plugin.version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/ITest*.java</exclude>
                         <exclude>**/*IntegrationTest.java</exclude>
                         <exclude>**/*IT.java</exclude>
                         <exclude>**/TestCollector.java</exclude>

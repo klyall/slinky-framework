@@ -13,7 +13,7 @@ public class ConnectionManager {
 
     private static final CouchbaseEnvironment environment =
             DefaultCouchbaseEnvironment.builder()
-                    .queryEnabled(true)
+//                    .queryEnabled(true)
                     .build();
 
     private static Map<String, Cluster> clusters = new HashMap<>();

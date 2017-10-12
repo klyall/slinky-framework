@@ -47,3 +47,10 @@
 
 ### v0.3.6
 - No changes. Just trying to get release into Maven Central.
+
+### v0.3.7
+- No changes. Still trying to resolve Maven Central publishing issues.
+
+### v0.3.8
+- Fix project build structure stopping publish to Maven Central.
+- Exclude slinky-environment-* projects from build as no changes and these should move to a separate project 

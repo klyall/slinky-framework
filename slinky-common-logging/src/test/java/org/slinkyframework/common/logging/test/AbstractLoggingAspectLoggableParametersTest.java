@@ -6,9 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.LoggerFactory;
-import org.slinkyframework.common.logging.test.example.*;
+import org.slinkyframework.common.logging.test.example.ExampleClass;
+import org.slinkyframework.common.logging.test.example.ExampleEnum;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,11 +20,12 @@ import java.util.Date;
 import java.util.List;
 
 import static java.lang.String.format;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 import static org.slinkyframework.common.logging.matchers.LoggingMatchers.hasLogMessage;
 import static org.slinkyframework.common.logging.matchers.LoggingMatchers.matchesPattern;
 

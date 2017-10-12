@@ -3,15 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>slinky-framework-parent</artifactId>
+        <artifactId>slinky-build-parent</artifactId>
         <groupId>org.slinkyframework</groupId>
         <version>0.3.8-SNAPSHOT</version>
     </parent>
 
     <artifactId>slinky-service-http-acceptance-tests-parent</artifactId>
-    <packaging>pom</packaging>
 
-    <description>Slinky Framework HTTP Service Acceptance Tests Parent</description>
+    <packaging>pom</packaging>
 
     <properties>
         <cucumber.version>1.2.4</cucumber.version>
