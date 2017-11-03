@@ -54,3 +54,6 @@
 ### v0.3.8
 - Fix project build structure stopping publish to Maven Central.
 - Exclude slinky-environment-* projects from build as no changes and these should move to a separate project 
+
+### v0.3.9
+- Allow slinky-environment-config-maven-plugin to pick up credentials for repositories

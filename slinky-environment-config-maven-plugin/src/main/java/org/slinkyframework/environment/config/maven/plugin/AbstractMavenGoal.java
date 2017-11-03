@@ -65,7 +65,7 @@ public abstract class AbstractMavenGoal {
 
         Properties props = new Properties(additionalProperties);
         props.setProperty("groupId", environmentGroupId);
-        props.setProperty("artifactId", artifactId + "-config");
+        props.setProperty("artifactId", artifactId);
         props.setProperty("version", version);
         props.setProperty("generatePom", "true");
         props.setProperty("packaging", "zip");

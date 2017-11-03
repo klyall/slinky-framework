@@ -1,4 +1,4 @@
-package org.slinkyframework.environment.config.maven.plugin.test.install;
+package org.slinkyframework.environment.config.maven.plugin.test.config;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
@@ -32,8 +32,8 @@ public class TemplateApplicationConfigFactoryIntegrationTest {
 
         FileUtils.deleteQuietly(new File(TARGET_DIR));
 
-        ConfigFileFactory configFileFactory = new TemplateApplicationConfigFactory(new File(SOURCE_DIR), new File(TARGET_DIR), delimiters);
-        configFileFactory.generateFiles();
+        ConfigFileFactory testee = new TemplateApplicationConfigFactory(new File(SOURCE_DIR), new File(TARGET_DIR), delimiters);
+        testee.generateFiles();
     }
 
     @Test

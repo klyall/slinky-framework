@@ -25,8 +25,8 @@ public class FileApplicationConfigFactoryIntegrationTest {
     public void setUp() throws IOException {
         FileUtils.deleteQuietly(new File(TARGET_DIR));
 
-        ConfigFileFactory configFileFactory = new FileApplicationConfigFactory(new File(SOURCE_DIR), new File(TARGET_DIR));
-        configFileFactory.generateFiles();
+        ConfigFileFactory testee = new FileApplicationConfigFactory(new File(SOURCE_DIR), new File(TARGET_DIR));
+        testee.generateFiles();
     }
 
     @Test

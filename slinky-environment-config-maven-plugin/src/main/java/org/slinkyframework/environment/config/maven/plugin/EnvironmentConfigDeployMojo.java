@@ -1,5 +1,6 @@
 package org.slinkyframework.environment.config.maven.plugin;
 
+import org.apache.maven.model.DeploymentRepository;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -27,12 +28,12 @@ public class EnvironmentConfigDeployMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        Optional<String> url = getDistributionmanagementUrl();
+        Optional<DeploymentRepository> repository = getDeploymentRepository();
 
         MavenDeployer mavenDeployer;
 
-        if (url.isPresent()) {
-            mavenDeployer = new MavenDeployer(project.getBasedir(), project.getGroupId(), project.getVersion(), new File(targetDir), url.get());
+        if (repository.isPresent()) {
+            mavenDeployer = new MavenDeployer(project.getBasedir(), project.getGroupId(), project.getVersion(), new File(targetDir), repository.get());
         } else {
             mavenDeployer = new MavenDeployer(project.getBasedir(), project.getGroupId(), project.getVersion(), new File(targetDir));
         }
@@ -40,14 +41,13 @@ public class EnvironmentConfigDeployMojo extends AbstractMojo {
         mavenDeployer.processEnvironments();
     }
 
-
-    public Optional<String> getDistributionmanagementUrl() {
+    private Optional<DeploymentRepository> getDeploymentRepository() {
         boolean isSnapshot = isSnapshot();
 
         if (isSnapshot) {
-            return Optional.of(project.getDistributionManagement().getSnapshotRepository().getUrl());
+            return Optional.of(project.getDistributionManagement().getSnapshotRepository());
         } else {
-            return Optional.of(project.getDistributionManagement().getSnapshotRepository().getUrl());
+            return Optional.of(project.getDistributionManagement().getRepository());
 
         }
     }

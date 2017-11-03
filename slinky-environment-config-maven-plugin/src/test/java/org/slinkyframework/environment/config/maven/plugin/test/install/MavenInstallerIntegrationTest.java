@@ -14,9 +14,9 @@ public class MavenInstallerIntegrationTest {
 
     private static final String GROUP_ID = "org.slinkyframework.test.environments";
     private static final String VERSION = "1.0.0";
-    private static final File TARGET_DIR = new File("target/generated-config");
+    private static final File TARGET_DIR = new File("src/test/resources/install-test");
     private static final String USER_DIR = System.getProperty("user.home");
-    public static final String MAVEN_HOME = "maven.home";
+    private static final String MAVEN_HOME = "maven.home";
 
     @Before
     public void setUp() {

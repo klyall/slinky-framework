@@ -36,6 +36,8 @@ public class ConfigDirectoryWalker extends DirectoryWalker {
     private Map<String, Map<String, Properties>> applicationEnvironmentProperties = new TreeMap<>();
     private String level1;
     private String level2;
+    private int propertyCounter;
+    private int instanceCounter;
 
     public ConfigDirectoryWalker() {
     }
@@ -156,11 +158,28 @@ public class ConfigDirectoryWalker extends DirectoryWalker {
                     }
                 }
             }
-
-
         }
+
+        LOG.info("Number of unique properties   : {}", format("%,7d", calculateNumberOfPropertiesManaged()));
+        LOG.info("Number of configuration lines : {}", format("%,7d", calculateNumberOfConfigurationLines()));
     }
+
     private void logProperty(String propertyType, String environmentName, String applicationName, Object propertyName, String value) {
         LOG.info("{} {} {} {}={}", format("%-15s", propertyType), format("%-12s", environmentName), format("%-25s", applicationName), propertyName, value);
+    }
+
+    private int calculateNumberOfPropertiesManaged() {
+        return allPropertyNames.size();
+    }
+
+    private int calculateNumberOfConfigurationLines() {
+        return globalProperties.size()
+                + countConfigLines(applicationProperties)
+                + countConfigLines(environmentProperties)
+                + applicationEnvironmentProperties.values().stream().map(this::countConfigLines).mapToInt(Integer::intValue).sum();
+    }
+
+    private int countConfigLines(Map<String, Properties> map) {
+        return map.values().stream().map(Properties::size).mapToInt(Integer::intValue).sum();
     }
 }
