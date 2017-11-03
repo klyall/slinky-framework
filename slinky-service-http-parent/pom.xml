@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.slinkyframework</groupId>
         <artifactId>slinky-framework-parent</artifactId>
-        <version>0.3.9</version>
+        <version>0.3.10-SNAPSHOT</version>
         <relativePath>../slinky-framework-parent</relativePath>
     </parent>
 

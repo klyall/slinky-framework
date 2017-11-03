@@ -5,7 +5,7 @@
     <parent>
         <artifactId>slinky-build-parent</artifactId>
         <groupId>org.slinkyframework</groupId>
-        <version>0.3.9</version>
+        <version>0.3.10-SNAPSHOT</version>
     </parent>
 
     <artifactId>slinky-client-http</artifactId>
