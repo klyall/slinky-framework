@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.slinkyframework</groupId>
         <artifactId>slinky-build-parent</artifactId>
-        <version>0.3.10</version>
+        <version>0.3.11-SNAPSHOT</version>
     </parent>
 
     <artifactId>slinky-service-http</artifactId>
@@ -54,7 +54,7 @@
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-common-logging</artifactId>
-            <version>0.3.10</version>
+            <version>0.3.11-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
