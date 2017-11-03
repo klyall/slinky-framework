@@ -131,23 +131,23 @@
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-environment-builder</artifactId>
-                <version>0.3.8-SNAPSHOT</version>
+                <version>0.3.9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-environment-builder-couchbase</artifactId>
-                <version>0.3.8-SNAPSHOT</version>
+                <version>0.3.9-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-repository</artifactId>
                 <version>0.3.9-SNAPSHOT</version>
             </dependency>
-            <dependency>
-                <groupId>org.slinkyframework</groupId>
-                <artifactId>slinky-repository-couchbase</artifactId>
-                <version>0.3.8-SNAPSHOT</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.slinkyframework</groupId>-->
+                <!--<artifactId>slinky-repository-couchbase</artifactId>-->
+                <!--<version>0.3.8-SNAPSHOT</version>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-service-http</artifactId>
@@ -362,7 +362,7 @@
                 <plugin>
                     <groupId>org.slinkyframework</groupId>
                     <artifactId>slinky-environment-builder-maven-plugin</artifactId>
-                    <version>0.3.8-SNAPSHOT</version>
+                    <version>0.3.9-SNAPSHOT</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
