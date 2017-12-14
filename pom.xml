@@ -4,7 +4,7 @@
 
     <groupId>org.slinkyframework</groupId>
     <artifactId>slinky-build-parent</artifactId>
-    <version>0.3.11-SNAPSHOT</version>
+    <version>0.4.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -60,6 +60,7 @@
         <module>slinky-client-parent</module>
         <module>slinky-common-aop</module>
         <module>slinky-common-logging</module>
+        <module>slinky-common-metrics</module>
         <module>slinky-environment-builder</module>
         <!--<module>slinky-environment-builder-couchbase</module>-->
         <module>slinky-environment-builder-maven-plugin</module>
@@ -139,32 +140,37 @@
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-application</artifactId>
-                <version>0.3.11-SNAPSHOT</version>
+                <version>0.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-client</artifactId>
-                <version>0.3.11-SNAPSHOT</version>
+                <version>0.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-client-http</artifactId>
-                <version>0.3.11-SNAPSHOT</version>
+                <version>0.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-common-aop</artifactId>
-                <version>0.3.11-SNAPSHOT</version>
+                <version>0.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-common-logging</artifactId>
-                <version>0.3.11-SNAPSHOT</version>
+                <version>0.4.0-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slinkyframework</groupId>
+                <artifactId>slinky-common-metrics</artifactId>
+                <version>0.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-environment-builder</artifactId>
-                <version>0.3.11-SNAPSHOT</version>
+                <version>0.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
@@ -174,7 +180,7 @@
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-repository</artifactId>
-                <version>0.3.11-SNAPSHOT</version>
+                <version>0.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
@@ -184,12 +190,12 @@
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-service-http</artifactId>
-                <version>0.3.11-SNAPSHOT</version>
+                <version>0.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.slinkyframework</groupId>
                 <artifactId>slinky-service-json-api</artifactId>
-                <version>0.3.11-SNAPSHOT</version>
+                <version>0.4.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -422,7 +428,7 @@
                 <plugin>
                     <groupId>org.slinkyframework</groupId>
                     <artifactId>slinky-environment-builder-maven-plugin</artifactId>
-                    <version>0.3.11-SNAPSHOT</version>
+                    <version>0.4.0-SNAPSHOT</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

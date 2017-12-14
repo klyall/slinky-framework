@@ -57,3 +57,6 @@
 
 ### v0.3.9
 - Allow slinky-environment-config-maven-plugin to pick up credentials for repositories
+
+### v0.4.0
+- Add metrics to each layer of an application

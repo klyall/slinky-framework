@@ -8,20 +8,27 @@
         <version>0.4.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>slinky-environment-builder</artifactId>
+    <artifactId>slinky-common-metrics</artifactId>
+
+    <properties>
+        <metrics.version>3.2.5</metrics.version>
+    </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>${metrics.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-common-aop</artifactId>
+            <version>0.4.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
     </dependencies>
+
 </project>
