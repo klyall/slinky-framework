@@ -3,7 +3,7 @@ package org.slinkyframework.client.test.example;
 import org.slinkyframework.client.test.example.domain.Account;
 import org.slinkyframework.common.logging.Loggable;
 
-public class ExampleClientImpl implements ExampleClient {
+public class ExampleClientImpl extends GenericClientImpl implements ExampleClient {
 
     public static final String FORCED_EXCEPTION_ACCOUNT = "99999999";
 
@@ -20,6 +20,14 @@ public class ExampleClientImpl implements ExampleClient {
     public void deleteAccount(String accountNumber) {
         privateMethod(accountNumber);
     }
+
+    @Override
+    public void firstMethod() {
+        secondMethod();
+    }
+
+    @Override
+    public void secondMethod() { }
 
     private void privateMethod(String accountNumber) {
         if (accountNumber.equals(FORCED_EXCEPTION_ACCOUNT)) {

@@ -9,10 +9,13 @@ public class SlinkyClientArchitecture {
     @Pointcut("within(org.slinkyframework.client.SlinkyClient+)")
     public void inClient() {}
 
+    @Pointcut("cflowbelow(execution(* org.slinkyframework.client.SlinkyClient+.*(..)))")
+    public void inSubsequentCall() {}
+
     @Pointcut("execution(public * *(..))")
     public void publicOperations() {}
 
-    @Pointcut("publicOperations() && inClient()")
+    @Pointcut("publicOperations() && inClient() && !inSubsequentCall()")
     public void clientOperations() {
     }
 }

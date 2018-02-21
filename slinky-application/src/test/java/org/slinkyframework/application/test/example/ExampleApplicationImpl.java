@@ -16,6 +16,14 @@ public class ExampleApplicationImpl implements ExampleApplication {
         privateMethod(accountNumber);
     }
 
+    @Override
+    public void firstMethod() {
+        secondMethod();
+    }
+
+    @Override
+    public void secondMethod() { }
+
     private void privateMethod(String accountNumber) {
         if (accountNumber.equals(FORCED_EXCEPTION_ACCOUNT)) {
             throw new IllegalArgumentException("Forced exception to test out logging and exception handling");

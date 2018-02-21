@@ -32,19 +32,20 @@ public class SlinkyApplicationLoggingAspectTest {
     }
 
     @Test
-    public void shouldLogBeforeAndAfterServiceEndpoints() {
+    public void shouldLogBeforeAndAfterApplicationCall() {
         String expectedRequestMessage = "----> ExampleApplication retrieveAccountDetails request received []";
         String expectedResponseMessage = "<---- ExampleApplication retrieveAccountDetails response returned in \\[\\d+\\] ms. \\[\\]";
 
         ExampleApplication testee = new ExampleApplicationImpl();
         testee.retrieveAccountDetails(TEST_ACCOUNT);
 
+        verify(mockAppender, times(2)).doAppend(any());
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(equalTo(expectedRequestMessage))));
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(matchesPattern(expectedResponseMessage))));
     }
 
     @Test
-    public void shouldLogBeforeAndAfterServiceEndpointsThatThrowExceptions() {
+    public void shouldLogBeforeAndAfterApplicationCallThatThrowExceptions() {
         String expectedRequestMessage = "----> ExampleApplication deleteAccount request received []";
         String expectedResponseMessage = "<---- ExampleApplication deleteAccount exception returned in \\[\\d+\\] ms., exception message \\[.*\\]";
 
@@ -55,6 +56,24 @@ public class SlinkyApplicationLoggingAspectTest {
             // Ignore as we want to do the verifies below
         }
 
+        verify(mockAppender, times(2)).doAppend(any());
+        verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(equalTo(expectedRequestMessage))));
+        verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(matchesPattern(expectedResponseMessage))));
+    }
+
+    @Test
+    public void shouldLogBeforeAndAfterFirstApplicationCall() {
+        String expectedRequestMessage = "----> ExampleApplication firstMethod request received []";
+        String expectedResponseMessage = "<---- ExampleApplication firstMethod response returned in \\[\\d+\\] ms. \\[\\]";
+
+        try {
+            ExampleApplication testee = new ExampleApplicationImpl();
+            testee.firstMethod();
+        } catch (IllegalArgumentException e) {
+            // Ignore as we want to do the verifies below
+        }
+
+        verify(mockAppender, times(2)).doAppend(any());
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(equalTo(expectedRequestMessage))));
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(matchesPattern(expectedResponseMessage))));
     }

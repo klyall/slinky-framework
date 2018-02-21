@@ -8,4 +8,7 @@ public interface ExampleRepository extends SlinkyRepository {
     Account retrieveAccountDetails(String accountNumber);
 
     void deleteAccount(String accountNumber);
+
+    void firstMethod();
+    void secondMethod();
 }

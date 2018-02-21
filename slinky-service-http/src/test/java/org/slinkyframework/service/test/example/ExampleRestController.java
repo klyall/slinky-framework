@@ -16,6 +16,16 @@ public class ExampleRestController {
         throw new IllegalArgumentException("Forced exception to test logging and exception handling");
     }
 
+    @RequestMapping("/")
+    public String firstEndpoint() {
+        return secondEndpoint();
+    }
+
+    @RequestMapping("/")
+    public String secondEndpoint() {
+        return publicMethod();
+    }
+
     public String publicMethod() {
         return privateMethod();
     }

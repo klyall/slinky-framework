@@ -12,6 +12,7 @@ import org.slinkyframework.client.test.example.ExampleRepository;
 import org.slinkyframework.client.test.example.ExampleRepositoryImpl;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -40,6 +41,7 @@ public class RepositoryLoggingAspectTest {
         ExampleRepository testee = new ExampleRepositoryImpl();
         testee.retrieveAccountDetails(TEST_ACCOUNT);
 
+        verify(mockAppender, times(2)).doAppend(any());
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(equalTo(expectedRequestMessage))));
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(matchesPattern(expectedResponseMessage))));
     }
@@ -56,6 +58,20 @@ public class RepositoryLoggingAspectTest {
             // Ignore as we want to do the verifies below
         }
 
+        verify(mockAppender, times(2)).doAppend(any());
+        verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(equalTo(expectedRequestMessage))));
+        verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(matchesPattern(expectedResponseMessage))));
+    }
+
+    @Test
+    public void shouldLogBeforeAndAfterFirstRepositoryCall() {
+        String expectedRequestMessage = "------> ExampleRepository firstMethod query sent []";
+        String expectedResponseMessage = "<------ ExampleRepository firstMethod result received in \\[\\d+\\] ms. \\[\\]";
+
+        ExampleRepository testee = new ExampleRepositoryImpl();
+        testee.firstMethod();
+
+        verify(mockAppender, times(2)).doAppend(any());
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(equalTo(expectedRequestMessage))));
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(matchesPattern(expectedResponseMessage))));
     }

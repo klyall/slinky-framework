@@ -13,6 +13,7 @@ import org.slinkyframework.client.test.example.ExampleClientImpl;
 import org.slinkyframework.client.test.example.domain.Account;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -41,6 +42,7 @@ public class SlinkyClientLoggingAspectTest {
         ExampleClient testee = new ExampleClientImpl();
         testee.updateAccountDetails(new Account());
 
+        verify(mockAppender, times(2)).doAppend(any());
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(equalTo(expectedRequestMessage))));
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(matchesPattern(expectedResponseMessage))));
     }
@@ -53,6 +55,7 @@ public class SlinkyClientLoggingAspectTest {
         ExampleClient testee = new ExampleClientImpl();
         testee.retrieveAccountDetails(TEST_ACCOUNT);
 
+        verify(mockAppender, times(2)).doAppend(any());
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(equalTo(expectedRequestMessage))));
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(matchesPattern(expectedResponseMessage))));
     }
@@ -69,6 +72,41 @@ public class SlinkyClientLoggingAspectTest {
             // Ignore as we want to do the verifies below
         }
 
+        verify(mockAppender, times(2)).doAppend(any());
+        verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(equalTo(expectedRequestMessage))));
+        verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(matchesPattern(expectedResponseMessage))));
+    }
+
+    @Test
+    public void shouldLogBeforeAndAfterClientCallsFromParentClass() {
+        String expectedRequestMessage = "------> ExampleClient parentMethod request sent []";
+        String expectedResponseMessage = "<------ ExampleClient parentMethod response received in \\[\\d+\\] ms. \\[\\]";
+
+        try {
+            ExampleClient testee = new ExampleClientImpl();
+            testee.parentMethod();
+        } catch (IllegalArgumentException e) {
+            // Ignore as we want to do the verifies below
+        }
+
+        verify(mockAppender, times(2)).doAppend(any());
+        verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(equalTo(expectedRequestMessage))));
+        verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(matchesPattern(expectedResponseMessage))));
+    }
+
+    @Test
+    public void shouldLogBeforeAndAfterFirstClientCall() {
+        String expectedRequestMessage = "------> ExampleClient firstMethod request sent []";
+        String expectedResponseMessage = "<------ ExampleClient firstMethod response received in \\[\\d+\\] ms. \\[\\]";
+
+        try {
+            ExampleClient testee = new ExampleClientImpl();
+            testee.firstMethod();
+        } catch (IllegalArgumentException e) {
+            // Ignore as we want to do the verifies below
+        }
+
+        verify(mockAppender, times(2)).doAppend(any());
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(equalTo(expectedRequestMessage))));
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(matchesPattern(expectedResponseMessage))));
     }
