@@ -18,6 +18,11 @@
         </dependency>
         <dependency>
             <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-common-metrics</artifactId>
+            <version>0.4.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-common-logging</artifactId>
             <version>0.4.2-SNAPSHOT</version>
             <type>test-jar</type>
