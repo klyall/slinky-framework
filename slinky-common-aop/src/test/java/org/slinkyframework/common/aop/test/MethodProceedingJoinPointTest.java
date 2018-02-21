@@ -4,13 +4,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slinkyframework.common.aop.test.example.ExampleAspect;
 import org.slinkyframework.common.aop.test.example.ExampleClass;
+import org.slinkyframework.common.aop.test.example.ExampleClassImpl;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class MethodProceedingJoinPointTest {
 
-    private ExampleClass exampleClass = new ExampleClass();
+    private ExampleClass exampleClass = new ExampleClassImpl();
 
     @Before
     public void setUp() {
@@ -29,6 +30,14 @@ public class MethodProceedingJoinPointTest {
         exampleClass.doMethodName();
 
         assertThat("MethodName", ExampleAspect.getMethodName(), is("doMethodName"));
+    }
+
+    @Test
+    public void testGetParentMethodName() throws Throwable {
+        exampleClass.doParentName();
+
+        assertThat("ClassName", ExampleAspect.getClassName(), is("ExampleClass"));
+        assertThat("MethodName", ExampleAspect.getMethodName(), is("doParentName"));
     }
 
     @Test

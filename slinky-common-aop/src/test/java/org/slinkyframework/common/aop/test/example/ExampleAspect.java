@@ -41,13 +41,16 @@ public class ExampleAspect {
         return arguments;
     }
 
-    @Pointcut("within(org.slinkyframework.common.aop.test.example.ExampleClass)")
+    @Pointcut("execution(* org.slinkyframework.common.aop.test.example.ExampleClass+.*(..))")
     public void exampleClass() {}
+
+    @Pointcut("execution(* org.slinkyframework.common.aop.test.example.ExampleParentClass+.*(..))")
+    public void exampleParentClass() {}
 
     @Pointcut("execution(public * *(..))")
     public void publicOperations() {}
 
-    @Pointcut("publicOperations() && exampleClass()")
+    @Pointcut("publicOperations() && (exampleClass() || exampleParentClass())")
     public void exampleOperations() {
     }
 

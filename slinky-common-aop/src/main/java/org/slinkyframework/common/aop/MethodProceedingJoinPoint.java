@@ -82,7 +82,7 @@ public class MethodProceedingJoinPoint implements ProceedingJoinPoint {
     }
 
     public String getClassName() {
-        String className = proceedingJoinPoint.getSourceLocation().getWithinType().getSimpleName();
+        String className = proceedingJoinPoint.getTarget().getClass().getSimpleName();
 
         if (className.endsWith("Impl")) {
             return className.substring(0, className.indexOf("Impl"));

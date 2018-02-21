@@ -1,17 +1,9 @@
 package org.slinkyframework.common.aop.test.example;
 
-public class ExampleClass {
+public interface ExampleClass extends ExampleParentClass {
 
-    public void doClassName() {
-    }
-
-    public void doMethodName() {
-    }
-
-    public void doMethodWithAnnotatedParameters(@ExampleAnnotation String name, String nullableName) {
-    }
-
-    public @ExampleAnnotation String doMethodWithAnnotatedReturn() {
-        return "ping";
-    }
+    void doClassName();
+    void doMethodName();
+    void doMethodWithAnnotatedParameters(@ExampleAnnotation String name, String nullableName);
+    @ExampleAnnotation String doMethodWithAnnotatedReturn();
 }
