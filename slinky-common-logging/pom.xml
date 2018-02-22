@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.slinkyframework</groupId>
         <artifactId>slinky-build-parent</artifactId>
-        <version>0.4.2-SNAPSHOT</version>
+        <version>0.4.2</version>
     </parent>
 
     <artifactId>slinky-common-logging</artifactId>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-common-aop</artifactId>
-            <version>0.4.2-SNAPSHOT</version>
+            <version>0.4.2</version>
         </dependency>
         <dependency>
             <groupId>com.portingle</groupId>
