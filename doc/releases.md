@@ -68,3 +68,6 @@
 ### v0.4.3
 - Make abstract versions of logging aspects to allow local definitions of pointcuts.
 - Amend extraction of class name in AOP to cope with proxied interfaces such as Spring Data JPA.
+
+### v0.4.4
+- Fix extraction of class name in AOP to cope with proxied interfaces such as Spring Data JPA. Now uses first interface.
