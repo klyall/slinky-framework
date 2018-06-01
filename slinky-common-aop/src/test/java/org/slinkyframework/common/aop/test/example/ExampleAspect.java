@@ -47,10 +47,13 @@ public class ExampleAspect {
     @Pointcut("execution(* org.slinkyframework.common.aop.test.example.ExampleParentClass+.*(..))")
     public void exampleParentClass() {}
 
+    @Pointcut("execution(* org.slinkyframework.common.aop.test.example.ExampleClassWithoutInterface.*(..))")
+    public void exampleClassWithoutInterface() {}
+
     @Pointcut("execution(public * *(..))")
     public void publicOperations() {}
 
-    @Pointcut("publicOperations() && (exampleClass() || exampleParentClass())")
+    @Pointcut("publicOperations() && (exampleClass() || exampleParentClass() || exampleClassWithoutInterface())")
     public void exampleOperations() {
     }
 

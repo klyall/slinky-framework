@@ -82,15 +82,13 @@ public class MethodProceedingJoinPoint implements ProceedingJoinPoint {
     }
 
     public String getClassName() {
-        String signatureClassName = proceedingJoinPoint.getSignature().getDeclaringType().getSimpleName();
-        String sourceClassName = proceedingJoinPoint.getSourceLocation().getWithinType().getSimpleName();
-        String targetClassName = proceedingJoinPoint.getTarget().getClass().getSimpleName();
+        String className = proceedingJoinPoint.getTarget().getClass().getSimpleName();
 
-        String className = targetClassName;
-
+        // Use the first target interface if one exists for proxied classes
         // Handle interfaces that are implemented by a framework using a proxy e.g. Spring Data JPA
-        if (sourceClassName.equals(targetClassName)) {
-            className = signatureClassName;
+        if (className.contains("$Proxy")
+                && proceedingJoinPoint.getTarget().getClass().getInterfaces().length > 0) {
+            className = proceedingJoinPoint.getTarget().getClass().getInterfaces()[0].getSimpleName();
         }
 
         if (className.endsWith("Impl")) {
