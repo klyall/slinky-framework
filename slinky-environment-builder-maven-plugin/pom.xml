@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.slinkyframework</groupId>
         <artifactId>slinky-build-parent</artifactId>
-        <version>0.4.3</version>
+        <version>0.4.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>slinky-environment-builder-maven-plugin</artifactId>
@@ -16,7 +16,7 @@
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-environment-builder</artifactId>
             <scope>compile</scope>
-            <version>0.4.3</version>
+            <version>0.4.4-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
