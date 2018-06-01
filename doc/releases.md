@@ -60,3 +60,11 @@
 
 ### v0.4.0
 - Add metrics to each layer of an application
+
+### v0.4.2
+- Add metrics to application layer
+- Prevent logging twice when calling another public method in same class
+
+### v0.4.3
+- Make abstract versions of logging aspects to allow local definitions of pointcuts.
+- Amend extraction of class name in AOP to cope with proxied interfaces such as Spring Data JPA.
