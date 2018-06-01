@@ -26,7 +26,7 @@ public class MavenInstallerIntegrationTest {
     @Test
     public void shouldInstallZipFilesIntoLocalRepo() {
         if (System.getProperty(MAVEN_HOME) == null) {
-            System.setProperty(MAVEN_HOME, "/usr/local/Cellar/maven/3.3.9/libexec");
+            System.setProperty(MAVEN_HOME, "/usr/local/Cellar/maven/3.5.3/libexec");
         }
 
         File projectDir = new File("./");
