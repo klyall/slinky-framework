@@ -13,6 +13,7 @@ import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
 import java.util.Set;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -39,8 +40,9 @@ public class SpatialDocumentIntegrationTest {
 
         ExampleSpatialDocument document = createLocation(id, longitude, latitude);
 
-        ExampleSpatialDocument retrievedDocument = testee.findOne(id);
-        assertThat("Retrieved document", retrievedDocument, is(equalTo(document)));
+        Optional<ExampleSpatialDocument> retrievedDocument = testee.findById(id);
+        assertThat("Document found", retrievedDocument.isPresent(), is(true));
+        assertThat("Retrieved document", retrievedDocument.get(), is(equalTo(document)));
     }
 
     @Test

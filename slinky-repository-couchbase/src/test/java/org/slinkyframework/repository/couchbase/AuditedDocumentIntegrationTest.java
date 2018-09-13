@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -43,8 +44,9 @@ public class AuditedDocumentIntegrationTest {
         assertThat("Document last modification date", savedDocument.getLastModification(), is(not(nullValue())));
         assertThat("Document last modifier", savedDocument.getLastModifiedBy(), is(equalTo(NaiveAuditorAware.DEFAULT_TEST_USER)));
 
-        ExampleAuditedDocument retrievedDocument = testee.findOne(id);
-        assertThat("Retrieved document", retrievedDocument, is(equalTo(savedDocument)));
+        Optional<ExampleAuditedDocument> retrievedDocument = testee.findById(id);
+        assertThat("Document found", retrievedDocument.isPresent(), is(true));
+        assertThat("Retrieved document", retrievedDocument.get(), is(equalTo(savedDocument)));
     }
 
     @Test

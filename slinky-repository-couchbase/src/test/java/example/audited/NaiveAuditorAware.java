@@ -2,6 +2,8 @@ package example.audited;
 
 import org.springframework.data.domain.AuditorAware;
 
+import java.util.Optional;
+
 // Note: This should really get values from Spring Security
 public class NaiveAuditorAware implements AuditorAware<String> {
 
@@ -10,8 +12,8 @@ public class NaiveAuditorAware implements AuditorAware<String> {
     private String auditor = DEFAULT_TEST_USER;
 
     @Override
-    public String getCurrentAuditor() {
-        return auditor;
+    public Optional<String> getCurrentAuditor() {
+        return Optional.ofNullable(auditor);
     }
 
     public void setAuditor(String auditor) {

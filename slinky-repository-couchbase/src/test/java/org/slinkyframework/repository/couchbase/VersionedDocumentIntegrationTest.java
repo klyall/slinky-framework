@@ -1,7 +1,7 @@
 package org.slinkyframework.repository.couchbase;
 
-import example.versioned.ExampleVersionedRepositoryTestConfiguration;
 import example.versioned.ExampleVersionedRepository;
+import example.versioned.ExampleVersionedRepositoryTestConfiguration;
 import example.versioned.domain.ExampleVersionedDocument;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,9 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+import java.util.Optional;
+
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
 @RunWith(SpringRunner.class)
@@ -37,8 +37,9 @@ public class VersionedDocumentIntegrationTest {
         ExampleVersionedDocument savedDocument = testee.save(document);
         assertThat("Document version", savedDocument.getVersion(), is(not(equalTo(0L))));
 
-        ExampleVersionedDocument retrievedDocument = testee.findOne(id);
-        assertThat("Retrieved document", retrievedDocument, is(equalTo(savedDocument)));
+        Optional<ExampleVersionedDocument> retrievedDocument = testee.findById(id);
+        assertThat("Document found", retrievedDocument.isPresent(), is(true));
+        assertThat("Retrieved document", retrievedDocument.get(), is(equalTo(savedDocument)));
     }
 
     @Test
