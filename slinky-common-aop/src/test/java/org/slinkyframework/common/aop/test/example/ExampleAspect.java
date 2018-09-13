@@ -14,33 +14,6 @@ import java.util.Optional;
 @Aspect
 public class ExampleAspect {
 
-    private static String className;
-    private static String methodName;
-    private static List<AnnotatedObject> arguments;
-    private static Optional<Annotation> returnValue;
-
-    public static void cleanState() {
-        className = null;
-        methodName = null;
-        arguments = null;
-    }
-
-    public static String getClassName() {
-        return className;
-    }
-
-    public static String getMethodName() {
-        return methodName;
-    }
-
-    public static Optional<Annotation> getReturnValue() {
-        return returnValue;
-    }
-
-    public static List<AnnotatedObject> getArguments() {
-        return arguments;
-    }
-
     @Pointcut("execution(* org.slinkyframework.common.aop.test.example.ExampleClass+.*(..))")
     public void exampleClass() {}
 
@@ -50,7 +23,7 @@ public class ExampleAspect {
     @Pointcut("execution(* org.slinkyframework.common.aop.test.example.ExampleClassWithoutInterface.*(..))")
     public void exampleClassWithoutInterface() {}
 
-    @Pointcut("execution(public * *(..))")
+    @Pointcut("execution(public * *.do*(..))")
     public void publicOperations() {}
 
     @Pointcut("publicOperations() && (exampleClass() || exampleParentClass() || exampleClassWithoutInterface())")
@@ -61,10 +34,17 @@ public class ExampleAspect {
     public Object interceptMethodName(final ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         MethodProceedingJoinPoint mpjp = new MethodProceedingJoinPoint(proceedingJoinPoint);
 
-        className = mpjp.getClassName();
-        methodName = mpjp.getMethodName();
-        arguments = mpjp.getArgsWithAnnotation(ExampleAnnotation.class);
-        returnValue = mpjp.getReturnAnnotationIfType(ExampleAnnotation.class);
+        String className = mpjp.getClassName();
+        String methodName = mpjp.getMethodName();
+        List<AnnotatedObject> arguments = mpjp.getArgsWithAnnotation(ExampleAnnotation.class);
+        Optional<Annotation> returnValue = mpjp.getReturnAnnotationIfType(ExampleAnnotation.class);
+
+        AspectObserver aspectObserver =((AspectObserver) proceedingJoinPoint.getTarget());
+
+        aspectObserver.setClassName(className);
+        aspectObserver.setMethodName(methodName);
+        aspectObserver.setArguments(arguments);
+        aspectObserver.setReturnValue(returnValue);
 
         return mpjp.proceed();
     }

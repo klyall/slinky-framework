@@ -4,4 +4,8 @@ public class ExampleClass {
 
     public void exampleMethod() {
     }
+
+    public void exampleExceptionMethod() {
+        throw new IllegalArgumentException();
+    }
 }

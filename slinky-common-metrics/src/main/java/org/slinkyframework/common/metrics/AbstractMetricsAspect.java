@@ -1,67 +1,96 @@
 package org.slinkyframework.common.metrics;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.SharedMetricRegistries;
-import com.codahale.metrics.Timer;
+import io.micrometer.core.instrument.Clock;
+import io.micrometer.core.instrument.Metrics;
+import io.micrometer.core.instrument.Tag;
+import io.micrometer.core.instrument.Timer;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slinkyframework.common.aop.MethodProceedingJoinPoint;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import static com.codahale.metrics.MetricRegistry.name;
 import static java.lang.String.format;
 
 public abstract class AbstractMetricsAspect {
 
-    public static final String METRICS_REGISTRY_NAME = "slinky-metrics";
+    private static final String TAG_CLASS = "class";
+    public static final String TAG_METHOD = "method";
+    private static final String TAG_HOSTNAME = "hostname";
+    private static final String TAG_EXCEPTION = "exception";
+    private static final String UNKNOWN_HOSTNAME = "unknown";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractMetricsAspect.class);
-    private static final MetricRegistry metrics = SharedMetricRegistries.getOrCreate(METRICS_REGISTRY_NAME);
-
-    private final Map<String, Timer> timers = Collections.synchronizedMap(new HashMap<String, Timer>());
+    private static final String METRIC_NAME = "%s.requests";
 
     protected abstract String getComponentType();
 
     public Object metricsAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        Object result;
         MethodProceedingJoinPoint methodProceedingJoinPoint = new MethodProceedingJoinPoint(proceedingJoinPoint);
 
-        Timer timer = getTimer(methodProceedingJoinPoint);
-        final Timer.Context context = timer.time();
+        final Clock clock = Metrics.globalRegistry.config().clock();
+        final long startTime = clock.monotonicTime();
+
         try {
-            return proceedingJoinPoint.proceed();
-        } finally {
-            context.stop();
+            result = proceedingJoinPoint.proceed();
+
+            getTimerBuilder(methodProceedingJoinPoint, null)
+                    .register(Metrics.globalRegistry)
+                    .record(clock.monotonicTime() - startTime, TimeUnit.NANOSECONDS);
+
+        } catch (Throwable e) {
+
+            getTimerBuilder(methodProceedingJoinPoint, e)
+                    .register(Metrics.globalRegistry)
+                    .record(clock.monotonicTime() - startTime, TimeUnit.NANOSECONDS);
+
+            throw e;
         }
+        return result;
     }
 
-    private Timer getTimer(MethodProceedingJoinPoint methodProceedingJoinPoint) {
+    private Timer.Builder getTimerBuilder(MethodProceedingJoinPoint methodProceedingJoinPoint, Throwable throwable) {
+        return Timer.builder(format(METRIC_NAME, getComponentType()))
+                .tags(createTags(methodProceedingJoinPoint, throwable))
+                .description(format("Timer of %s operations", getComponentType()));
+    }
 
-        synchronized (timers) {
-            String key = createKey(methodProceedingJoinPoint);
-            if (!timers.containsKey(key)) {
-                final Timer timer = metrics.timer(createMetricName(methodProceedingJoinPoint));
-                timers.put(key, timer);
-                LOGGER.debug("Created timer with key {}", key);
-            }
-            return timers.get(key);
+    private List<Tag> createTags(MethodProceedingJoinPoint methodProceedingJoinPoint, Throwable throwable) {
+        return Arrays.asList(
+                getClassNameTag(methodProceedingJoinPoint),
+                getMethodNameTag(methodProceedingJoinPoint),
+                getExceptionTag(throwable),
+                getHostNameTag());
+    }
+
+    private Tag getClassNameTag(MethodProceedingJoinPoint methodProceedingJoinPoint) {
+        return Tag.of(TAG_CLASS, methodProceedingJoinPoint.getClassName());
+    }
+
+    private Tag getMethodNameTag(MethodProceedingJoinPoint methodProceedingJoinPoint) {
+        return Tag.of(TAG_METHOD, methodProceedingJoinPoint.getMethodName());
+    }
+
+    private Tag getHostNameTag() {
+        String hostname;
+
+        try {
+            hostname =  InetAddress.getLocalHost().getHostName();
+        } catch (UnknownHostException e) {
+            hostname = UNKNOWN_HOSTNAME;
         }
+        return Tag.of(TAG_HOSTNAME, hostname);
     }
 
-    private String createKey(MethodProceedingJoinPoint methodProceedingJoinPoint) {
-        return format("%s.%s.%s",
-                getComponentType(),
-                methodProceedingJoinPoint.getClassName(),
-                methodProceedingJoinPoint.getMethodName());
-    }
+    private Tag getExceptionTag(Throwable throwable) {
+        String name = "None";
 
-    private String createMetricName(MethodProceedingJoinPoint methodProceedingJoinPoint) {
-        return name(
-                getComponentType(),
-                methodProceedingJoinPoint.getClassName(),
-                methodProceedingJoinPoint.getMethodName());
+        if (throwable != null) {
+            name = throwable.getClass().getName();
+        }
+        return Tag.of(TAG_EXCEPTION, name);
     }
 }

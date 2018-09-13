@@ -1,6 +1,6 @@
 package org.slinkyframework.common.aop.test.example;
 
-public class ExampleClassWithoutInterface {
+public class ExampleClassWithoutInterface extends AspectObserver {
 
     public void doClassName() {
     }
