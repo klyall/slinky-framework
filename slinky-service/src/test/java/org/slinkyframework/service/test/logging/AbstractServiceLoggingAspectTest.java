@@ -7,22 +7,23 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.slinkyframework.service.test.example.ExampleRestController;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.slf4j.LoggerFactory;
+import org.slinkyframework.service.test.example.ExampleService;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.argThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 import static org.slinkyframework.common.logging.matchers.LoggingMatchers.hasLogMessage;
 import static org.slinkyframework.common.logging.matchers.LoggingMatchers.matchesPattern;
 
 @RunWith(MockitoJUnitRunner.class)
-public class HttpServiceLoggingAspectTest {
+public class AbstractServiceLoggingAspectTest {
 
-    @Mock Appender mockAppender;
+    @Mock
+    Appender mockAppender;
 
     @Before
     public void setUp() {
@@ -32,10 +33,10 @@ public class HttpServiceLoggingAspectTest {
 
     @Test
     public void shouldLogBeforeAndAfterServiceEndpoints() {
-        String expectedRequestMessage = "--> ExampleRestController publicEndpoint request received []";
-        String expectedResponseMessage = "<-- ExampleRestController publicEndpoint response returned in \\[\\d+\\] ms. \\[\\]";
+        String expectedRequestMessage = "--> ExampleService publicEndpoint request received []";
+        String expectedResponseMessage = "<-- ExampleService publicEndpoint response returned in \\[\\d+\\] ms. \\[\\]";
 
-        ExampleRestController testee = new ExampleRestController();
+        ExampleService testee = new ExampleService();
         testee.publicEndpoint();
 
         verify(mockAppender, times(2)).doAppend(any());
@@ -45,11 +46,11 @@ public class HttpServiceLoggingAspectTest {
 
     @Test
     public void shouldLogBeforeAndAfterServiceEndpointsThatThrowExceptions() {
-        String expectedRequestMessage = "--> ExampleRestController exceptionMethod request received []";
-        String expectedResponseMessage = "<-- ExampleRestController exceptionMethod exception returned in \\[\\d+\\] ms., exception message \\[.*\\]";
+        String expectedRequestMessage = "--> ExampleService exceptionMethod request received []";
+        String expectedResponseMessage = "<-- ExampleService exceptionMethod exception returned in \\[\\d+\\] ms., exception message \\[.*\\]";
 
         try {
-            ExampleRestController testee = new ExampleRestController();
+            ExampleService testee = new ExampleService();
             testee.exceptionMethod();
         } catch (IllegalArgumentException e) {
             // Ignore as we want to do the verifies below
@@ -61,12 +62,12 @@ public class HttpServiceLoggingAspectTest {
     }
 
     @Test
-    @Ignore // Not found the pointcut to avoid this yet
+    @Ignore // Not worked out correct pointcut to use - cflowbelow?
     public void shouldLogBeforeAndAfterFirstServiceEndpoints() {
-        String expectedRequestMessage = "--> ExampleRestController publicEndpoint request received []";
-        String expectedResponseMessage = "<-- ExampleRestController publicEndpoint response returned in \\[\\d+\\] ms. \\[\\]";
+        String expectedRequestMessage = "--> ExampleService firstEndpoint request received []";
+        String expectedResponseMessage = "<-- ExampleService firstEndpoint response returned in \\[\\d+\\] ms. \\[\\]";
 
-        ExampleRestController testee = new ExampleRestController();
+        ExampleService testee = new ExampleService();
         testee.firstEndpoint();
 
         verify(mockAppender, times(2)).doAppend(any());

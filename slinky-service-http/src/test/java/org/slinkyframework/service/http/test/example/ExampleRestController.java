@@ -1,4 +1,4 @@
-package org.slinkyframework.service.test.example;
+package org.slinkyframework.service.http.test.example;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

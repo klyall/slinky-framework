@@ -1,4 +1,4 @@
-package org.slinkyframework.service;
+package org.slinkyframework.service.http;
 
 import org.aspectj.lang.annotation.Pointcut;
 
@@ -12,10 +12,4 @@ public class HttpServiceArchitecture {
 
     @Pointcut("inRestController() && inEndpoint()")
     public void serviceEndpoint() {}
-
-    @Pointcut("execution(public * *(..))")
-    public void publicOperations() {}
-
-    @Pointcut("execution(* *(..))")
-    public void allOperations() {}
 }

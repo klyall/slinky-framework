@@ -8,7 +8,7 @@ import org.slinkyframework.common.logging.domain.LogExceptionContext;
 
 import static java.lang.String.format;
 
-public abstract class AbstractHttpServiceLoggingAspect extends AbstractLoggingAspect {
+public abstract class AbstractServiceLoggingAspect extends AbstractLoggingAspect {
 
     private static final String LOG_BEFORE       = "--> %s %s request received %s";
     private static final String LOG_AFTER        = "<-- %s %s response returned in [%d] ms. %s";
