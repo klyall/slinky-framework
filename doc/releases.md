@@ -71,3 +71,7 @@
 
 ### v0.4.4
 - Fix extraction of class name in AOP to cope with proxied interfaces such as Spring Data JPA. Now uses first interface.
+
+### 0.5.0
+- Move environment projects to slinky-environment repository
+- Migrate to Spring Micrometer from Codahale metrics to enable better integration in Spring Boot

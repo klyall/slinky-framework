@@ -4,8 +4,8 @@
 
     <parent>
         <groupId>org.slinkyframework</groupId>
-        <artifactId>slinky-build-parent</artifactId>
-        <version>0.4.5-SNAPSHOT</version>
+        <artifactId>slinky-framework-parent</artifactId>
+        <version>0.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>slinky-client</artifactId>
@@ -14,17 +14,18 @@
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-common-logging</artifactId>
-            <version>0.4.5-SNAPSHOT</version>
+            <version>0.5.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-common-metrics</artifactId>
-            <version>0.4.5-SNAPSHOT</version>
+            <version>0.5.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-common-logging</artifactId>
-            <version>0.4.5-SNAPSHOT</version>
+            <version>0.5.0-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>

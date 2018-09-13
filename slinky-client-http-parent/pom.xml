@@ -3,9 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>slinky-build-parent</artifactId>
+        <artifactId>slinky-framework-parent</artifactId>
         <groupId>org.slinkyframework</groupId>
-        <version>0.4.5-SNAPSHOT</version>
+        <version>0.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>slinky-client-http-parent</artifactId>
@@ -17,10 +17,10 @@
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-client-http</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>com.jayway.restassured</groupId>
+            <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>2.5.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

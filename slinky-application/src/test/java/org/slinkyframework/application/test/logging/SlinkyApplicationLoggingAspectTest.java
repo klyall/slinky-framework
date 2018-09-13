@@ -6,13 +6,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.slf4j.LoggerFactory;
 import org.slinkyframework.application.test.example.ExampleApplication;
 import org.slinkyframework.application.test.example.ExampleApplicationImpl;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 import static org.slinkyframework.application.test.example.ExampleApplicationImpl.FORCED_EXCEPTION_ACCOUNT;
 import static org.slinkyframework.common.logging.matchers.LoggingMatchers.hasLogMessage;
 import static org.slinkyframework.common.logging.matchers.LoggingMatchers.matchesPattern;

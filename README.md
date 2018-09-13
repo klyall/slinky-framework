@@ -42,8 +42,6 @@ See [Dependency Management](./doc/dependency_management.md) for how a Slinky app
 The following features are provided by the Slinky Framework:
 - [Dependency Management](./doc/dependency_management.md)
 - [Structured Logging](./doc/structured_logging.md)
-- [Environment Builder](./doc/environment_builder.md)
-- [Environment Config](./doc/environment_config.md)
 
 ## Experimental Features
 The following features are in the early stages of being added to the Slinky Framework and may be subject to change: 

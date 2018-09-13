@@ -4,8 +4,8 @@
 
     <parent>
         <groupId>org.slinkyframework</groupId>
-        <artifactId>slinky-build-parent</artifactId>
-        <version>0.4.5-SNAPSHOT</version>
+        <artifactId>slinky-framework-parent</artifactId>
+        <version>0.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>slinky-service-json-api</artifactId>
@@ -26,6 +26,10 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-json</artifactId>
         </dependency>
     </dependencies>
 

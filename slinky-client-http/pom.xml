@@ -3,21 +3,25 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>slinky-build-parent</artifactId>
         <groupId>org.slinkyframework</groupId>
-        <version>0.4.5-SNAPSHOT</version>
+        <artifactId>slinky-framework-parent</artifactId>
+        <version>0.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>slinky-client-http</artifactId>
 
     <dependencies>
         <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <groupId>org.slinkyframework</groupId>
+            <artifactId>slinky-client</artifactId>
         </dependency>
     </dependencies>
 
