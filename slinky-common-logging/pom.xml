@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.slinkyframework</groupId>
         <artifactId>slinky-framework-parent</artifactId>
-        <version>0.5.0</version>
+        <version>0.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>slinky-common-logging</artifactId>
@@ -14,7 +14,7 @@
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-common-aop</artifactId>
-            <version>0.5.0</version>
+            <version>0.5.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

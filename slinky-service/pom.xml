@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.slinkyframework</groupId>
         <artifactId>slinky-framework-parent</artifactId>
-        <version>0.5.0</version>
+        <version>0.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>slinky-service</artifactId>
@@ -23,12 +23,12 @@
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-common-logging</artifactId>
-            <version>0.5.0</version>
+            <version>0.5.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-common-metrics</artifactId>
-            <version>0.5.0</version>
+            <version>0.5.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>org.slinkyframework</groupId>
             <artifactId>slinky-common-logging</artifactId>
-            <version>0.5.0</version>
+            <version>0.5.0-SNAPSHOT</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
