@@ -26,7 +26,7 @@ public class ExampleLoggingAspect extends AbstractLoggingAspect {
 
     @Override
     protected String createLogExceptionMessage(LogExceptionContext context) {
-        return "Exception";
+        return format("After - ClassName: %s - MethodName: %s - Returned exception '%s' in [%d] ms", context.getClassName(), context.getMethodName(), context.getException().getMessage(), context.getDurationInMs());
     }
 
     @Pointcut("within(org.slinkyframework.common.logging.test.example.ExampleClass)")

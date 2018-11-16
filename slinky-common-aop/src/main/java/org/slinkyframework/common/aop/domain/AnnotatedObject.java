@@ -1,22 +1,20 @@
 package org.slinkyframework.common.aop.domain;
 
-import java.lang.annotation.Annotation;
+public class AnnotatedObject<T, A> {
 
-public class AnnotatedObject {
+    private final T object;
+    private final A annotation;
 
-    private Object object;
-    private Annotation annotation;
-
-    public AnnotatedObject(Object object, Annotation annotation) {
+    public AnnotatedObject(T object, A annotation) {
         this.object = object;
         this.annotation = annotation;
     }
 
-    public Object getObject() {
+    public T getObject() {
         return object;
     }
 
-    public Annotation getAnnotation() {
+    public A getAnnotation() {
         return annotation;
     }
 }

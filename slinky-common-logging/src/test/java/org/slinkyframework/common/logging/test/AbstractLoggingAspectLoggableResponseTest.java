@@ -31,11 +31,11 @@ public class AbstractLoggingAspectLoggableResponseTest {
 
     @Test
     public void shouldLogAnonymousResponse() {
-        String expectedBeforeMessage = "Before - ClassName: ExampleClass - MethodName: hasAnonymousLoggableResponse - Arguments: []";
-        String expectedAfterMessage = "After - ClassName: ExampleClass - MethodName: hasAnonymousLoggableResponse - Response time: \\[\\d+\\] ms \\['ping'\\]";
+        String expectedBeforeMessage = "Before - ClassName: ExampleClass - MethodName: hasAnonymousLogableResponse - Arguments: []";
+        String expectedAfterMessage = "After - ClassName: ExampleClass - MethodName: hasAnonymousLogableResponse - Response time: \\[\\d+\\] ms \\['ping'\\]";
 
         ExampleClass exampleClass = new ExampleClass();
-        exampleClass.hasAnonymousLoggableResponse("ping");
+        exampleClass.hasAnonymousLogableResponse("ping");
 
         verifyLogStatements(expectedBeforeMessage, expectedAfterMessage);
     }

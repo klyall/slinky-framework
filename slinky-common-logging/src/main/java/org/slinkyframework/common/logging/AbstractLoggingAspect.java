@@ -8,13 +8,11 @@ import org.slinkyframework.common.aop.domain.AnnotatedObject;
 import org.slinkyframework.common.logging.domain.LogAfterContext;
 import org.slinkyframework.common.logging.domain.LogBeforeContext;
 import org.slinkyframework.common.logging.domain.LogExceptionContext;
+import org.slinkyframework.common.logging.formatters.ParameterFormatter;
 
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Optional;
-
-import static org.slinkyframework.common.logging.ParameterExtracter.convertLoggableParametersToString;
-import static org.slinkyframework.common.logging.ParameterExtracter.convertLoggableReturnToString;
 
 public abstract class AbstractLoggingAspect {
 
@@ -23,6 +21,8 @@ public abstract class AbstractLoggingAspect {
     protected abstract String createLogBeforeMessage(LogBeforeContext context);
     protected abstract String createLogAfterMessage(LogAfterContext context);
     protected abstract String createLogExceptionMessage(LogExceptionContext context);
+
+    private ParameterFormatter parameterFormatter = new ParameterFormatter();
 
     public Object loggingAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         MethodProceedingJoinPoint methodProceedingJoinPoint= new MethodProceedingJoinPoint(proceedingJoinPoint);
@@ -60,12 +60,13 @@ public abstract class AbstractLoggingAspect {
         return new LogBeforeContext(
                 methodProceedingJoinPoint.getClassName(),
                 methodProceedingJoinPoint.getMethodName(),
-                getLoggableParameters(methodProceedingJoinPoint));
+                formatLoggableParameters(methodProceedingJoinPoint));
     }
 
-    private String getLoggableParameters(MethodProceedingJoinPoint methodProceedingJoinPoint) {
+    private String formatLoggableParameters(MethodProceedingJoinPoint methodProceedingJoinPoint) {
         List<AnnotatedObject> args = methodProceedingJoinPoint.getArgsWithAnnotation(Loggable.class);
-        return convertLoggableParametersToString(args);
+
+        return parameterFormatter.format(args);
     }
 
     private LogAfterContext createLogAfterContext(MethodProceedingJoinPoint methodProceedingJoinPoint, long duration, Object returnValue) {
@@ -73,14 +74,14 @@ public abstract class AbstractLoggingAspect {
                 methodProceedingJoinPoint.getClassName(),
                 methodProceedingJoinPoint.getMethodName(),
                 duration,
-                getLoggableReturn(methodProceedingJoinPoint, returnValue));
+                formatLoggableReturn(methodProceedingJoinPoint, returnValue));
     }
 
-    private  String getLoggableReturn(MethodProceedingJoinPoint methodProceedingJoinPoint, Object returnValue) {
+    private  String formatLoggableReturn(MethodProceedingJoinPoint methodProceedingJoinPoint, Object returnValue) {
         Optional<Annotation> annotation = methodProceedingJoinPoint.getReturnAnnotationIfType(Loggable.class);
 
         if (annotation.isPresent()) {
-            return convertLoggableReturnToString(new AnnotatedObject(returnValue, annotation.get()));
+            return parameterFormatter.format(new AnnotatedObject(returnValue, annotation.get()));
         } else {
             return "[]";
         }

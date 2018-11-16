@@ -129,9 +129,9 @@ public class MethodProceedingJoinPoint implements ProceedingJoinPoint {
     public Optional<Annotation> getReturnAnnotationIfType(Class annotationClass) {
         MethodSignature signature = getMethodSignature();
         Method method = signature.getMethod();
-        Annotation[] annoations = method.getAnnotations();
+        Annotation[] annotations = method.getAnnotations();
 
-        for (Annotation annotation: annoations) {
+        for (Annotation annotation: annotations) {
             if (annotation.annotationType().equals(annotationClass)) {
                 return Optional.of(annotation);
             }

@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public class ExampleClass {
 
@@ -93,7 +94,13 @@ public class ExampleClass {
     public void hasAnonymouLoggableClassWithoutAccessors(@Loggable() ClassWithoutAccessor classWithoutAccessor) {
     }
 
-    public @Loggable String hasAnonymousLoggableResponse(String string) {
+    public void hasAnonymousOptionalLoggableClassParameters(@Loggable Optional<ExamplePerson> person) {
+    }
+
+    public void hasNamedOptionalLoggableClassParameters(@Loggable("person") Optional<ExamplePerson> person) {
+    }
+
+    public @Loggable String hasAnonymousLogableResponse(String string) {
         return string;
     }
 
@@ -107,5 +114,9 @@ public class ExampleClass {
 
     public @Loggable("Name") ExampleName hasNamedClassLoggableResponse() {
         return new ExampleName("Joe", "Bloggs");
+    }
+
+    public @Loggable String hasException() {
+        throw new IllegalArgumentException("Forced exception");
     }
 }
