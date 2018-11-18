@@ -8,10 +8,13 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.slinkyframework.common.aop.domain.AnnotatedObject;
 import org.slinkyframework.common.logging.Loggable;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import static org.hamcrest.Matchers.is;
@@ -104,5 +107,27 @@ public class LoggableDateFormatterTest {
         AnnotatedObject annotatedObject = new AnnotatedObject(testDate, mockLoggable);
 
         assertThat("Formatted string", testee.format(annotatedObject), is("success=" + now.toString()));
+    }
+
+    @Test
+    public void shouldFormatTimeWithoutAnnotationName() {
+        LocalTime now = LocalTime.now();
+        Time testTime = Time.valueOf(now);
+
+        AnnotatedObject annotatedObject = new AnnotatedObject(testTime, mockLoggable);
+
+        assertThat("Formatted string", testee.format(annotatedObject), is(now.format(DateTimeFormatter.ofPattern("HH:mm:ss"))));
+    }
+
+    @Test
+    public void shouldFormatTimeWithAnnotationName() {
+        LocalTime now = LocalTime.now();
+        Time testTime = Time.valueOf(now);
+
+        when(mockLoggable.value()).thenReturn("success");
+
+        AnnotatedObject annotatedObject = new AnnotatedObject(testTime, mockLoggable);
+
+        assertThat("Formatted string", testee.format(annotatedObject), is("success=" + now.format(DateTimeFormatter.ofPattern("HH:mm:ss"))));
     }
 }

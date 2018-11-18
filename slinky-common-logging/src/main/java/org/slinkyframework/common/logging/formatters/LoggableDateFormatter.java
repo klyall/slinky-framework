@@ -6,11 +6,13 @@ import java.util.Date;
 
 class LoggableDateFormatter extends LoggableTypeFormatter<Date> {
 
-    String extractValue(Date date) {
-        if (date instanceof java.sql.Date) {
-            return ((java.sql.Date) date).toLocalDate().toString();
+    String extractValue(Date obj) {
+        if (obj instanceof java.sql.Date) {
+            return ((java.sql.Date) obj).toLocalDate().toString();
+        } else if (obj instanceof java.sql.Time) {
+            return ((java.sql.Time) obj).toLocalTime().toString();
         } else {
-            return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toString();
+            return LocalDateTime.ofInstant(obj.toInstant(), ZoneId.systemDefault()).toString();
         }
     }
 }

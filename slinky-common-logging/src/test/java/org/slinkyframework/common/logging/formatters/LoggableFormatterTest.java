@@ -11,8 +11,10 @@ import org.slinkyframework.common.logging.test.example.ExampleName;
 import org.slinkyframework.common.logging.test.example.ExamplePerson;
 
 import java.net.URL;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static java.lang.String.format;
@@ -62,12 +64,14 @@ public class LoggableFormatterTest {
         scenarios.add(new Object[] { "URL", new URL("https://dotaekwondo.net"), "https://dotaekwondo.net" });
 
         LocalDate nowLocalDate = LocalDate.now();
+        LocalTime nowLocalTime = LocalTime.now();
         LocalDateTime nowLocalDateTime = LocalDateTime.now();
         ZonedDateTime nowZonedDateTime = ZonedDateTime.now();
 
         scenarios.add(new Object[] { "Calendar", GregorianCalendar.from(nowZonedDateTime), nowZonedDateTime.toString() });
         scenarios.add(new Object[] { "sql.Date", java.sql.Date.valueOf(nowLocalDate), nowLocalDate.toString() });
         scenarios.add(new Object[] { "sql.Timestamp", Timestamp.valueOf(nowLocalDateTime), nowLocalDateTime.toString() });
+        scenarios.add(new Object[] { "sql.Time", Time.valueOf(nowLocalTime), nowLocalTime.format(DateTimeFormatter.ofPattern("HH:mm:ss")) });
 
         return scenarios;
     }
