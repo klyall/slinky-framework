@@ -11,6 +11,7 @@ import org.slinkyframework.common.logging.test.example.ExampleName;
 import org.slinkyframework.common.logging.test.example.ExamplePerson;
 
 import java.net.URL;
+import java.sql.Timestamp;
 import java.time.*;
 import java.util.*;
 
@@ -60,8 +61,13 @@ public class LoggableFormatterTest {
         scenarios.add(new Object[] { "Nested Class", new ExamplePerson(1, new ExampleName("Bob", "Smith")), "(id=1, name=(firstName='Bob'))" });
         scenarios.add(new Object[] { "URL", new URL("https://dotaekwondo.net"), "https://dotaekwondo.net" });
 
-        ZonedDateTime now = ZonedDateTime.now();
-        scenarios.add(new Object[] { "Calendar", GregorianCalendar.from(now), now.toString() });
+        LocalDate nowLocalDate = LocalDate.now();
+        LocalDateTime nowLocalDateTime = LocalDateTime.now();
+        ZonedDateTime nowZonedDateTime = ZonedDateTime.now();
+
+        scenarios.add(new Object[] { "Calendar", GregorianCalendar.from(nowZonedDateTime), nowZonedDateTime.toString() });
+        scenarios.add(new Object[] { "sql.Date", java.sql.Date.valueOf(nowLocalDate), nowLocalDate.toString() });
+        scenarios.add(new Object[] { "sql.Timestamp", Timestamp.valueOf(nowLocalDateTime), nowLocalDateTime.toString() });
 
         return scenarios;
     }

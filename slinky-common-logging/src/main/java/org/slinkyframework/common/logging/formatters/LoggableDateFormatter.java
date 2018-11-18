@@ -7,6 +7,10 @@ import java.util.Date;
 class LoggableDateFormatter extends LoggableTypeFormatter<Date> {
 
     String extractValue(Date date) {
-        return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toString();
+        if (date instanceof java.sql.Date) {
+            return ((java.sql.Date) date).toLocalDate().toString();
+        } else {
+            return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toString();
+        }
     }
 }
