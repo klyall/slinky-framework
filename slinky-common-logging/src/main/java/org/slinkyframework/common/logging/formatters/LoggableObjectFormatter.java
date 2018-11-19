@@ -8,6 +8,7 @@ import org.slinkyframework.common.logging.Loggable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
@@ -18,6 +19,7 @@ import static org.slinkyframework.common.logging.util.ListUtils.join;
 public class LoggableObjectFormatter extends LoggableTypeFormatter<Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggableObjectFormatter.class);
+    public static final String NOT_VISIBLE = "NOT_VISIBLE";
 
     private LoggableFormatterFactory formatterFactory;
 
@@ -38,12 +40,21 @@ public class LoggableObjectFormatter extends LoggableTypeFormatter<Object> {
 
     private List<String> formatLoggableFieldsFromObject(Object obj) {
 
-        Field[] fields = obj.getClass().getDeclaredFields();
-
-        return Arrays.asList(fields).stream()
+        return getFields(obj.getClass()).stream()
                 .filter(isLoggableField)
                 .map(f -> formatAnnotatedObject(obj, f))
                 .collect(Collectors.toList());
+    }
+
+    private List<Field> getFields(Class clazz) {
+
+        if (clazz.getSuperclass() == null) {
+            return new ArrayList<>();
+        } else {
+            List<Field> fields = getFields(clazz.getSuperclass());
+            fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
+            return fields;
+        }
     }
 
     private String formatAnnotatedObject(Object obj, Field field) {
@@ -75,6 +86,6 @@ public class LoggableObjectFormatter extends LoggableTypeFormatter<Object> {
                 }
             }
         }
-        return null;
+        return NOT_VISIBLE;
     }
 }

@@ -59,28 +59,6 @@ public class AbstractLoggingAspectClassLoggableClassTest {
         verifyLogStatements(expectedBeforeMessage, expectedAfterMessage);
     }
 
-//    @Test
-//    public void shouldLogAnonymousLoggableParametersThatAreOptionalClasses() {
-//        String expectedBeforeMessage = "Before - ClassName: ExampleClass - MethodName: hasAnonymousOptionalLoggableClassParameters - Arguments: [(id=1, name=(firstName='Joe'))]";
-//        String expectedAfterMessage = "After - ClassName: ExampleClass - MethodName: hasAnonymousOptionalLoggableClassParameters - Response time: \\[\\d+\\] ms \\[\\]";
-//
-//        ExampleClass exampleClass = new ExampleClass();
-//        exampleClass.hasAnonymousOptionalLoggableClassParameters(Optional.of(new ExamplePerson(1, new ExampleName("Joe", "Bloggs"))));
-//
-//        verifyLogStatements(expectedBeforeMessage, expectedAfterMessage);
-//    }
-//
-//    @Test
-//    public void shouldLogNamedLoggableParametersThatAreOptionalClasses() {
-//        String expectedBeforeMessage = "Before - ClassName: ExampleClass - MethodName: hasNamedOptionalLoggableClassParameters - Arguments: [person=(id=1, name=(firstName='Joe'))]";
-//        String expectedAfterMessage = "After - ClassName: ExampleClass - MethodName: hasNamedOptionalLoggableClassParameters - Response time: \\[\\d+\\] ms \\[\\]";
-//
-//        ExampleClass exampleClass = new ExampleClass();
-//        exampleClass.hasNamedOptionalLoggableClassParameters(Optional.of(new ExamplePerson(1, new ExampleName("Joe", "Bloggs"))));
-//
-//        verifyLogStatements(expectedBeforeMessage, expectedAfterMessage);
-//    }
-
     @Test
     public void shouldLogClassParameterThatIsNull() {
         String expectedBeforeMessage = "Before - ClassName: ExampleClass - MethodName: hasAnonymouLoggableClassWithAllTypes - Arguments: [null]";
@@ -138,8 +116,8 @@ public class AbstractLoggingAspectClassLoggableClassTest {
 
 
     @Test
-    public void shouldLogClassParameterThatHasAllMemberVariablesOfAllTypesNullww() {
-        String expectedBeforeMessage = "Before - ClassName: ExampleClass - MethodName: hasAnonymouLoggableClassWithoutAccessors - Arguments: [(string1='String1', string2=null, string3=null)]";
+    public void shouldNotDisplayClassVariablesThatAreNotExternallyVisible() {
+        String expectedBeforeMessage = "Before - ClassName: ExampleClass - MethodName: hasAnonymouLoggableClassWithoutAccessors - Arguments: [(string1='String1', string2='NOT_VISIBLE', string3='NOT_VISIBLE')]";
         String expectedAfterMessage = "After - ClassName: ExampleClass - MethodName: hasAnonymouLoggableClassWithoutAccessors - Response time: \\[\\d+\\] ms \\[\\]";
 
         ExampleClass exampleClass = new ExampleClass();

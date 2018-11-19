@@ -6,8 +6,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.slinkyframework.common.aop.domain.AnnotatedObject;
 import org.slinkyframework.common.logging.Loggable;
+import org.slinkyframework.common.logging.test.example.ClassWithoutAccessor;
 import org.slinkyframework.common.logging.test.example.ExampleName;
 import org.slinkyframework.common.logging.test.example.ExamplePerson;
+import org.slinkyframework.common.logging.test.example.ExampleSavingsAccount;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,8 @@ public class LoggableObjectFormatterTest {
         ExampleName exampleName = new ExampleName("Joe", "Bloggs");
         scenarios.add(new Object[] {"ExampleName", exampleName, "(firstName='Joe')"});
         scenarios.add(new Object[] {"ExamplePerson", new ExamplePerson(1, exampleName), "(id=1, name=(firstName='Joe'))"});
+        scenarios.add(new Object[] {"ClassWithoutAccessor", new ClassWithoutAccessor("string1", "string2", "string3"), "(string1='string1', string2='NOT_VISIBLE', string3='NOT_VISIBLE')"});
+        scenarios.add(new Object[] {"AbstractClass", new ExampleSavingsAccount("1234567890", 100.00), "(accountNumber='1234567890', balance=100.0)"});
 
         return scenarios;
     }
