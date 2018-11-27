@@ -75,3 +75,11 @@
 ### 0.5.0
 - Move environment projects to slinky-environment repository
 - Migrate to Spring Micrometer from Codahale metrics to enable better integration in Spring Boot
+
+### 0.5.1
+- Add @Loggable support for logging Calendar
+- Add @Loggable support for logging Optional
+- Add @Loggable support for logging URL
+- Add @Loggable support for logging java.sql.Date, java.sql.Time and java.sql.Timestamp
+- Fix - Allow fields in abstract classes to annotated with @Loggable
+- Add field masking to @Loggable for sensitive data

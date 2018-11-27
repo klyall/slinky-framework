@@ -2,11 +2,13 @@ package org.slinkyframework.common.logging.formatters;
 
 import org.slinkyframework.common.aop.domain.AnnotatedObject;
 import org.slinkyframework.common.logging.Loggable;
+import org.slinkyframework.common.logging.mask.Mask;
+import org.slinkyframework.common.logging.mask.NoMaskMasker;
 
 import java.lang.annotation.Annotation;
 import java.util.Optional;
 
-public class LoggableOptionalFormatter extends LoggableTypeFormatter<Optional> {
+class LoggableOptionalFormatter extends LoggableTypeFormatter<Optional> {
 
     private static final String EMPTY = "EMPTY";
 
@@ -60,6 +62,21 @@ public class LoggableOptionalFormatter extends LoggableTypeFormatter<Optional> {
             @Override
             public String value() {
                 return "";
+            }
+
+            @Override
+            public String name() {
+                return "";
+            }
+
+            @Override
+            public String fields() {
+                return "";
+            }
+
+            @Override
+            public Class<? extends Mask> mask() {
+                return NoMaskMasker.class;
             }
         };
     }

@@ -12,10 +12,22 @@ final class LoggableNameExtractor implements NameExtractor {
     public Optional<String> extractName(AnnotatedObject<?, Loggable> annotatedObject, Field field) {
         Loggable annotation = annotatedObject.getAnnotation();
 
-        return parameterNameProvided(annotation) ? Optional.of(annotation.value()) : Optional.empty();
+        String value = null;
+
+        if (nameAttributeProvided(annotation)) {
+            value = annotation.name().trim();
+        } else if (valueAttributeProvided(annotation)) {
+            value = annotation.value().trim();
+        }
+
+        return Optional.ofNullable(value);
     }
 
-    private boolean parameterNameProvided(Loggable annotation) {
+    private boolean valueAttributeProvided(Loggable annotation) {
         return !annotation.value().trim().equals("");
+    }
+
+    private boolean nameAttributeProvided(Loggable annotation) {
+        return annotation.name() != null && !annotation.name().trim().equals("");
     }
 }

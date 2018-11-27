@@ -273,6 +273,28 @@ public class AbstractLoggingAspectLoggableParametersTest {
         verifyLogStatements(expectedBeforeMessage, expectedAfterMessage);
     }
 
+    @Test
+    public void shouldLogMaskedParameter() {
+        String expectedBeforeMessage = "Before - ClassName: ExampleClass - MethodName: hasMaskedAccountNumber - Arguments: [accountNumber='******7890']";
+        String expectedAfterMessage = "After - ClassName: ExampleClass - MethodName: hasMaskedAccountNumber - Response time: \\[\\d+\\] ms \\[\\]";
+
+        ExampleClass exampleClass = new ExampleClass();
+        exampleClass.hasMaskedAccountNumber("1234567890");
+
+        verifyLogStatements(expectedBeforeMessage, expectedAfterMessage);
+    }
+
+    @Test
+    public void shouldLogIntegerMaskedParameter() {
+        String expectedBeforeMessage = "Before - ClassName: ExampleClass - MethodName: hasMaskedAccountNumberAsInteger - Arguments: [accountNumber=******7890]";
+        String expectedAfterMessage = "After - ClassName: ExampleClass - MethodName: hasMaskedAccountNumberAsInteger - Response time: \\[\\d+\\] ms \\[\\]";
+
+        ExampleClass exampleClass = new ExampleClass();
+        exampleClass.hasMaskedAccountNumberAsInteger(1234567890);
+
+        verifyLogStatements(expectedBeforeMessage, expectedAfterMessage);
+    }
+
     private void verifyLogStatements(String expectedBeforeMessage, String expectedAfterMessage) {
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(equalTo(expectedBeforeMessage))));
         verify(mockAppender, times(1)).doAppend(argThat(hasLogMessage(matchesPattern(expectedAfterMessage))));

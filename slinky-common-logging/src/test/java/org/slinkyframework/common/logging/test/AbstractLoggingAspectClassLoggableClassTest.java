@@ -114,7 +114,6 @@ public class AbstractLoggingAspectClassLoggableClassTest {
         verifyLogStatements(expectedBeforeMessage, expectedAfterMessage);
     }
 
-
     @Test
     public void shouldNotDisplayClassVariablesThatAreNotExternallyVisible() {
         String expectedBeforeMessage = "Before - ClassName: ExampleClass - MethodName: hasAnonymouLoggableClassWithoutAccessors - Arguments: [(string1='String1', string2='NOT_VISIBLE', string3='NOT_VISIBLE')]";

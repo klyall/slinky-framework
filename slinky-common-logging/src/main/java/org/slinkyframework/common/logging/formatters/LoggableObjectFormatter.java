@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 import static org.slinkyframework.common.logging.util.ListUtils.join;
 
-public class LoggableObjectFormatter extends LoggableTypeFormatter<Object> {
+class LoggableObjectFormatter extends LoggableTypeFormatter<Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggableObjectFormatter.class);
     public static final String NOT_VISIBLE = "NOT_VISIBLE";
@@ -31,11 +31,17 @@ public class LoggableObjectFormatter extends LoggableTypeFormatter<Object> {
 
     @Override
     String extractValue(Object obj) {
-        return new StringBuilder()
-                .append("(")
-                .append(join(formatLoggableFieldsFromObject(obj)))
-                .append(")")
-                .toString();
+        return join(formatLoggableFieldsFromObject(obj));
+    }
+
+    @Override
+    String getPrefix() {
+        return "(";
+    }
+
+    @Override
+    String getSuffix() {
+        return ")";
     }
 
     private List<String> formatLoggableFieldsFromObject(Object obj) {
@@ -47,7 +53,6 @@ public class LoggableObjectFormatter extends LoggableTypeFormatter<Object> {
     }
 
     private List<Field> getFields(Class clazz) {
-
         if (clazz.getSuperclass() == null) {
             return new ArrayList<>();
         } else {

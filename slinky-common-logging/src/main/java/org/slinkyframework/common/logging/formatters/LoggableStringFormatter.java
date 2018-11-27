@@ -1,8 +1,20 @@
 package org.slinkyframework.common.logging.formatters;
 
-public class LoggableStringFormatter extends LoggableTypeFormatter<String> {
+class LoggableStringFormatter extends LoggableTypeFormatter<String> {
+
+    private static final String QUOTE = "'";
 
     String extractValue(String obj) {
-        return "'" + obj + "'";
+        return obj;
+    }
+
+    @Override
+    String getPrefix() {
+        return QUOTE;
+    }
+
+    @Override
+    String getSuffix() {
+        return QUOTE;
     }
 }

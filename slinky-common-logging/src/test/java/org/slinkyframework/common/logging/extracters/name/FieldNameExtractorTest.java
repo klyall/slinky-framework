@@ -18,21 +18,49 @@ public class FieldNameExtractorTest {
 
     private NameExtractor testee = new FieldNameExtractor();
 
-    @Loggable("firtsName")
-    private String fieldWithNamedLoggable;
+    @Loggable("firstName")
+    private String fieldWithValueAttributeNamedLoggable;
+
+    @Loggable(name = "secondName")
+    private String fieldWithNameAttributeNamedLoggable;
+
+    @Loggable(name = "firstName", value = "lastName")
+    private String fieldWithNameAndValueAttribute;
 
     @Loggable
     private String fieldWithAnonymousLoggable;
 
     @Test
-    public void shouldReturnLoggableValueAsName() {
-        Field field = (Field) ReflectionUtils.findField(FieldNameExtractorTest.class, "fieldWithNamedLoggable");
-        AnnotatedObject annotatedObject = new AnnotatedObject(fieldWithNamedLoggable, field.getAnnotation(Loggable.class));
+    public void shouldReturnLoggableValueAttributeAsName() {
+        Field field = (Field) ReflectionUtils.findField(FieldNameExtractorTest.class, "fieldWithValueAttributeNamedLoggable");
+        AnnotatedObject annotatedObject = new AnnotatedObject(fieldWithValueAttributeNamedLoggable, field.getAnnotation(Loggable.class));
 
         Optional<String> actualName = testee.extractName(annotatedObject, field);
 
         assertThat("Optional", actualName.isPresent(), is(true));
-        assertThat("Name", actualName.get(), is(("firtsName")));
+        assertThat("Name", actualName.get(), is(("firstName")));
+    }
+
+    @Test
+    public void shouldReturnLoggableNameAttributeAsName() {
+        Field field = (Field) ReflectionUtils.findField(FieldNameExtractorTest.class, "fieldWithNameAttributeNamedLoggable");
+        AnnotatedObject annotatedObject = new AnnotatedObject(fieldWithNameAttributeNamedLoggable, field.getAnnotation(Loggable.class));
+
+        Optional<String> actualName = testee.extractName(annotatedObject, field);
+
+        assertThat("Optional", actualName.isPresent(), is(true));
+        assertThat("Name", actualName.get(), is(("secondName")));
+    }
+
+    @Test
+    public void shouldReturnNameAttributeWhenLoggableNameAndValueAttributeBothSpecified() {
+        Field field = (Field) ReflectionUtils.findField(FieldNameExtractorTest.class, "fieldWithNameAndValueAttribute");
+        AnnotatedObject annotatedObject = new AnnotatedObject(fieldWithNameAndValueAttribute, field.getAnnotation(Loggable.class));
+
+        Optional<String> actualName = testee.extractName(annotatedObject, field);
+
+        assertThat("Optional", actualName.isPresent(), is(true));
+        assertThat("Name", actualName.get(), is(("firstName")));
     }
 
     @Test

@@ -5,7 +5,7 @@ import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class LoggableCalendarFormatter extends LoggableTypeFormatter<Calendar> {
+class LoggableCalendarFormatter extends LoggableTypeFormatter<Calendar> {
 
     String extractValue(Calendar obj) {
         ZonedDateTime zonedDateTime;

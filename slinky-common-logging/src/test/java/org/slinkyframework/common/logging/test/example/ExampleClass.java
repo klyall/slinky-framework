@@ -1,6 +1,7 @@
 package org.slinkyframework.common.logging.test.example;
 
 import org.slinkyframework.common.logging.Loggable;
+import org.slinkyframework.common.logging.mask.BankAccountNumberMasker;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -100,7 +101,7 @@ public class ExampleClass {
     public void hasNamedOptionalLoggableClassParameters(@Loggable("person") Optional<ExamplePerson> person) {
     }
 
-    public @Loggable String hasAnonymousLogableResponse(String string) {
+    public @Loggable String hasAnonymousLoggableResponse(String string) {
         return string;
     }
 
@@ -112,9 +113,13 @@ public class ExampleClass {
         return null;
     }
 
-    public @Loggable("Name") ExampleName hasNamedClassLoggableResponse() {
+    public @Loggable(value="Name") ExampleName hasNamedClassLoggableResponse() {
         return new ExampleName("Joe", "Bloggs");
     }
+
+    public void hasMaskedAccountNumber(@Loggable(name = "accountNumber", mask = BankAccountNumberMasker.class) String accountNumber) {}
+
+    public void hasMaskedAccountNumberAsInteger(@Loggable(name = "accountNumber", mask = BankAccountNumberMasker.class) Integer accountNumber) {}
 
     public @Loggable String hasException() {
         throw new IllegalArgumentException("Forced exception");
